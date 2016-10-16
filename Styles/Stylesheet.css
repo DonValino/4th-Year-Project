@@ -1,0 +1,339 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13-Oct-2016, 12:42:42
+    Author     : Jake Valino
+*/
+@media screen and (min-width: 800px) { /*The following CSS runs only for displays with a width (in pixels) of more than 800px*/
+body
+{
+    font-family: lucida grande, tahoma, verdana, arial, sans-serif;
+    background-color: #f5f5f5#f5f5f5;
+    background-image: url(../Images/bar_background.png);
+}
+
+body p
+{
+    font-size: 0.8em;
+    line-height: 1.28;
+}
+
+#wrapper
+{
+    width: 1300px;
+    background-color: white;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+#bannerAndSearchBar
+{
+    background-repeat: no-repeat;
+    background-color: #0076be;
+    height: 60px;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-left: -5px;
+    width: 1295px;
+}
+
+#content_area
+{
+    float: right;
+    border: 3px solid #E3E3E3;
+    border-radius: 10px;
+    width: 1050px;
+    margin: 20px 0 20px 0;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: #f5f5f5;
+}
+
+#sidebar
+{
+    float: left;
+    width: 210px;
+    height: 573px;
+    margin: 20px 10px;
+    padding: 10px;
+    border: 2px solid #E3E3E3;
+    border-radius: 10px;
+    z-index: 1000;
+    overflow-y: auto;
+    background: #f5f5f5;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+span.text-content {
+  background: rgba(0,0,0,0.5);
+  color: white;
+  cursor: pointer;
+  display: table;
+  height: 150px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 150px;
+  opacity: 0;
+  -webkit-transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -o-transition: opacity 500ms;
+  transition: opacity 500ms;
+}
+
+#wrapper.toggled #sidebar {
+    width: 250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 350px;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+#content_area h3
+{
+    text-decoration: underline;
+    padding-bottom: 10px;
+}
+
+footer
+{
+    clear: both;
+    width: auto;
+    height: 60px;
+    padding: 5px 0 20px;
+    border: 3px solid #E3E3E3;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0.1em 0.1em #333;
+    background-color: #0076be;
+}
+
+.login-form
+{
+    float: left;
+    border: 3px solid #E3E3E3;
+    border-radius: 10px;
+    width: 675px;
+    padding-left: 10px;
+    padding-bottom: 140px;
+    margin-left: 150px;
+    margin-top: 50px;
+    margin-bottom: 135px;
+    background-color: white;
+}
+
+.register-form
+{
+    float: left;
+    border: 3px solid #E3E3E3;
+    border-radius: 10px;
+    width: 700px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 165px;
+    margin-top: 50px;
+    margin-bottom: 114px;
+    background-color: white;
+}
+
+.clearfix
+{
+    padding-bottom: 10px;
+    padding-left: 50px;
+}
+
+.registerANewAccount
+{
+    margin-left: 54px;
+}
+
+.loginLink
+{
+    margin-top: 10px;
+    float: right;
+    position: relative;
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+    margin-right: 40px;
+}
+
+.errorMessage
+{
+    margin-left: 300px;
+
+}
+
+#aboutFreelanceMe
+{
+    background-color: white;
+    margin-top: 20px;
+    padding: 35px 5px 35px 0px;
+}
+
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  margin-left: -23px;
+  width: 200px;
+  background: #fff;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 50px auto;
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+}
+
+.profile-usertitle {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-usertitle-name {
+  color: #5a7391;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+  text-transform: uppercase;
+  color: #5b9bd1;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 15px;
+  margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+  margin-right: 0px;
+}
+    
+.profile-usermenu {
+  margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+  border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+  color: #93a3b5;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+  background-color: #fafcfd;
+  color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+  border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+  color: #5b9bd1;
+  background-color: #f6f9fb;
+  border-left: 2px solid #5b9bd1;
+  margin-left: -2px;
+}
+
+.overviewContent
+{
+    width: 800px;
+    border: 3px solid #f6f9fb;
+    
+}
+}
