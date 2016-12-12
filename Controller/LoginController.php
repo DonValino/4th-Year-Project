@@ -12,19 +12,23 @@ class LoginController {
     //put your code here
     function CreateLoginForm()
     {
-        $result = "                . <div class='login-form'>
-          <h2>Login</h2>
+        $result = "                . <div class='login-form col-md-8 col-md-offset-2'>
+          <div class='row'>
+            <h2 style='text-align:center;'>Login</h2>
+          </div>
           </br>
           <form action = '' method = 'POST' >
             <fieldset>
-              <div class='clearfix'>
-                <input type='text' size='65' name='username' placeholder='Username' required autofocus>
+              <div class='clearfix row'>
+                <input type='text' class='col-md-10' name='username' placeholder='Username' required autofocus>
               </div>
-              <div class='clearfix'>
-                <input type='password' size='65' name = 'password' placeholder='Password' required>
+              <div class='clearfix row'>
+                <input type='password' class='col-md-10' name='password' placeholder='Password' required>
               </div>
-              <a href='Register.php' class='registerANewAccount' style='margin-left: 289px;'> Register A New Account </a>
-              <button class='btn primary' type='submit' style='margin-left: 25px;'  name = 'login'>Sign in</button>
+              <div class='row'>
+              <a href='Register.php' class='col-md-4 col-md-offset-4'> Register A New Account </a>
+              <button class='btn primary col-md-2' type='submit' name = 'login'>Sign in</button>
+              </div>
             </fieldset>
           </form>
         </div>";

@@ -45,6 +45,7 @@ $sidebar = '<div id="aboutFreelanceMe">'
             $_SESSION['valid'] = true;
             $_SESSION['timeout'] = time();
             $_SESSION['username'] = $userObject->username;
+            $_SESSION['id'] = $userObject->id;
             $_SESSION['log'] = "UserAccount.php";
             header('Location: Home.php');
         }else

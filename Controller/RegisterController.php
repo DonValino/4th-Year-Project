@@ -25,36 +25,40 @@ class RegisterController {
         $email = '';
         $phone = '';
         $result = " <div class='register-form'>
-          <h2>Register A New Account</h2>
-          <p>Not yet registered?</p>
+          <div class='row'>
+            <h2 class='col-md-12' style='text-align:center;'>Register A New Account</h2>
+          </div>
+          <div class='row'>
+            <p class='col-md-3'>Not yet registered?</p>
+          </div>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='firstName'> First Name: </label>
-                <input type='text' name = 'firstName' id='firstName' value='$firstName' size='55' placeholder='First Name' required autofocus>
+                <label for='firstName' class='col-md-2'> First Name: </label>
+                <input type='text' name = 'firstName' id='firstName' value='$firstName' class='col-md-8' placeholder='First Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='lastName'> Last Name: </label>
-                <input type='text' name = 'lastName' value='$lastName' size='55' style='margin-left: 1px;' placeholder='Last Name' required autofocus>
+              <label for='lastName' class='col-md-2'> Last Name: </label>
+                <input type='text' name = 'lastName' value='$lastName' class='col-md-8' placeholder='Last Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='usernameRegister'> Username: </label>
-                    <input type='text' id='usernameRegister' name = 'usernameRegister' value='$usernameRegister' size='55' style='margin-left: 6px;' placeholder='Username' required autofocus>
+              <label for='usernameRegister' class='col-md-2'> Username: </label>
+                    <input type='text' id='usernameRegister' class='col-md-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                     <?php echo error_for('usernameRegister') ?>
               </div>
               <div class='clearfix'>
-              <label for='password'> Password: </label>
-                <input type='password' name = 'password' value='$password' size='55' style='margin-left: 7px;' placeholder='Password' required>
+              <label for='password' class='col-md-2'> Password: </label>
+                <input type='password' class='col-md-8' name = 'password' value='$password' placeholder='Password' required>
               </div>
               <div class='clearfix'>
-              <label for='email'> Email: </label>
-                <input type='text' name = 'email' value='$email' size='55' style='margin-left: 36px;' placeholder='email' required>
+              <label for='email' class='col-md-2'> Email: </label>
+                <input type='text' name = 'email' class='col-md-8' value='$email' placeholder='email' required>
               </div>
               <div class='clearfix'>
-                <label for='phone'> Phone: </label>
-                <input type='text' name = 'phone' value='$phone' size='55' style='margin-left: 29px;' placeholder='phone' required>
+                <label for='phone' class='col-md-2'> Phone: </label>
+                <input type='text' name = 'phone' class='col-md-8' value='$phone' placeholder='phone' required>
               </div>
-              <button class='btn primary' name = 'register' style='margin-left: 530px;' type='submit'>Register</button>
+              <button class='btn primary col-md-2 col-md-offset-8' name = 'register' type='submit'>Register</button>
             </fieldset>
           </form>
         </div>";
@@ -66,37 +70,41 @@ class RegisterController {
     function CreateRegisterFormInvalidUsername($errors,$firstName,$lastName,$usernameRegister,$password,$email,$phone)
     {
         $result = " <div class='register-form'>
-          <h2>Register A New Account</h2>
-          <p>Not yet registered?</p>
+          <div class='row'>
+            <h2 class='col-md-12' style='text-align:center;'>Register A New Account</h2>
+          </div>
+          <div class='row'>
+            <p class='col-md-3'>Not yet registered?</p>
+          </div>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='firstName'> First Name: </label>
-                <input type='text' name = 'firstName' id='firstName' value='$firstName' size='55' placeholder='First Name' required autofocus>
+                <label for='firstName' class='col-md-2'> First Name: </label>
+                <input type='text' name = 'firstName' id='firstName' class='col-md-8' value='$firstName' placeholder='First Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='lastName'> Last Name: </label>
-                <input type='text' name = 'lastName' value='$lastName' size='55' style='margin-left: 1px;' placeholder='Last Name' required autofocus>
+              <label for='lastName' class='col-md-2'> Last Name: </label>
+                <input type='text' class='col-md-8' name = 'lastName' value='$lastName' placeholder='Last Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='usernameRegister' style='color:red'> Username: </label>
-                    <input type='text' id='usernameRegister' name = 'usernameRegister' value='$usernameRegister' size='55' style='margin-left: 6px;' placeholder='Username' required autofocus>
+              <label for='usernameRegister' class='col-md-2' style='color:red'> Username: </label>
+                    <input type='text' id='usernameRegister' class='col-md-6' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                     <?php echo error_for('usernameRegister') ?>
-                    <p for='usernameRegister' style='color:red; margin-left: 335px;'> $errors[usernameRegister] </p> 
+                    <p for='usernameRegister'class='col-md-2' style='color:red;'> $errors[usernameRegister] </p> 
               </div>
               <div class='clearfix'>
-              <label for='password'> Password: </label>
-                <input type='password' name = 'password' value='$password' size='55' style='margin-left: 7px;' placeholder='Password' required>
+              <label for='password' class='col-md-2'> Password: </label>
+                <input type='password' class='col-md-8' name = 'password' value='$password' placeholder='Password' required>
               </div>
               <div class='clearfix'>
-              <label for='email'> Email: </label>
-                <input type='text' name = 'email' value='$email' size='55' style='margin-left: 36px;' placeholder='email' required>
+              <label for='email' class='col-md-2'> Email: </label>
+                <input type='text' class='col-md-8' name = 'email' value='$email' placeholder='email' required>
               </div>
               <div class='clearfix'>
-                <label for='phone'> Phone: </label>
-                <input type='text' name = 'phone' value='$phone' size='55' style='margin-left: 29px;' placeholder='phone' required>
+                <label for='phone' class='col-md-2'> Phone: </label>
+                <input type='text' class='col-md-8' name = 'phone' value='$phone' placeholder='phone' required>
               </div>
-              <button class='btn primary' name = 'register' style='margin-left: 530px;' type='submit'>Register</button>
+              <button class='btn primary col-md-2 col-md-offset-8' name = 'register' type='submit'>Register</button>
             </fieldset>
           </form>
         </div>"; //This ensures that the data entered by the user retains retains 
@@ -108,36 +116,40 @@ class RegisterController {
     function CreateRegisterFormInvalidEmail($errors,$firstName,$lastName,$usernameRegister,$password,$email,$phone)
     {
         $result = " <div class='register-form'>
-              <h2>Register A New Account</h2>
-              <p>Not yet registered?</p>
+            <div class='row'>
+                <h2 class='col-md-12' style='text-align:center;'>Register A New Account</h2>
+            </div>
+            <div class='row'>
+                <p class='col-md-3'>Not yet registered?</p>
+            </div>
               <form action='' method = 'POST'>
                 <fieldset>
                   <div class='clearfix'>
-                    <label for='firstName'> First Name: </label>
-                    <input type='text' name = 'firstName' id='firstName' value='$firstName' size='55' placeholder='First Name' required autofocus>
+                    <label for='firstName' class='col-md-2'> First Name: </label>
+                    <input type='text' name = 'firstName' class='col-md-8' id='firstName' value='$firstName' placeholder='First Name' required autofocus>
                   </div>
                   <div class='clearfix'>
-                  <label for='lastName'> Last Name: </label>
-                    <input type='text' name = 'lastName' value='$lastName' size='55' style='margin-left: 1px;' placeholder='Last Name' required autofocus>
+                  <label for='lastName' class='col-md-2'> Last Name: </label>
+                    <input type='text' name = 'lastName'  class='col-md-8' value='$lastName' placeholder='Last Name' required autofocus>
                   </div>
                   <div class='clearfix'>
-                  <label for='usernameRegister'> Username: </label>
-                        <input type='text' id='usernameRegister' name = 'usernameRegister' value='$usernameRegister' size='55' style='margin-left: 6px;' placeholder='Username' required autofocus>
+                  <label for='usernameRegister' class='col-md-2'> Username: </label>
+                        <input type='text' id='usernameRegister' class='col-md-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                   </div>
                   <div class='clearfix'>
-                  <label for='password'> Password: </label>
-                    <input type='password' name = 'password' value='$password' size='55' style='margin-left: 7px;' placeholder='Password' required>
+                  <label for='password' class='col-md-2'> Password: </label>
+                    <input type='password' name = 'password' class='col-md-8' value='$password' placeholder='Password' required>
                   </div>
                   <div class='clearfix'>
-                  <label for='email' style='color:red'> Email: </label>
-                    <input type='text' name = 'email' value='$email' size='55' style='margin-left: 36px;' placeholder='email' required>
-                    <p for='email' style='color:red; margin-left: 315px;'> $errors[email] </p> 
+                  <label for='email' class='col-md-2' style='color:red'> Email: </label>
+                    <input type='text' name = 'email' class='col-md-6' value='$email' placeholder='email' required>
+                    <p for='email' class='col-md-2' style='color:red;'> $errors[email] </p> 
                   </div>
                   <div class='clearfix'>
-                    <label for='phone'> Phone: </label>
-                    <input type='text' name = 'phone' value='$phone' size='55' style='margin-left: 29px;' placeholder='phone' required>
+                    <label for='phone' class='col-md-2'> Phone: </label>
+                    <input type='text' name = 'phone' class='col-md-8' value='$phone' placeholder='phone' required>
                   </div>
-                  <button class='btn primary' name = 'register' style='margin-left: 530px;' type='submit'>Register</button>
+                  <button class='btn primary col-md-2 col-md-offset-8' name = 'register' type='submit'>Register</button>
                 </fieldset>
               </form>
             </div>"; //This ensures that the data entered by the user retains retains 
@@ -148,36 +160,40 @@ class RegisterController {
     function CreateRegisterFormInvalidPhone($errors,$firstName,$lastName,$usernameRegister,$password,$email,$phone)
     {
         $result = " <div class='register-form'>
-                        <h2>Register A New Account</h2>
-                        <p>Not yet registered?</p>
+                    <div class='row'>
+                        <h2 class='col-md-12' style='text-align:center;'>Register A New Account</h2>
+                    </div>
+                    <div class='row'>
+                        <p class='col-md-3'>Not yet registered?</p>
+                    </div>
                         <form action='' method = 'POST'>
                           <fieldset>
                             <div class='clearfix'>
-                              <label for='firstName'> First Name: </label>
-                              <input type='text' name = 'firstName' id='firstName' value='$firstName' size='55' placeholder='First Name' required autofocus>
+                              <label for='firstName' class='col-md-2'> First Name: </label>
+                              <input type='text' name = 'firstName' class='col-md-8' id='firstName' value='$firstName'placeholder='First Name' required autofocus>
                             </div>
                             <div class='clearfix'>
-                            <label for='lastName'> Last Name: </label>
-                              <input type='text' name = 'lastName' value='$lastName' size='55' style='margin-left: 1px;' placeholder='Last Name' required autofocus>
+                            <label for='lastName' class='col-md-2'> Last Name: </label>
+                              <input type='text' name = 'lastName' class='col-md-8' value='$lastName' placeholder='Last Name' required autofocus>
                             </div>
                             <div class='clearfix'>
-                            <label for='usernameRegister'> Username: </label>
-                                  <input type='text' id='usernameRegister' name = 'usernameRegister' value='$usernameRegister' size='55' style='margin-left: 6px;' placeholder='Username' required autofocus>
+                            <label for='usernameRegister' class='col-md-2'> Username: </label>
+                                  <input type='text' id='usernameRegister' class='col-md-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                             </div>
                             <div class='clearfix'>
-                            <label for='password'> Password: </label>
-                              <input type='password' name = 'password' value='$password' size='55' style='margin-left: 7px;' placeholder='Password' required>
+                            <label for='password' class='col-md-2'> Password: </label>
+                              <input type='password' name = 'password' class='col-md-8' value='$password' placeholder='Password' required>
                             </div>
                             <div class='clearfix'>
-                            <label for='email'> Email: </label>
-                              <input type='text' name = 'email' value='$email' size='55' style='margin-left: 36px;' placeholder='email' required>
+                            <label for='email' class='col-md-2'> Email: </label>
+                              <input type='text' name = 'email' class='col-md-8' value='$email' placeholder='email' required>
                             </div>
                             <div class='clearfix'>
-                              <label for='phone' style='color:red'> Phone: </label>
-                              <input type='text' name = 'phone' value='$phone' size='55' style='margin-left: 29px;' placeholder='phone' required>
-                              <p for='phone' style='color:red; margin-left: 335px;'> $errors[phone] </p> 
+                              <label for='phone' style='color:red' class='col-md-2'> Phone: </label>
+                              <input type='text' name = 'phone' class='col-md-6' value='$phone' placeholder='phone' required>
+                              <p for='phone' class='col-md-2' style='color:red;'> $errors[phone] </p> 
                             </div>
-                            <button class='btn primary' name = 'register' style='margin-left: 530px;' type='submit'>Register</button>
+                            <button class='btn primary col-md-2 col-md-offset-8' name = 'register' style='margin-left: 530px;' type='submit'>Register</button>
                           </fieldset>
                         </form>
                       </div>"; //This ensures that the data entered by the user retains retains 

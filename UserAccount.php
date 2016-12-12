@@ -22,8 +22,11 @@ if(isset($_SESSION['username']))
    $log = $_SESSION['log'];
 }
 
+$loginStatus="Home";
+$log = "index.php";
+
 $sidebar = $userController->CreateUserProfileSidebar();
-$content = $userController->CreateOverviewContent();
+$content = $userController->CreateOverviewContent($_SESSION['id']);
  
  include 'Template.php'
 

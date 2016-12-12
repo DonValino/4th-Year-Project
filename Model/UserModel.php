@@ -31,6 +31,7 @@ class UserModel {
         {
             while ($row = mysqli_fetch_assoc($result))
             {
+                $dbId= $row['id'];
                 $dbfirstName= $row['firstName'];
                 $dblastName= $row['lastName'];
                 $dbusername = $row['username'];
@@ -39,7 +40,7 @@ class UserModel {
                 $dbphone = $row['phone'];
                 $admin = $row['admin'];
                 
-                $userEntities = new UserEntities(-1,$dbfirstName,$dblastName,$dbusername,$dbpassword,$dbemail,$dbphone,$admin);
+                $userEntities = new UserEntities($dbId,$dbfirstName,$dblastName,$dbusername,$dbpassword,$dbemail,$dbphone,$admin);
             }
             
             return $userEntities;
@@ -108,28 +109,90 @@ class UserModel {
     }
     
     //Update a user
-    function updateUser($id,UserEntities $user)
+    function updateUser($id,$firstName,$lastName,$usernameRegister,$password,$email,$phone)
     {
-        $query = sprintf("UPDATE users"
-                . "SET firstName = '%s', lastName = '%s', username = '%s'"
-                . "password = '%s', email = '%s', phone = '%s', admin = '%s' "
-                . "WHERE id = $id",
-                mysqli_real_escape_string($user->firstName),
-                mysqli_real_escape_string($user->lastName),
-                mysqli_real_escape_string($user->username),
-                mysqli_real_escape_string($user->password),
-                mysqli_real_escape_string($user->email),
-                mysqli_real_escape_string($user->phone),
-                mysqli_real_escape_string($user->admin));
-                
-        $this->PerformQuery($query);
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $sql = "UPDATE users SET lastname='$lastName' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+        
+        $sql = "UPDATE users SET firstName='$firstName' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+        
+        $sql = "UPDATE users SET username='$usernameRegister' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+        
+        $sql = "UPDATE users SET password='$password' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+        
+        $sql = "UPDATE users SET email='$email' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        }
+        
+        $sql = "UPDATE users SET phone='$phone' WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($conn);
+        } 
     }
     
     //Delete a user
     function deleteUser($id)
     {
-        $query = "DELETE FROM users WHERE id = $id";
-        $this->PerformQuery($query);
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
+                // sql to delete a record
+        $sql = "DELETE FROM users WHERE id=$id";
+
+        if ($connection->query($sql) === TRUE) {
+            echo "Record deleted successfully";
+        } else {
+            echo "Error deleting record: " . $connection->error;
+        }
+
+        $connection->close();
     } 
             
     function PerformQuery($query)
