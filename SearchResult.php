@@ -43,6 +43,9 @@ if($epr == 'price')
     $_SESSION['jobId'] = $id;
     //Go to Search Result Page
     header('Location: ViewJob.php');
+}else if($epr == 'cat')
+{
+    $content = $jobController->SearchByCategoryResult($_SESSION['search']);
 }else
 {
     $content = $jobController->SearchResult($_SESSION['search']);

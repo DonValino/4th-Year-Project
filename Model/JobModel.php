@@ -169,6 +169,44 @@ class JobModel {
         }
     }
     
+    //Get Job By Category.
+    function GetJobsByCategory($typeId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId AND isActive=1") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobid'];
+                $dbName= $row['name'];
+                $dbDescription= $row['description'];
+                $dbType = $row['typeId'];
+                $dbQualification = $row['qualificationId'];
+                $dbAddress = $row['address'];
+                $dbNumberOfDays = $row['numberOfDays'];
+                $dbNumberOfPeopleRequired = $row['numberOfPeopleRequired'];
+                $dbPrice = $row['price'];
+                $isActive = $row['isActive'];
+                $id = $row['id'];
+                
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id);
+                array_push($jobArray, $jobEntities);
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
      //Get Job By Name.
     function GetJobsByAddress($address)
     {
@@ -495,5 +533,7 @@ class JobModel {
         }
 
         $connection->close();
-    } 
+    }
+    
+    
 }

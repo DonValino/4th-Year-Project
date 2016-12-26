@@ -83,6 +83,39 @@ class UserModel {
         }
     }
     
+    // Get User By Id
+    function GetUserById($id)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM users WHERE id=$id") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbfirstName= $row['firstName'];
+                $dblastName= $row['lastName'];
+                $dbusername = $row['username'];
+                $dbpassword = $row['password'];
+                $dbemail = $row['email'];
+                $dbphone = $row['phone'];
+                $admin = $row['admin'];
+                
+                $userEntities = new UserEntities(-1,$dbfirstName,$dblastName,$dbusername,$dbpassword,$dbemail,$dbphone,$admin);
+            }
+            
+            return $userEntities;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Insert a new user into the database
     function InsertANewUser($userParameter)
     {

@@ -13,6 +13,8 @@
  */
 require 'Model/JobModel.php';
 require 'Model/TypeModel.php';
+require 'Model/UserModel.php';
+
 class JobController {
     
     function CreateSearchBar()
@@ -55,7 +57,7 @@ class JobController {
                                             foreach($types as $row)
                                             {
                                                 $result.= "<li class='active'>
-                                            <a href='Home.php?epr=cat&name=".$row->name."'>
+                                            <a href='Home.php?epr=cat&id=".$row->typeId."'>
                                                 <i class='glyphicon glyphicon-home'></i>";
                                               $result.=  $row->name;
                                             $result.= "</a>
@@ -326,6 +328,90 @@ class JobController {
         return $result;
     }
     
+    function SearchByCategoryResult($id)
+    {
+
+        require 'Model/QualificationModel.php';
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $jobModel->GetJobsByCategory($id);
+        $typeModel = new TypeModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th>Name</th>"
+                                                        . "     <th>Description</th>"
+                                                        . "     <th>Category</th>"
+                                                        . "     <th>Qualificaion</th>"
+                                                        . "     <th>Address</th>"
+                                                        . "     <th>Number Of Days</th>"
+                                                        . "     <th>Number Of People Required</th>"
+                                                        . "     <th>Price: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
     function SearchResult($name)
     {
 
@@ -360,20 +446,23 @@ class JobController {
                                                         . "</tr>";
                                                         try
                                                         {
-                                                            foreach($search as $row)
+                                                            if($search != null)
                                                             {
-                                                                $type = $typeModel->GetTypeByID($row->type);
-                                                                $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                $result.= "<tr>"
-                                                                        . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
-                                                                        . "<td align='center'>$row->description</td>"
-                                                                        . "<td align='center'>$type->name</td>"
-                                                                        . "<td align='center'>$qualification->qualificationName</td>"
-                                                                        . "<td align='center'>$row->address</td>"
-                                                                        . "<td align='center'>$row->numberOfDays</td>"
-                                                                        . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                        . "<td align='center'>$row->price</td>"
-                                                                        . "</tr>";
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "</tr>";
+                                                                }
                                                             }
                                                         }catch(Exception $x)
                                                         {
@@ -442,20 +531,23 @@ class JobController {
                                                         . "</tr>";
                                                         try
                                                         {
-                                                            foreach($search as $row)
+                                                            if($search != null)
                                                             {
-                                                                $type = $typeModel->GetTypeByID($row->type);
-                                                                $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                $result.= "<tr>"
-                                                                        . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
-                                                                        . "<td align='center'>$row->description</td>"
-                                                                        . "<td align='center'>$type->name</td>"
-                                                                        . "<td align='center'>$qualification->qualificationName</td>"
-                                                                        . "<td align='center'>$row->address</td>"
-                                                                        . "<td align='center'>$row->numberOfDays</td>"
-                                                                        . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                        . "<td align='center'>$row->price</td>"
-                                                                        . "</tr>";
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "</tr>";
+                                                                }
                                                             }
                                                         }catch(Exception $x)
                                                         {
@@ -524,24 +616,27 @@ class JobController {
                                                         . "</tr>";
                                                         try
                                                         {
-                                                            foreach($search as $row)
+                                                            if ($search != null)
                                                             {
-                                                                $type = $typeModel->GetTypeByID($row->type);
-                                                                $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                $result.= "<tr>"
-                                                                        . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
-                                                                        . "<td align='center'>$row->description</td>"
-                                                                        . "<td align='center'>$type->name</td>"
-                                                                        . "<td align='center'>$qualification->qualificationName</td>"
-                                                                        . "<td align='center'>$row->address</td>"
-                                                                        . "<td align='center'>$row->numberOfDays</td>"
-                                                                        . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                        . "<td align='center'>$row->price</td>"
-                                                                        . "<td>"
-                                                                        . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
-                                                                        . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
-                                                                        . "</td>"
-                                                                        . "</tr>";
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "<td>"
+                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
+                                                                            . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
+                                                                            . "</td>"
+                                                                            . "</tr>";
+                                                                }
                                                             }
                                                         }catch(Exception $x)
                                                         {
@@ -991,6 +1086,7 @@ class JobController {
     function ViewJobDetails($id)
     {
         require 'Model/QualificationModel.php';
+
         $jobController = $this->GetJobsByID($id);
         
         $qualificationModel = new QualificationModel();
@@ -999,7 +1095,30 @@ class JobController {
         $typeModel = new TypeModel();
         $typeName = $typeModel->GetTypeByID($jobController->type)->name;
         
-        $result = "<div class='row'>"
+        $placedOffersModel = new PlacedOffersModel();
+        
+        $search = $placedOffersModel->GetAllPlacedOffersByJobId($_SESSION['jobId']);
+        
+        $userModel = new UserModel();
+        
+        $offer_placed = $placedOffersModel->GetAllPlacedOffersByJobIdAndUserId($_SESSION['jobId'], $_SESSION['id']);
+        
+        $result = '
+            <div class="row col-md-12 text-center" style="padding-bottom:20px;">';
+                        if ($offer_placed == 0 && ($jobController->id != $_SESSION['id']))
+                        {
+                           $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
+                            <i class="glyphicon glyphicon-book"></i>
+                            Place An Offer </a>';
+                        }else if($offer_placed == 1 && ($jobController->id != $_SESSION['id']))
+                        {
+                            $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-md-6 col-md-offset-3" data-target="#updateAnOfferModal">
+                            <i class="glyphicon glyphicon-book"></i>
+                            Update Your Offer </a>';
+                        }
+        $result .=   '</div>';
+
+        $result .= "<div class='row'>"
                   ."<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
@@ -1065,8 +1184,42 @@ class JobController {
 					<div id='collapseBiddingTable' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
                                                     . "<div class='row'>
-                                                        
-                                                       </div>"
+                                                        <div class='table-responsive scrollit'>"
+                                                            . "<table class='table sortable'>"
+                                                            . "<tr>"
+                                                            . "     <th>Name</th>"
+                                                            . "     <th>Comment</th>"
+                                                            . "     <th>Date</th>"
+                                                            . "     <th>Price</th>"
+                                                            . "     <th>Action: </th>"
+                                                            . "</tr>";
+                                                           try
+                                                            {
+                                                               if($search != 0)
+                                                               {
+                                                                    foreach($search as $row)
+                                                                    {
+                                                                        $name = $userModel->GetUserById($row->userID)->firstName;
+                                                                        $name .= " " .$userModel->GetUserById($row->userID)->lastName;
+                                                                        $result.= "<tr>"
+                                                                                . "<td align='center'><a href='UserAccount.php?epr=view&id=".$row->jobid."'>$name</a></td>"
+                                                                                . "<td align='center'>$row->comment</td>"
+                                                                                . "<td align='center'>$row->placementDate</td>"
+                                                                                . "<td align='center'>$row->offerPrice</td>"
+                                                                                . "<td>"
+                                                                                . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                . "</td>"
+                                                                                . "</tr>";
+                                                                    }
+                                                               }
+                                                            }catch(Exception $x)
+                                                            {
+                                                                echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                            }
+                                                        $result.= "</table>"
+                                                        . "</div>"
+                                                      ."</div>"
 						."</div>"
 					."</div>"
                             ."</div>"

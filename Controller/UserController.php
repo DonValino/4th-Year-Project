@@ -385,20 +385,23 @@ class UserController {
                                                         . "</tr>";
                                                         try
                                                         {
-                                                            foreach($search as $row)
+                                                            if($search != null)
                                                             {
-                                                                $type = $typeModel->GetTypeByID($row->type);
-                                                                $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                $result.= "<tr>"
-                                                                        . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
-                                                                        . "<td align='center'>$row->description</td>"
-                                                                        . "<td align='center'>$type->name</td>"
-                                                                        . "<td align='center'>$qualification->qualificationName</td>"
-                                                                        . "<td>"
-                                                                        . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
-                                                                        . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
-                                                                        . "</td>"
-                                                                        . "</tr>";
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td>"
+                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
+                                                                            . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
+                                                                            . "</td>"
+                                                                            . "</tr>";
+                                                                }
                                                             }
                                                         }catch(Exception $x)
                                                         {
@@ -451,6 +454,12 @@ class UserController {
         return $result;
     }
     
+    // Get User By Id
+    function GetUserById($id)
+    {
+        $userModel = new UserModel();
+        return $userModel->GetUserById($id);
+    }
     
      //Check if a user exist using the model and return the object
     function CheckUser($username)

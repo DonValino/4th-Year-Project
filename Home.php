@@ -40,10 +40,10 @@ if(isset($_GET['epr']))
 
 if($epr=='cat')
 {
-    $name =$_GET['name'];
-    $_SESSION['search'] = $name;
+    $id =$_GET['id'];
+    $_SESSION['search'] = $id;
     //Go to Search Result Page
-    header('Location: SearchResult.php');
+    header('Location: SearchResult.php?epr=cat');
 }
 
     if(isset($_POST['searchByPrice']))
