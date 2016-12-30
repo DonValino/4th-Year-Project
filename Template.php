@@ -8,7 +8,7 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $title; ?></title>
-        <link rel="stylesheet" type="text/css" href="Styles/StyleSheet.css">
+        <link rel="stylesheet" type="text/css" href="./Styles/StyleSheet.css">
         
         <script src="Styles/sorttable.js"></script>
         
@@ -21,7 +21,7 @@ and open the template in the editor.
     <body>
         <div class="container-fluid">
             <div id="bannerAndSearchBar" class="row">
-                    <img src="Images/jobsbanner.jpg" class="col-md-1" style="width: 145px;"/>
+                <a href="home.php"><img src="Images/jobsbanner.jpg" class="col-md-1" style="width: 145px;"/></a>
                     <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-9"><?php echo $loginStatus; ?></a>
             </div>
             
@@ -29,7 +29,6 @@ and open the template in the editor.
             <div id="sidebar" class="col-md-2">
                <?php echo $sidebar; ?>
             </div>
-            
 
             <div id="content_area" class="col-md-9">
                 <div class="row">

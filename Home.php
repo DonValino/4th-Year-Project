@@ -7,6 +7,7 @@ and open the template in the editor.
 <?php
 
 session_start();
+
 require 'Controller/JobController.php';
 $jobController = new JobController();
 

@@ -78,9 +78,15 @@ class PlacedOffersController {
     {
        $placedOffersModel = new PlacedOffersModel();
        $placedOffer = $placedOffersModel->GetPlacedOffersByJobIdAndUserId($_SESSION['jobId'], $_SESSION['id']);
-       
-       $comment = $placedOffer->comment;
-       $offerPrice = $placedOffer->offerPrice;
+       if($placedOffer != null)
+       {
+        $comment = $placedOffer->comment;
+        $offerPrice = $placedOffer->offerPrice;
+       }else
+       {
+           $comment = "";
+           $offerPrice = "";
+       }
        
                 $result = "<div class='modal fade' id='updateAnOfferModal' role='dialog'>
 			<div class='modal-dialog'>

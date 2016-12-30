@@ -96,6 +96,9 @@ if (isset($_POST['register']) && !empty($_POST['firstName']) && !empty($_POST['l
                     // Insert new User to the Database
                     $registerController->InsertANewUser();
                     
+                   
+                    $_SESSION['id'] =  $registerController->CheckUser($_POST['usernameRegister'])->id;
+                    
                     //Go to Home Page
                     header('Location: Home.php');
                 }

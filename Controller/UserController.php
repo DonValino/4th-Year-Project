@@ -52,8 +52,8 @@ class UserController {
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div style='margin-left:20px;'>
-					<button type='button' class='btn btn-success btn-sm'>Follow</button>
-					<button type='button' class='btn btn-danger btn-sm'>Message</button>
+                                    <a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                    <button type='button' class='btn btn-danger btn-sm'>Notification</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
