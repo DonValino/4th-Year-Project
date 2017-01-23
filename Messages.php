@@ -71,7 +71,7 @@ if (isset($_POST['sendMessage']) && !empty($_POST['messages']) && !empty($_POST[
         
     }else
     {
-        $errorMessage= "Error, User Does not exist. Please enter a valis username!!";
+        $errorMessage= "Error, User Does not exist. Please enter a valid username!!";
         $errors['tousername'] = "Please enter a valid username.";
         $content = $messageController->MessageInvalidUsernameContent($errors, $_POST['tousername'], $_POST['messages']);
     }
@@ -87,6 +87,7 @@ if($epr == "MessageSent")
 
 if($epr == "view")
 {
+   $messageController->SetMessagesSeen($_GET['fromusername'],$_SESSION['username']);
    $_SESSION['fromusername'] = $_GET['fromusername'];
    $fromUsername = $_GET['fromusername'];
    $content = $messageController->MessageContentPerPerson($fromUsername);

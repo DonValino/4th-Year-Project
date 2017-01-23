@@ -14,6 +14,7 @@
 
 require 'Model/MessagesModel.php';
 require 'Model/TypeModel.php';
+require 'Model/NotificationModel.php';
 
 class MessageController {
 
@@ -22,6 +23,13 @@ class MessageController {
     {
         $messagesModel = new MessagesModel();
         $messagesModel->SendAMessage($fromusername,$tousername, $message,$dateofmessage);
+    }
+    
+    // Set Message Seen by user.
+    function SetMessagesSeen($fromusername,$tousername)
+    {
+        $messagesModel = new MessagesModel();
+        $messagesModel->SetMessagesSeen($fromusername,$tousername);
     }
     
     //Get Messages Belonging to a User.
@@ -40,14 +48,22 @@ class MessageController {
         return $messagesModel->GetAllMyMessages($username);
     }
     
+    // Get all of my messages
+    function GetMyInbox()
+    {
+        $messagesModel = new MessagesModel(); 
+        
+        return $messagesModel->GetMyInbox();
+    }
+    
     // Message Content
     function MessageContent()
     {
        $myMessages = $this->GetAllMyMessages($_SESSION['username']);
-       
+       $myInbox = $this->GetMyInbox(); 
        $result= "
            <div class='row'>
-           <div class='panel-group col-md-4'>
+           <div class='panel-group col-md-5'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Inbox</strong></a>
@@ -59,24 +75,39 @@ class MessageController {
                                                         . "<tr style='text-align:center;'>"
                                                         . "     <th style='text-align:center;'>User</th>"
                                                         . "     <th style='text-align:center;'>Time</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
                                                         . "     <th style='text-align:center;'>Actions</th>"
                                                         . "</tr>";
                                                         try
                                                         {
-                                                            if($myMessages != null)
+                                                            if($myInbox != null)
                                                             {
-                                                                foreach($myMessages as $row)
+                                                                foreach($myInbox as $row)
                                                                 {
-                                                                    
-                                                                    $result.= "<tr>"
+                                                                    if($row->seen == 0 && $row->tousername == $_SESSION['username'])
+                                                                    {
+                                                                            $result.= "<tr>"
                                                                             . "<td align='center'><a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>$row->fromusername</a></td>"
                                                                             . "<td align='center'>$row->dateofmessage</td>"
+                                                                            . "<td align='center' style='font-weight:bold; color:blue'>New</td>"
                                                                             . "<td>"
-                                                                            . "     <a href='Messages.php?epr=delete&id=0'>Delete</a>"
-                                                                            . "     <a href='Messages.php?epr=reply&id=0'>Reply</a>"
+                                                                            . "     <a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>Reply</a>"
                                                                             . "</td>"
                                                                             . "</tr>".
                                                                             "<tr>";
+                                                                    }else if($row->seen == 1 && $row->tousername == $_SESSION['username'])
+                                                                    {
+                                                                            $result.= "<tr>"
+                                                                            . "<td align='center'><a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>$row->fromusername</a></td>"
+                                                                            . "<td align='center'>$row->dateofmessage</td>"
+                                                                            . "<td align='center' color:blue'>Seen</td>"
+                                                                            . "<td>"
+                                                                            . "     <a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>Reply</a>"
+                                                                            . "</td>"
+                                                                            . "</tr>".
+                                                                            "<tr>";
+                                                                    }
+
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -90,7 +121,7 @@ class MessageController {
 				."</div>"
 			."</div>"
                                                             
-                        . "<div class='panel-group col-md-8'>
+                        . "<div class='panel-group col-md-7'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMessages' class='glyphicon glyphicon-hand-up'><strong>Message</strong></a>
@@ -164,7 +195,7 @@ class MessageController {
     function KeepScrollBarAtTheBottom()
     {
         $result= '<script>
-                    $("#msga").animate({ scrollTop: $("#msga")[0].scrollHeight}, 1000);
+                    $("#msga").scrollTop(1000);
                     </script>';
         return $result;
     }
@@ -172,7 +203,7 @@ class MessageController {
     // Message Content for a specific person
     function MessageContentPerPerson($tousername)
     {
-       $myMessages = $this->GetAllMyMessages($_SESSION['username']);
+       $myMessages = $this->GetMyInbox();
        $search = $this->GetMessages();
        $result= "
            <div class='row'>
@@ -188,6 +219,7 @@ class MessageController {
                                                         . "<tr style='text-align:center;'>"
                                                         . "     <th style='text-align:center;'>User</th>"
                                                         . "     <th style='text-align:center;'>Time</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
                                                         . "     <th style='text-align:center;'>Actions</th>"
                                                         . "</tr>";
                                                         try
@@ -196,15 +228,29 @@ class MessageController {
                                                             {
                                                                 foreach($myMessages as $row)
                                                                 {
-                                                                    $result.= "<tr>"
+                                                                    if($row->seen == 0 && $row->tousername == $_SESSION['username'])
+                                                                    {
+                                                                        $result.= "<tr>"
+                                                                                . "<td align='center'><a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>$row->fromusername</a></td>"
+                                                                                . "<td align='center'>$row->dateofmessage</td>"
+                                                                                . "<td align='center' style='font-weight:bold; color:blue'>New</td>"
+                                                                                . "<td>"
+                                                                                . "     <a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>Reply</a>"
+                                                                                . "</td>"
+                                                                                . "</tr>".
+                                                                                "<tr>";
+                                                                    }else if($row->seen == 1 && $row->tousername == $_SESSION['username'])
+                                                                    {
+                                                                            $result.= "<tr>"
                                                                             . "<td align='center'><a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>$row->fromusername</a></td>"
                                                                             . "<td align='center'>$row->dateofmessage</td>"
+                                                                            . "<td align='center' color:blue'>Seen</td>"
                                                                             . "<td>"
-                                                                            . "     <a href='Messages.php?epr=delete&id=0'>Delete</a>"
-                                                                            . "     <a href='Messages.php?epr=reply&id=0'>Reply</a>"
+                                                                            . "     <a href='Messages.php?epr=view&fromusername=".$row->fromusername."'>Reply</a>"
                                                                             . "</td>"
                                                                             . "</tr>".
                                                                             "<tr>";
+                                                                    }
                                                                 }
                                                             }
                                                         }catch(Exception $x)

@@ -19,17 +19,23 @@ class NotificationEntities {
     public $tousername;
     public $typeId;
     public $seen;
+    public $dateofnotification;
+    public $jobid;
     
     // Constructor
-    function __construct($id, $fromusername, $tousername, $typeId, $seen) {
+    function __construct($id, $fromusername, $tousername, $typeId, $seen, $dateofnotification, $jobid) {
         $this->id = $id;
         $this->fromusername = $fromusername;
         $this->tousername = $tousername;
         $this->typeId = $typeId;
         $this->seen = $seen;
+        $this->dateofnotification = $dateofnotification;
+        $this->jobid = $jobid;
     }
-    
-    // Gtters
+
+            
+    // Getters
+
     function getId() {
         return $this->id;
     }
@@ -49,7 +55,20 @@ class NotificationEntities {
     function getSeen() {
         return $this->seen;
     }
+    
+    function getDate() {
+        return $this->dateofnotification;
+    }
+    
+    function getDateofnotification() {
+        return $this->dateofnotification;
+    }
 
+    function getJobid() {
+        return $this->jobid;
+    }
+
+    
     // Setters
     function setId($id) {
         $this->id = $id;
@@ -69,6 +88,18 @@ class NotificationEntities {
 
     function setSeen($seen) {
         $this->seen = $seen;
+    }
+
+    function setDate($dateofnotification) {
+        $this->date = $dateofnotification;
+    }
+    
+    function setDateofnotification($dateofnotification) {
+        $this->dateofnotification = $dateofnotification;
+    }
+
+    function setJobid($jobid) {
+        $this->jobid = $jobid;
     }
 
 

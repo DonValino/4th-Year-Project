@@ -46,7 +46,11 @@ if($epr == 'price')
 }else if($epr == 'cat')
 {
     $content = $jobController->SearchByCategoryResult($_SESSION['search']);
-}else
+}else if ($epr == 'qua')
+{
+    $content = $jobController->SearchByQualificationResult($_SESSION['search']);
+}
+else
 {
     $content = $jobController->SearchResult($_SESSION['search']);
 }

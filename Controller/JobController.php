@@ -14,6 +14,9 @@
 require 'Model/JobModel.php';
 require 'Model/TypeModel.php';
 require 'Model/UserModel.php';
+require 'Model/UserReviewModel.php';
+require 'Model/QualificationModel.php';
+require 'Model/PlacedOffersModel.php';
 
 class JobController {
     
@@ -33,6 +36,243 @@ class JobController {
         </div>";
                 
         return $result;
+    }
+    
+    // Get Highest Priced Jobs
+    function GetHighestPricedJobs($id)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetHighestPricedJobs($id);
+    }
+    
+    function CreateHomeContent($id)
+    {
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $this->GetHighestPricedJobs($id);
+        $typeModel = new TypeModel(); 
+        $allType = $typeModel->GetTypes();
+        $allQualifications = $qualificationModel->GetQualifications();
+        
+        $userModel = new UserModel();
+        $allUsers = $userModel->GetUsers();
+        
+        $userReviewModel = new UserReviewModel();
+        
+        $result = "<div class='row'>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseTopPayingjobs' class='glyphicon glyphicon-hand-up'><strong>Top Paying Jobs</strong></a>
+					</div>
+					<div id='collapseTopPayingjobs' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th>Job</th>"
+                                                        . "     <th>Description</th>"
+                                                        . "     <th>Category</th>"
+                                                        . "     <th>Qualificaion</th>"
+                                                        . "     <th>Price</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseTopEmployers' class='glyphicon glyphicon-hand-up'><strong>Top Rated FreeLancers</strong></a>
+					</div>
+					<div id='collapseTopEmployers' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <ul class='img-list scrollitY'>";
+                                                                try
+                                                                {
+                                                                    if($allUsers != null)
+                                                                    {
+                                                                        $actualRate = 0;
+                                                                        $expectedRate = 0;
+                                                                        $res = 0;
+                                                                        foreach($allUsers as $row)
+                                                                        {
+                                                                            $actualRate = 0;
+                                                                            $expectedRate = 0;
+                                                                            $res = 0;
+                                                                            $allUserReviews = $userReviewModel->GetUserReviewById($row->id);
+                                                                            if($allUserReviews != null)
+                                                                            {
+                                                                                foreach($allUserReviews as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->rating;
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 5;
+                                                                                }
+                                                                                
+                                                                                if($res >= 4)
+                                                                                {
+                                                                                    $result.= "<li>
+                                                                                                <a href='$row->photo'>
+                                                                                                  <img src='$row->photo' width='150' height='150' />
+                                                                                                  <span class='text-content'><span>$row->firstName &nbsp&nbsp $row->lastName</span></span>
+                                                                                                </a>
+                                                                                                <p style='text-align:center;'><strong>Vote Data:&nbsp&nbsp</strong>$res.0</p>
+                                                                                              </li>";
+                                                                                }
+                                                                            }
+
+                                                                        }
+                                                                    }
+                                                                }catch(Exception $x)
+                                                                {
+                                                                    echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                                }
+
+                                                    $result.="</ul>"     
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>"
+                ."<div class='row'>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCategories' class='glyphicon glyphicon-hand-up'><strong>Categories</strong></a>
+					</div>
+					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($allType != null)
+                                                            {
+                                                                foreach($allType as $row)
+                                                                {
+                                                                    $result.= "<tr style='text-align:center;'>"
+                                                                            . "<td align='center'><a href='Home.php?epr=cat&id=".$row->typeId."'>$row->name</a></td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                        . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRequiredQualifications' class='glyphicon glyphicon-hand-up'><strong>Required Qualifications</strong></a>
+					</div>
+					<div id='collapseRequiredQualifications' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($allQualifications != null)
+                                                            {
+                                                                foreach($allQualifications as $row)
+                                                                {
+                                                                    $result.= "<tr style='text-align:center;'>"
+                                                                            . "<td align='center'><a href='Home.php?epr=qua&id=".$row->qualificationId."'>$row->qualificationName</a></td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>"
+                . "<div class='row'>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offer</strong></a>
+					</div>
+					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
+					</div>
+					<div id='collapseRating' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>"
+                . "</div>";
+                
+        return $result;
+    }
+    
+    function CheckUser($username)
+    {
+        
+        $userModel = new UserModel();
+        
+        return $userModel->CheckUser($username);
+    }
+    
+    function GetUserByJobId($id)
+    {
+        $jobController = $this->GetJobsByID($id);
+        
+        $userModel = new UserModel();
+        
+        return $userModel->GetUserById($jobController->id);
     }
     
     function CategoryModal()
@@ -120,6 +360,75 @@ class JobController {
         return $result;
     }
     
+   // View to display user profile sidebar
+    function ViewUserProfileSideBar($id)
+    {
+        $userModel = new UserModel();
+        
+        $user = $userModel->GetUserById($id);
+        
+        $result = "<div class='col-md-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR USERPIC -->
+				<div class='profile-userpic'>
+					<img src='$user->photo' class='img-responsive' alt=''>
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class='profile-usertitle'>
+					<div class='profile-usertitle-name'>
+						$user->username
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class='profile-userbuttons'>
+                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                        Follow </a>
+                                        
+                                        <div class='row'>
+                                            <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                            Message </a>
+                                        </div>
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li>
+							<a href='ViewUserProfile.php?epr=view&id=".$id."'>
+							<i class='glyphicon glyphicon-user'></i>
+							Overview </a>
+						</li>
+						<li class='active'>
+							<a href='JobPosted.php'>
+							<i class='glyphicon glyphicon-list'></i>
+							Jobs Posted </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$id."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							Review </a>
+						</li>
+                                                <li>
+							<a href='Logout.php'>
+							<i class='glyphicon glyphicon-globe'></i>
+							Connections </a>
+						</li>
+						<li>
+							<a href='#' target='_blank'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
+                
+        return $result;
+    } 
+   
     function CreateHomeSideBar()
     {
         $result = "<div class='panel panel-default'>
@@ -330,12 +639,92 @@ class JobController {
     
     function SearchByCategoryResult($id)
     {
-
-        require 'Model/QualificationModel.php';
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
         $search = $jobModel->GetJobsByCategory($id);
+        $typeModel = new TypeModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th>Name</th>"
+                                                        . "     <th>Description</th>"
+                                                        . "     <th>Category</th>"
+                                                        . "     <th>Qualificaion</th>"
+                                                        . "     <th>Address</th>"
+                                                        . "     <th>Number Of Days</th>"
+                                                        . "     <th>Number Of People Required</th>"
+                                                        . "     <th>Price: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    function SearchByQualificationResult($id)
+    {
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $jobModel->GetJobsByQualification($id);
         $typeModel = new TypeModel();
         
         $result = "<div class='panel-group col-md-12'>
@@ -498,8 +887,6 @@ class JobController {
     
     function SearchResultPrice($min,$max)
     {
-        require 'Model/QualificationModel.php';
-        
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
@@ -583,8 +970,6 @@ class JobController {
     
     function SearchUserJob($id)
     {
-        require 'Model/QualificationModel.php';
-        
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
@@ -672,7 +1057,6 @@ class JobController {
     
     function InsertANewJobForm()
     {
-        require 'Model/QualificationModel.php';
         $jobid = '';
         $name = '';
         $description = '';
@@ -780,8 +1164,6 @@ class JobController {
     
     function EditANewJobForm($id)
     {
-        require 'Model/QualificationModel.php';
-        
         $typeModel = new TypeModel();
         $allType = $typeModel->GetTypes();
         
@@ -977,11 +1359,13 @@ class JobController {
    //Code to create the user profile sidebar
     function CreateJobOverviewSidebar()
     {
+        $userModel = new UserModel();
+        $user = $userModel->CheckUser($_SESSION['username']);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
 				<div class='profile-userpic'>
-					<img src='Images/jobsbanner.jpg' class='img-responsive' alt=''>
+					<img src='$user->photo' class='img-responsive' alt=''>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -995,9 +1379,9 @@ class JobController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='' style='margin-left:8px;'>
-					<button type='button' class='btn btn-success'>Follow</button>
-					<button type='button' class='btn btn-danger '>Message</button>
+				<div class='nav-button-sidebar'>
+                                    <a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -1082,11 +1466,109 @@ class JobController {
         return $result;
     }
     
+   // Modal To Enable The User To Place An Offer
+   function PlaceAnOfferModal()
+    {
+                $result = "<div class='modal fade' id='placeAnOfferModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Place An Offer</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <div class='register-form'>
+                                             <div class='row'>
+                                               <h2 class='col-md-12' style='text-align:center;'>Place An Offer</h2>
+                                             </div>
+                                             <form action='' method = 'POST'>
+                                               <fieldset>
+                                                 <div class='clearfix'>
+                                                   <label for='offerPrice' class='col-md-2'> Price: </label>
+                                                   <input type='text' name = 'offerPrice' id='offerPrice' class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                 </div>
+                                                 <div class='clearfix'>
+                                                 <label for='comment' class='col-md-2'> Comment: </label>
+                                                   <input type='text' name = 'comment' class='col-md-8' placeholder='Comment' required autofocus>
+                                                 </div>
+                                                 <button class='btn primary col-md-2 col-md-offset-8' name = 'placeOffer' type='submit'>Submit</button>
+                                               </fieldset>
+                                             </form>
+                                   </div>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // Modal To Enable The User To Update An Offer
+   function UpdateAnOfferModal()
+    {
+       $placedOffersModel = new PlacedOffersModel();
+       $placedOffer = $placedOffersModel->GetPlacedOffersByJobIdAndUserId($_SESSION['jobId'], $_SESSION['id']);
+       if($placedOffer != null)
+       {
+        $comment = $placedOffer->comment;
+        $offerPrice = $placedOffer->offerPrice;
+       }else
+       {
+           $comment = "";
+           $offerPrice = "";
+       }
+       
+                $result = "<div class='modal fade' id='updateAnOfferModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Update Your Offer</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <div class='register-form'>
+                                             <div class='row'>
+                                               <h2 class='col-md-12' style='text-align:center;'>Update Your Offer</h2>
+                                             </div>
+                                             <form action='' method = 'POST'>
+                                               <fieldset>
+                                                 <div class='clearfix'>
+                                                   <label for='offerPrice' class='col-md-2'> Price: </label>
+                                                   <input type='text' name = 'updateOfferPrice' id='offerPrice' value=$offerPrice class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                 </div>
+                                                 <div class='clearfix'>
+                                                 <label for='comment' class='col-md-2'> Comment: </label>
+                                                   <input type='text' name = 'updateComment' class='col-md-8' value='$comment' placeholder='Comment' required autofocus>
+                                                 </div>
+                                                 <button class='btn primary col-md-2 col-md-offset-8' name = 'updateOffer' type='submit'>Submit</button>
+                                               </fieldset>
+                                             </form>
+                                   </div>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
     // View the Job Details
     function ViewJobDetails($id)
     {
-        require 'Model/QualificationModel.php';
-
         $jobController = $this->GetJobsByID($id);
         
         $qualificationModel = new QualificationModel();
@@ -1098,6 +1580,8 @@ class JobController {
         $placedOffersModel = new PlacedOffersModel();
         
         $search = $placedOffersModel->GetAllPlacedOffersByJobId($_SESSION['jobId']);
+        
+        $lowestBid = $placedOffersModel->GetLowestPlacedOffersByJobId($_SESSION['jobId']);
         
         $userModel = new UserModel();
         
@@ -1228,13 +1712,46 @@ class JobController {
                     ."<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseHighestBid' class='glyphicon glyphicon-hand-up'><strong>Highest Bid:</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseHighestBid' class='glyphicon glyphicon-hand-up'><strong>Lowest Bid:</strong></a>
 					</div>
 					<div id='collapseHighestBid' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
                                                     . "<div class='row'>
-                                                        
-                                                       </div>"
+                                                        <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable'>"
+                                                            . "<tr>"
+                                                            . "     <th>Name</th>"
+                                                            . "     <th>Comment</th>"
+                                                            . "     <th>Date</th>"
+                                                            . "     <th>Price</th>"
+                                                            . "     <th>Action: </th>"
+                                                            . "</tr>";
+                                                           try
+                                                            {
+                                                               if($search != 0)
+                                                               {
+                                                                    foreach($lowestBid as $row)
+                                                                    {
+                                                                        $name = $userModel->GetUserById($row->userID)->firstName;
+                                                                        $name .= " " .$userModel->GetUserById($row->userID)->lastName;
+                                                                        $result.= "<tr>"
+                                                                                . "<td align='center'><a href='UserAccount.php?epr=view&id=".$row->jobid."'>$name</a></td>"
+                                                                                . "<td align='center'>$row->comment</td>"
+                                                                                . "<td align='center'>$row->placementDate</td>"
+                                                                                . "<td align='center'>$row->offerPrice</td>"
+                                                                                . "<td>"
+                                                                                . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                . "</td>"
+                                                                                . "</tr>";
+                                                                    }
+                                                               }
+                                                            }catch(Exception $x)
+                                                            {
+                                                                echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                            }
+                                                 $result.= "</table>"
+                                                       ."</div>"
 						."</div>"
 					."</div>"
                             ."</div>"
@@ -1245,19 +1762,25 @@ class JobController {
     }
     
     // View the Job Details
-    function ViewJobDetailsSideBar()
+    function ViewJobDetailsSideBar($id)
     {
+        $jobController = $this->GetJobsByID($id);
+        
+        $userModel = new UserModel();
+        
+        $userName = $userModel->GetUserById($jobController->id)->username;
+        $user = $userModel->GetUserById($jobController->id);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
 				<div class='profile-userpic'>
-					<img src='Images/jobsbanner.jpg' class='img-responsive' alt=''>
+					<img src='$user->photo' class='img-responsive' alt=''>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class='profile-usertitle'>
 					<div class='profile-usertitle-name'>
-						$_SESSION[username]
+						$userName
 					</div>
 					<div class='profile-usertitle-job'>
 						Developer
@@ -1265,15 +1788,16 @@ class JobController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div style='margin-left:50px;'>
-					<button type='button' class='btn btn-success btn-sm'>Message</button>
+				<div class='nav-button-sidebar'>
+                                        <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                        Message </a>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='#'>
+							<a href='ViewUserProfile.php?epr=view&id=".$jobController->id."'>
 							<i class='glyphicon glyphicon-home'></i>
 							View Profile </a>
 						</li>
@@ -1292,6 +1816,258 @@ class JobController {
 				<!-- END MENU -->
 			</div>
 		</div>";
+                
+        return $result;
+    }
+    
+    // Modal To Send A New Messages
+    function SendMessageModal($id)
+    {
+        $jobController = $this->GetJobsByID($id);
+        
+        $userModel = new UserModel();
+        
+        $userName = $userModel->GetUserById($jobController->id)->username;
+        $_SESSION['SendUsername']=$userName;
+                $result = "
+                    <div class='modal fade' id='sendMessageModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Send User a Message</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <form action='' method = 'POST'>
+                                                    <div class='msg-container'>
+                                                        <div class='msg-area' id='msg-area'>";
+                                                            $result.="<div class='msgc' style='margin-bottom: 30px;'> 
+                                                                    <div class='msg msgfrom'> Send A New Message :) </div> 
+                                                                    <div class='msgarr msgarrfrom'></div>
+                                                                    <div class='msgsentby msgsentbyfrom'>Type your message in the message box and click send.</div> 
+                                                                    </div>";
+
+                                                            $result.="<div class='msgc'> 
+                                                                      <div class='msg'> <a href='Messages.php?epr=view&fromusername=".$userName."'> View Previous Conversation </a> </div>
+                                                                      <div class='msgarr'></div>
+                                                                      <div class='msgsentby'>View your previous conversation between this user</div>
+                                                                      </div>";
+                                             $result.="</div>
+                                                        
+                                                          <fieldset>
+                                                          
+                                                            <div class='clearfix'>
+                                                            <label for='messages' class='col-md-2'> Message: </label>
+                                                              <textarea class='col-md-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
+                                                            </div>
+
+                                                            <div class='row'>
+                                                            <button class='btn primary col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
+                                                            </div>
+                                                          </fieldset>
+                                    </form>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+    // Modal To Send A New Messages
+    function SendMessageFromUserJobPostedModal($id)
+    {
+        $userModel = new UserModel();
+        
+        $userName = $userModel->GetUserById($id)->username;
+        $_SESSION['SendUsername']=$userName;
+                $result = "
+                    <div class='modal fade' id='sendMessageModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Send User a Message</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <form action='' method = 'POST'>
+                                                    <div class='msg-container'>
+                                                        <div class='msg-area' id='msg-area'>";
+                                                            $result.="<div class='msgc' style='margin-bottom: 30px;'> 
+                                                                    <div class='msg msgfrom'> Send A New Message :) </div> 
+                                                                    <div class='msgarr msgarrfrom'></div>
+                                                                    <div class='msgsentby msgsentbyfrom'>Type your message in the message box and click send.</div> 
+                                                                    </div>";
+
+                                                            $result.="<div class='msgc'> 
+                                                                      <div class='msg'> <a href='Messages.php?epr=view&fromusername=".$userName."'> View Previous Conversation </a> </div>
+                                                                      <div class='msgarr'></div>
+                                                                      <div class='msgsentby'>View your previous conversation between this user</div>
+                                                                      </div>";
+                                             $result.="</div>
+                                                        
+                                                          <fieldset>
+                                                          
+                                                            <div class='clearfix'>
+                                                            <label for='messages' class='col-md-2'> Message: </label>
+                                                              <textarea class='col-md-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
+                                                            </div>
+
+                                                            <div class='row'>
+                                                            <button class='btn primary col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
+                                                            </div>
+                                                          </fieldset>
+                                    </form>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // View the Job Details
+    function ViewJobDetailsOfYourJobSideBar()
+    {
+        $result = "<div class='col-md-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li class='active'>
+							<a href='EditJob.php?epr=update&id=".$_SESSION['jobId']."'>
+							<i class='glyphicon glyphicon-edit'></i>
+							Update This Job </a>
+						</li>
+						<li>
+							<a href='#'>
+							<i class='glyphicon glyphicon-remove'></i>
+							Delete This Job </a>
+						</li>
+						<li>
+							<a href='#' target='_blank'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
+                
+        return $result;
+    }
+    
+   // View the Job Details
+    function JobPostedContent($id)
+    {
+        
+        $userModel = new UserModel();
+        
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $jobModel->GetJobsByUserID($id);
+        $typeModel = new TypeModel();
+        
+        $placedOffersModel = new PlacedOffersModel();
+        $allOfUsersPlacedOffers = $placedOffersModel->GetAllPlacedOffersByUserID($id);
+        
+        $result = "<div class='row'>"
+                    . "<div class='panel-group col-md-7'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseadvertisedjobs' class='glyphicon glyphicon-hand-up'><strong>Active Jobs</strong></a>
+					</div>
+					<div id='collapseadvertisedjobs' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;'>Description</th>"
+                                                        . "     <th style='text-align:center;'>Category</th>"
+                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;'>No. Offers</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $noOffers = $placedOffersModel->CountNoPlacedOffersByJobId($row->jobid);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$noOffers</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "<div class='panel-group col-md-5'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offer Placed This User</strong></a>
+					</div>
+					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;'>Price</th>"
+                                                        . "     <th style='text-align:center;'>Date</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($allOfUsersPlacedOffers != null)
+                                                            {
+                                                                foreach($allOfUsersPlacedOffers as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center'>$row->offerPrice</td>"
+                                                                            . "<td align='center'>$row->placementDate</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>";
                 
         return $result;
     }

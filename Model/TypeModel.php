@@ -51,7 +51,7 @@ class TypeModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM type") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM type ORDER BY name") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $typeArray = array();

@@ -25,6 +25,7 @@ function showConfirm()
  */
 
 require 'Model/UserModel.php';
+require 'Model/PlacedOffersModel.php';
 
 class UserController {
 
@@ -33,11 +34,13 @@ class UserController {
     //Code to create the user profile sidebar
     function CreateUserProfileSidebar()
     {
+        $userModel = new UserModel();
+        $user = $userModel->CheckUser($_SESSION['username']);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
 				<div class='profile-userpic'>
-					<img src='Images/jobsbanner.jpg' class='img-responsive' alt=''>
+					<img src='$user->photo' class='img-responsive' alt=''>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -51,9 +54,9 @@ class UserController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div style='margin-left:20px;'>
+				<div class='nav-button-sidebar'>
                                     <a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                    <button type='button' class='btn btn-danger btn-sm'>Notification</button>
+                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -96,11 +99,13 @@ class UserController {
     //Code to create the user profile sidebar
     function CreateUserAccSettingsProfileSidebar()
     {
+        $userModel = new UserModel();
+        $user = $userModel->CheckUser($_SESSION['username']);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
 				<div class='profile-userpic'>
-					<img src='Images/jobsbanner.jpg' class='img-responsive' alt=''>
+					<img src='$user->photo' class='img-responsive' alt=''>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -115,8 +120,10 @@ class UserController {
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class='profile-userbuttons'>
-					<button type='button' class='btn btn-success btn-sm'>Follow</button>
-					<button type='button' class='btn btn-danger btn-sm'>Message</button>
+
+                                        <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#profilePictureModal' onclick='$(#profilePictureModal).modal({backdrop: static});'>
+                                        Profile Picture </a>
+ 
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -156,6 +163,96 @@ class UserController {
         return $result;
     }
     
+    // Modal To Send A New Messages
+    function SendMessageModal($id)
+    {
+        $userModel = new UserModel();
+        
+        $userName = $userModel->GetUserById($id)->username;
+        $_SESSION['SendUsername']=$userName;
+                $result = "
+                    <div class='modal fade' id='sendMessageModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Send User a Message</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <form action='' method = 'POST'>
+                                                    <div class='msg-container'>
+                                                        <div class='msg-area' id='msg-area'>";
+                                                            $result.="<div class='msgc' style='margin-bottom: 30px;'> 
+                                                                    <div class='msg msgfrom'> Send A New Message :) </div> 
+                                                                    <div class='msgarr msgarrfrom'></div>
+                                                                    <div class='msgsentby msgsentbyfrom'>Type your message in the message box and click send.</div> 
+                                                                    </div>";
+
+                                                            $result.="<div class='msgc'> 
+                                                                      <div class='msg'> <a href='Messages.php?epr=view&fromusername=".$userName."'> View Previous Conversation </a> </div>
+                                                                      <div class='msgarr'></div>
+                                                                      <div class='msgsentby'>View your previous conversation between this user</div>
+                                                                      </div>";
+                                             $result.="</div>
+                                                        
+                                                          <fieldset>
+                                                          
+                                                            <div class='clearfix'>
+                                                            <label for='messages' class='col-md-2'> Message: </label>
+                                                              <textarea class='col-md-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
+                                                            </div>
+
+                                                            <div class='row'>
+                                                            <button class='btn primary col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
+                                                            </div>
+                                                          </fieldset>
+                                    </form>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+    // Modal To Send A New Messages
+    function ProfilePictureModal()
+    {
+                $result = "
+                    <div class='modal fade' id='profilePictureModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Upload Profile Picture</h4>
+				</div>
+				<div class='modal-body'>
+                                                    <form action='uploadProfilePicture.php' method='post' enctype='multipart/form-data'>
+                                                        <div class='row'>
+                                                            <input required class='col-md-8' type='file' name='file'>
+                                                            <input type='submit' value='upload'>
+                                                        </div>
+                                                    </form>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+
     //Code To Create Form to allow user change account details
     function CreateUserUpdateForm($firstName,$lastName,$usernameRegister,$password,$email,$phone)
     {
@@ -202,6 +299,75 @@ class UserController {
           </form>
         </div>"; //This ensures that the data entered by the user retains retains 
                 
+        return $result;
+    }
+    
+    //Code To Create Resume Form
+    function CreateResumeForm($id)
+    {
+        $userModel = new UserModel();
+        $user = $userModel->GetUserById($id);
+        
+        $result = "<div class='row'>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCV' class='glyphicon glyphicon-hand-up'><strong>CV</strong></a>
+					</div>
+					<div id='collapseCV' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <form action='upload.php' method='post' enctype='multipart/form-data'>
+                                                    <div class='row'>
+                                                        <p class='col-md-12' style=' font-size:20px;'> Upload A New CV</p>
+                                                    </div>
+                                                        <div class='row'>
+                                                            <input required class='col-md-6' type='file' name='file'>
+                                                            <input type='submit' value='upload'>
+                                                        </div>
+                                                    </form>";
+                                                    if($user->cv != NULL)
+                                                    {
+                                                        $result.="<div class='row'>
+                                                            <p class='col-md-12' style=' font-size:20px;'> Download CV</p>
+                                                        </div>
+                                                        <a href='download.php?epr=cv&path=".$user->cv."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
+                                                    }
+
+						$result.="</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+
+                                                        
+                        . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCoverLetter' class='glyphicon glyphicon-hand-up'><strong>Cover Letter</strong></a>
+					</div>
+					<div id='collapseCoverLetter' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <form action='uploadCoverLetter.php' method='post' enctype='multipart/form-data'>
+                                                    <div class='row'>
+                                                        <p class='col-md-12' style=' font-size:20px;'> Upload A New Cover Letter</p>
+                                                    </div>
+                                                        <div class='row'>
+                                                            <input required class='col-md-6' type='file' name='file'>
+                                                            <input type='submit' value='upload'>
+                                                        </div>
+                                                    </form>";
+                                                    if($user->coverletter != NULL)
+                                                    {
+                                                        $result.="<div class='row'>
+                                                            <p class='col-md-12' style=' font-size:20px;'> Download Cover Letter</p>
+                                                        </div>
+                                                        <a href='download.php?epr=cv&path=".$user->coverletter."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
+                                                    }
+
+						$result.="</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>";
         return $result;
     }
     
@@ -359,11 +525,17 @@ class UserController {
         require 'Model/QualificationModel.php';
         require 'Model/JobModel.php';
         
+        $userModel = new UserModel();
+        
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
         $search = $jobModel->GetJobsByUserID($id);
         $typeModel = new TypeModel();
+        
+        $placedOffersModel = new PlacedOffersModel();
+        $allOfUsersPlacedOffers = $placedOffersModel->GetAllPlacedOffersByUserID($id);
+        $offersToUsersJob= $placedOffersModel->GetAllPlacedOffersToUsersJob($id);
         
         $result = "<H4 Style='text-align:center;'>Welcome to the User Account Page: </H4>"
                 . "<div class='row'>"
@@ -377,7 +549,7 @@ class UserController {
                                                     <div class='table-responsive scrollit'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
-                                                        . "     <th>Name</th>"
+                                                        . "     <th>Job</th>"
                                                         . "     <th>Description</th>"
                                                         . "     <th>Category</th>"
                                                         . "     <th>Qualificaion</th>"
@@ -416,10 +588,34 @@ class UserController {
                 . "<div class='panel-group col-md-5'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>My Placed Offer</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offer Placed By Me</strong></a>
 					</div>
 					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;'>Price</th>"
+                                                        . "     <th style='text-align:center;'>Date</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($allOfUsersPlacedOffers != null)
+                                                            {
+                                                                foreach($allOfUsersPlacedOffers as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center'>$row->offerPrice</td>"
+                                                                            . "<td align='center'>$row->placementDate</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
 						."</div>"
 					."</div>"
 				."</div>"
@@ -429,10 +625,36 @@ class UserController {
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offer</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offer</strong></a>
 					</div>
-					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
+					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;'>User</th>" 
+                                                        . "     <th style='text-align:center;'>Price</th>"
+                                                        . "     <th style='text-align:center;'>Date</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($offersToUsersJob != null)
+                                                            {
+                                                                foreach($offersToUsersJob as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center'>".$userModel->GetUserById($row->userID)->username."</td>"
+                                                                            . "<td align='center'>$row->offerPrice</td>"
+                                                                            . "<td align='center'>$row->placementDate</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
 						."</div>"
 					."</div>"
 				."</div>"
@@ -440,9 +662,9 @@ class UserController {
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Notifications</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
 					</div>
-					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
+					<div id='collapseRating' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
 						."</div>"
 					."</div>"
@@ -450,6 +672,294 @@ class UserController {
 			."</div>"
                 . "</div>"
                 . "</div>";
+                
+        return $result;
+    }
+    
+    // Get User By Id
+    function GetUsers()
+    {
+        $userModel = new UserModel();
+        $userModel->GetUsers();
+    }
+    
+    // View to display user profile
+    function ViewUserProfile($id)
+    {
+        $userModel = new UserModel();
+        
+        $user = $userModel->GetUserById($id);
+        $result="<div class='row'>"
+                    . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+                                    <div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseusersummary' class='glyphicon glyphicon-hand-up'><strong>User Summary</strong></a>
+					</div>
+					<div id='collapseusersummary' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    ."<table class='sortable table' id='myJobTable'>
+                                                            <tr>
+                                                                <td><strong>Id:</strong>&nbsp $user->id</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Name:</strong>&nbsp $user->firstName &nbsp&nbsp $user->lastName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Username:</strong>&nbsp $user->username</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Email:</strong><a href='mailto:$user->email' class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-edit' style='font-size:15px; text-align: center; padding-right:10px;'> $user->email</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Phone:</strong><a class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-phone' href='tel:$user->phone' style='font-size:15px; text-align: center;'> $user->phone </a></td>
+                                                            </tr>
+                                                    </table>"
+                                             . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+                
+                       . "<div class='panel-group col-md-6'>
+                            <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+                                            <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>User Rating</strong></a>
+					</div>
+					<div id='collapseuserrating' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+			."</div>"
+                
+                    ."<div class='row'>"
+                
+                           . "<div class='panel-group col-md-6'>
+                                <div class='panel panel-default'>
+                                            <div class='panel-heading' style='text-align:center;'>
+                                                <a data-toggle='collapse' data-parent='#accordion' href='#collapsresume' class='glyphicon glyphicon-hand-up'><strong>Resume</strong></a>
+                                            </div>
+                                            <div id='collapsresume' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>";
+                                                    if($user->cv != NULL)
+                                                    {
+                                                        $result.="<div class='row'>
+                                                            <p class='col-md-12' style=' font-size:20px;'> Download CV</p>
+                                                        </div>
+                                                        <a href='download.php?epr=cv&path=".$user->cv."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
+                                                    }
+                                                    
+                                                    if($user->coverletter != NULL)
+                                                    {
+                                                        $result.="<div class='row'>
+                                                            <p class='col-md-12' style=' font-size:20px;'> Download Cover Letter</p>
+                                                        </div>
+                                                        <a href='download.php?epr=cv&path=".$user->coverletter."'><img src='Images/wordicon.png' alt='Cover Letter' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
+                                                    }
+                                                    
+                                                    $result.="</div>"
+                                            ."</div>"
+                                    ."</div>"
+                            ."</div>"
+                
+                           . "<div class='panel-group col-md-6'>
+                                <div class='panel panel-default'>
+                                            <div class='panel-heading' style='text-align:center;'>
+                                                <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>Experience</strong></a>
+                                            </div>
+                                            <div id='collapseuserrating' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>"
+
+                                                    ."</div>"
+                                            ."</div>"
+                                    ."</div>"
+                            ."</div>"
+                . "</div>"
+                
+               . "</div>";
+        
+        return $result;
+    }
+    
+    // View to display user profile
+    function AddAUserReviewModal($id)
+    {
+        $result="<div class='modal fade' id='addUserReviewModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Add A Review</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>"
+                                         ."<form action='' method = 'POST'>
+                                           <fieldset>
+                                             <div class='clearfix'>
+                                               <label for='descriptionreview' class='col-md-2'> Description: </label>
+                                               <textarea class='col-md-8' rows='5' id='descriptionreview' name = 'descriptionreview' placeholder='Description' required autofocus></textarea>
+                                             </div>
+                                             <div class='clearfix'>
+                                                <label for='ratingreview' class='col-md-2'> Rating: </label>
+                                                <select class='form-control'id='ratingreview' name = 'ratingreview' style='width:200px;'>
+                                                    <option value=1>1</option>
+                                                    <option value=2>2</option>
+                                                    <option value=3>3</option>
+                                                    <option value=4>4</option>
+                                                    <option value=5>5</option>
+                                                </select>
+                                             </div>
+                                             <button class='btn primary col-md-2 col-md-offset-8' name = 'addUserReview' type='submit'>Add</button>
+                                           </fieldset>
+                                         </form>"
+                               . "</div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        
+        return $result;
+    }
+    
+    // View to display user profile sidebar
+    function ViewUserProfileSideBar($id)
+    {
+        $userModel = new UserModel();
+        
+        $user = $userModel->GetUserById($id);
+        
+        $result = "<div class='col-md-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR USERPIC -->
+				<div class='profile-userpic'>
+					<img src='$user->photo' class='img-responsive' alt=''>
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class='profile-usertitle'>
+					<div class='profile-usertitle-name'>
+						$user->username
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class='nav-button-sidebar'>
+                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                        Follow </a>
+                                        <div class='row'>
+                                            <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                            Message </a>
+                                        </div>
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li class='active'>
+							<a href='ViewUserProfile.php?epr=view&id=".$id."'>
+							<i class='glyphicon glyphicon-user'></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href='JobPosted.php?epr=view&id=".$id."'>
+							<i class='glyphicon glyphicon-list'></i>
+							Jobs Posted </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$id."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							Review </a>
+						</li>
+                                                <li>
+							<a href='Logout.php'>
+							<i class='glyphicon glyphicon-globe'></i>
+							Connections </a>
+						</li>
+						<li>
+							<a href='#' target='_blank'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
+                
+        return $result;
+    }
+    
+    // View to display user profile sidebar
+    function ViewUserReviewSideBar($id)
+    {
+        $userModel = new UserModel();
+        
+        $user = $userModel->GetUserById($id);
+        
+        $result = "<div class='col-md-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR USERPIC -->
+				<div class='profile-userpic'>
+					<img src='$user->photo' class='img-responsive' alt=''>
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class='profile-usertitle'>
+					<div class='profile-usertitle-name'>
+						$user->username
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class='nav-button-sidebar'>
+                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                        Follow </a>
+                                        <div class='row'>
+                                            <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                                            Message </a>
+                                        </div>
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li>
+							<a href='ViewUserProfile.php?epr=view&id=".$id."'>
+							<i class='glyphicon glyphicon-user'></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href='JobPosted.php?epr=view&id=".$id."'>
+							<i class='glyphicon glyphicon-list'></i>
+							Jobs Posted </a>
+						</li>
+						<li class='active'>
+							<a href='UserReview.php?epr=review&id=".$id."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							Review </a>
+						</li>
+                                                <li>
+							<a href='Logout.php'>
+							<i class='glyphicon glyphicon-globe'></i>
+							Connections </a>
+						</li>
+						<li>
+							<a href='#' target='_blank'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
                 
         return $result;
     }
@@ -487,5 +997,26 @@ class UserController {
     {
         $userModel = new UserModel();
         $userModel->deleteUser($id);
-    } 
+    }
+    
+    //Update a user cv
+    function uploadCV($id,$cvPath)
+    {
+        $userModel = new UserModel();
+        $userModel->uploadCV($id, $cvPath);
+    }
+    
+    //Update a user cover letter
+    function uploadCoverLetter($id,$coverLetterPath)
+    {
+        $userModel = new UserModel();
+        $userModel->uploadCoverLetter($id, $coverLetterPath);
+    }
+    
+    //Update a user profile picture
+    function uploadProfilePicture($id,$profilePicturePath)
+    {
+        $userModel = new UserModel();
+        $userModel->uploadProfilePicture($id, $profilePicturePath);
+    }
 }

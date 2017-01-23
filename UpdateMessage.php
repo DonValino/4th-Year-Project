@@ -71,6 +71,7 @@
                                                                             <div class='msgsentby msgsentbyfrom'></div> 
                                                                       </div>";
                                                         }
+                                                        $messageController->KeepScrollBarAtTheBottom();
                                                        ?>
         </div>
     </body>

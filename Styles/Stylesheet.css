@@ -217,8 +217,8 @@ footer
 }
 
 .profile-userpic img {
-  float: none;
-  margin: 0 50px auto;
+  display: block; 
+  margin: auto;
   width: 100px;
   height: 100px;
   -webkit-border-radius: 50% !important;
@@ -229,6 +229,8 @@ footer
 .profile-usertitle {
   text-align: center;
   margin-top: 10px;
+  display: block; 
+  margin: auto;
 }
 
 .profile-usertitle-name {
@@ -249,6 +251,13 @@ footer
 .profile-userbuttons {
   text-align: center;
   margin-top: 10px;
+}
+
+.nav-button-sidebar
+{
+  display: block; 
+  margin: auto;
+  text-align: center;
 }
 
 .profile-userbuttons .btn {
@@ -403,6 +412,12 @@ max-width: 1200px;
     height:250px;
 }
 
+.scrollitY {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height:250px;
+}
+
 .input[type=text] {
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -469,3 +484,57 @@ input[type=text]:focus {
 		float: right;
 		margin-right: 12px;
 	}
+        
+        
+.rate_widget {
+    border:     1px solid #CCC;
+    overflow:   visible;
+    padding:    10px;
+    position:   relative;
+    width:      220px;
+    height:     42px;
+}
+.ratings_stars {
+    background: url('../Images/star_empty.png') no-repeat;
+    float:      left;
+    height:     28px;
+    padding:    2px;
+    width:      32px;
+}
+.ratings_vote {
+    background: url('../Images/star_full.png') no-repeat;
+}
+.ratings_over {
+    background: url('../Images/star_highlight.png') no-repeat;
+}
+
+.total_votes {
+    background: #eaeaea;
+    top: 58px;
+    left: 0;
+    padding: 5px;
+    position:   absolute;  
+} 
+.movie_choice {
+    font: 10px verdana, sans-serif;
+    margin: 0 auto 40px auto;
+    width: 180px;
+}
+
+ul.img-list li {
+  display: inline-block;
+  height: 150px;
+  margin: 0 1em 1em 0;
+  position: relative;
+  width: 150px;
+}
+
+span.text-content span {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
+ul.img-list li:hover span.text-content {
+  opacity: 1;
+}

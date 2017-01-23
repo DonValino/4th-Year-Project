@@ -6,6 +6,7 @@ $userController = new UserController();
 
 // An Array to store all error messages
 $errors = array();
+$epr='';
 $emailOfUserLoggedIn = "";
 $title = "Account Settings";
 $content = "hello";
@@ -13,6 +14,7 @@ $loginStatus= "Login";
 $log = "";
 $errorMessage = "";
 $sidebar = $userController->CreateUserAccSettingsProfileSidebar();
+
 if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
@@ -21,7 +23,31 @@ if(isset($_SESSION['username']))
    // Calling the CheckUser() method of the UserController Class to get the user
    $userObject = $userController->CheckUser($loginStatus);
    $content = $userController->CreateUserUpdateForm($userObject->firstName, $userObject->lastName, $userObject->username, $userObject->password, $userObject->email, $userObject->phone);
+   $content .= $userController->CreateResumeForm($_SESSION['id']);
+   $content .= $userController->ProfilePictureModal();
    $emailOfUserLoggedIn = $userObject->email;
+}
+   $loginStatus="Home";
+   $log = "home.php";
+   
+if(isset($_GET['epr']))
+{
+    $epr=$_GET['epr'];
+}
+
+if($epr=='cvuploaded')
+{
+    $errorMessage = 'CV Uploaded';
+}
+
+if($epr=='coverletteruploaded')
+{
+    $errorMessage = 'Cover Letter Uploaded';
+}
+
+if($epr=='profilepicture')
+{
+    $errorMessage = 'Profile Picture Uploaded';
 }
 
 // Delete If user confirms in Dialog.

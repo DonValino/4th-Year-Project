@@ -6,11 +6,13 @@ and open the template in the editor.
 -->
 <?php
 require 'Controller/JobController.php';
-require 'Controller/PlacedOffersController.php';
+require 'Model/MessagesModel.php';
+
 session_start();
 
 $jobController = new JobController();
-$placedOffersController = new PlacedOffersController();
+
+$MessagesModel = new MessagesModel();
 $epr='';
 $title = "View Job";
 $content = "";
@@ -18,20 +20,52 @@ $content = "";
 $loginStatus= "Login";
 $log = "";
 $errorMessage = "";
-$sidebar = $jobController->ViewJobDetailsSideBar();
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-   $content = $jobController->ViewJobDetails($_SESSION['jobId']);
-   $content .= $placedOffersController->PlaceAnOfferModal();
-   $content .= $placedOffersController->UpdateAnOfferModal();
-}
-
 
 if(isset($_GET['epr']))
 {
     $epr=$_GET['epr'];
+}
+
+if($epr == 'view')
+{
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+}
+
+$userobjectForChecking = $jobController->GetUserByJobId($_SESSION['jobId']);
+
+if($userobjectForChecking->username != $_SESSION['username'])
+{
+    $sidebar = $jobController->ViewJobDetailsSideBar($_SESSION['jobId']);
+}  else {
+    $sidebar= $jobController->ViewJobDetailsOfYourJobSideBar();
+}
+
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus="Home";
+   $log ="home.php";
+   $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+   $content .= $jobController->PlaceAnOfferModal();
+   $content .= $jobController->UpdateAnOfferModal();
+}
+
+$content .= $jobController->SendMessageModal($_SESSION['jobId']);
+
+if (isset($_POST['sendMessage']) && !empty($_POST['messages'])) 
+{
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+        // Store the message in the database
+        $MessagesModel->SendAMessage($_SESSION['username'], $_SESSION['SendUsername'], $_POST['messages'], $dateTime);
+        
+        $errorMessage = "Message Sent :)";
+
 }
 
 if($epr == 'offerPlaced')
@@ -49,10 +83,9 @@ if($epr == 'offerUpdated')
 if (isset($_POST['placeOffer']) && !empty($_POST['offerPrice']) && !empty($_POST['comment'])) 
 {
     $userId = $_SESSION['id'];
-    $date = new DateTime();
-    $dateTime = $date->format('Y-m-d H:i:s');
-    $placedOffersController->PlaceAnOffer($_SESSION['jobId'], $userId, $_POST['comment'], $dateTime, $_POST['offerPrice']);
-    header('Location: ViewJob.php?epr=offerPlaced');
+    
+    $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
+    header('Location: placeOffer.php?epr=placed&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername);
 }
 
 //Code to update an offer
@@ -60,10 +93,9 @@ if (isset($_POST['placeOffer']) && !empty($_POST['offerPrice']) && !empty($_POST
 if (isset($_POST['updateOffer']) && !empty($_POST['updateOfferPrice']) && !empty($_POST['updateComment'])) 
 {
     $userId = $_SESSION['id'];
-    $date = new DateTime();
-    $dateTime = $date->format('Y-m-d H:i:s');
-    $placedOffersController->updateAnOffer($_SESSION['jobId'], $userId, $dateTime, $_POST['updateOfferPrice'], $_POST['updateComment']);
-    header('Location: ViewJob.php?epr=offerUpdated');
+    
+    $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
+    header('Location: UpdateOffer.php?epr=placed&userId='.$userId.'&comment='.$_POST['updateComment'].'&offerprice='.$_POST['updateOfferPrice'].'&tousername='.$tousername);
 }
 
  

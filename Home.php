@@ -14,6 +14,7 @@ $jobController = new JobController();
 $epr='';
 $title = "home";
 $content = $jobController->CreateSearchBar();
+$content .= $jobController->CreateHomeContent($_SESSION['id']);
 $content .= $jobController->CategoryModal();
 $content .= $jobController->PriceModal();
 
@@ -45,6 +46,14 @@ if($epr=='cat')
     $_SESSION['search'] = $id;
     //Go to Search Result Page
     header('Location: SearchResult.php?epr=cat');
+}
+
+if($epr=='qua')
+{
+    $id =$_GET['id'];
+    $_SESSION['search'] = $id;
+    //Go to Search Result Page
+    header('Location: SearchResult.php?epr=qua');
 }
 
     if(isset($_POST['searchByPrice']))

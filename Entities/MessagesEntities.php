@@ -19,17 +19,19 @@ class MessagesEntities {
     public $tousername;
     public $message;
     public $dateofmessage;
+    public $seen;
     
     // Constructor
-    function __construct($id, $fromusername, $tousername, $message, $dateofmessage) {
+    function __construct($id, $fromusername, $tousername, $message, $dateofmessage, $seen) {
         $this->id = $id;
         $this->fromusername = $fromusername;
         $this->tousername = $tousername;
         $this->message = $message;
         $this->dateofmessage = $dateofmessage;
+        $this->seen = $seen;
     }
 
-            // Getters
+                // Getters
         function getId() {
             return $this->id;
         }
@@ -49,8 +51,12 @@ class MessagesEntities {
         function getDateofmessage() {
             return $this->dateofmessage;
         }
-
         
+        function getSeen() {
+            return $this->seen;
+        }
+
+                
         
     // Setters
     function setId($id) {
@@ -71,6 +77,10 @@ class MessagesEntities {
     
     function setDateofmessage($dateofmessage) {
         $this->dateofmessage = $dateofmessage;
+    }
+    
+    function setSeen($seen) {
+        $this->seen = $seen;
     }
     
 }

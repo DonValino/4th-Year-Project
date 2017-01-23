@@ -34,7 +34,12 @@ class PlacedOffersModel {
                 mysqli_real_escape_string($connection,$offerPrice));
             
         //Define and execute query
-        $result = mysqli_query($connection,$query) or die(mysql_error());
+
+        if (mysqli_query($connection,$query)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
         mysqli_close($connection);
     }
     
@@ -46,6 +51,122 @@ class PlacedOffersModel {
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
         $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobId'];
+                $dbUserID= $row['userID'];
+                $dbComment= $row['comment'];
+                $dbPlacementDate = $row['placementDate'];
+                $dbOfferPrice = $row['offerPrice'];
+                
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice);
+                array_push($jobArray, $placedOffersEntities);
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All Placed Offers in a specific job
+    function CountNoPlacedOffersByJobId($jobid)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {
+            
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All Placed Offers By UserID
+    function GetAllPlacedOffersByUserID($UserID)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE UserID=$UserID") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobId'];
+                $dbUserID= $row['userID'];
+                $dbComment= $row['comment'];
+                $dbPlacementDate = $row['placementDate'];
+                $dbOfferPrice = $row['offerPrice'];
+                
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice);
+                array_push($jobArray, $placedOffersEntities);
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+ 
+    // Get All Placed Offers By UserID
+    function GetAllPlacedOffersToUsersJob($id)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT p.* FROM jobs j, placedoffers p WHERE j.jobid = p.jobid AND j.id =$id") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobId'];
+                $dbUserID= $row['userID'];
+                $dbComment= $row['comment'];
+                $dbPlacementDate = $row['placementDate'];
+                $dbOfferPrice = $row['offerPrice'];
+                
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice);
+                array_push($jobArray, $placedOffersEntities);
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get The Lowest Placed Offers Price in a specific job
+    function GetLowestPlacedOffersByJobId($jobid)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid order by offerPrice limit 1") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();

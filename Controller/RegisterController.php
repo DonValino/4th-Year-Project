@@ -211,7 +211,7 @@ class RegisterController {
         $email = $_POST["email"];
         $phone = $_POST["phone"];
         
-        $user = new UserEntities(-1, $firstName, $lastName, $userName, $password, $email, $phone, 0);
+        $user = new UserEntities(-1, $firstName, $lastName, $userName, $password, $email, $phone, 0,'','','');
         $userModel = new UserModel();
         $userModel->InsertANewUser($user);
     }

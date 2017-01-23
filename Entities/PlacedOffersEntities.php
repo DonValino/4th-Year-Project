@@ -13,6 +13,7 @@
  */
 class PlacedOffersEntities
 { 
+ // Variables
   public $jobid;
   public $userID;
   public $comment;

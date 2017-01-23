@@ -12,8 +12,8 @@ $errorMessage = "";
 $sidebar = $jobController->CreateJobOverviewSidebar();
 if(isset($_SESSION['username']))
 {
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
+   $loginStatus="Home";
+   $log = "home.php";
 }
 
  
