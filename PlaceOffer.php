@@ -5,9 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-require ("Model/PlacedOffersModel.php");
+require ("Controller/PlacedOffersController.php");
 session_start();
-$placedOffersModel = new PlacedOffersModel();
+$placedOffersController = new PlacedOffersController();
 
 $epr='';
 
@@ -20,7 +20,7 @@ if($epr == 'placed')
 {
     $date = new DateTime();
     $dateTime = $date->format('Y-m-d H:i:s');
-    $placedOffersModel->PlaceAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername']);
+    $placedOffersController->PlaceAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername']);
     header('Location: ViewJob.php?epr=offerPlaced');
 }
 ?>

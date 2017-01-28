@@ -114,7 +114,7 @@ class NotificationModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM notification WHERE toUsername='$toUsername'") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM notification WHERE toUsername='$toUsername' ORDER BY dateofnotification DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $notificationArray = array();
@@ -139,6 +139,50 @@ class NotificationModel {
         {
             return 0;
         }
+    }
+    
+    // Get Notification By ToUsername
+    function CountNotificationByToUsername($toUsername)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM notification WHERE toUsername='$toUsername' AND seen = 0 ORDER BY dateofnotification DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {  
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+
+    //Update a notification
+    function updateNotification($tousername,$dateofnotification)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $sql = "UPDATE notification SET seen=1 WHERE tousername='$tousername' AND dateofnotification='$dateofnotification'";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+
+        $connection->close();
     }    
 
 }

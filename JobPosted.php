@@ -37,6 +37,20 @@ if($epr=='view')
     $content.= $jobController->SendMessageFromUserJobPostedModal($userId);
     $sidebar = $jobController->ViewUserProfileSideBar($userId);
 }
+
+if (isset($_POST['sendMessage']) && !empty($_POST['messages'])) 
+{   
+    require 'Model/MessagesModel.php';
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        $MessagesModel = new MessagesModel();
+        // Store the message in the database
+        $MessagesModel->SendAMessage($_SESSION['username'], $_SESSION['SendUsername'], $_POST['messages'], $dateTime);
+        
+        $errorMessage = "Message Sent :)";
+
+}
  
  include 'Template.php'
  ?>

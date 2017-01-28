@@ -17,12 +17,24 @@ require 'Model/UserModel.php';
 require 'Model/UserReviewModel.php';
 require 'Model/QualificationModel.php';
 require 'Model/PlacedOffersModel.php';
+require 'Model/FollowingModel.php';
+require 'Model/NotificationModel.php';
+
 
 class JobController {
     
     function CreateSearchBar()
     {
+        require 'Model/UserSearchesModel.php';
+        
+        $userSearchesModel = new UserSearchesModel();
+        $recommenderModel = new RecommenderModel();
+
+        $search = $userSearchesModel->GetUserSearhesById($_SESSION['id']);
+        $jobModel = new JobModel();
+        
         $keyword = '';
+        
         $result = " <div>
           <form action='' method = 'POST'>
             <fieldset>
@@ -33,9 +45,89 @@ class JobController {
               </div>
             </fieldset>
           </form>
-        </div>";
+        </div>"
+        . "<div class='row' style='padding-bottom:10px'>
+                <div class='col-md-5 col-md-offset-3' style='background-color: white;' id='searchResults'>";
+                    try
+                        {
+                            $userRecommender = $recommenderModel->GetRecordByUserId($_SESSION['id']);
+                            if($userRecommender != null)
+                            {
+                                $category = array();
+                                    foreach($userRecommender as $row)
+                                    {
+                                        array_push($category, $row->catId);
+                                    }
+                                    
+                                    if($category != null)
+                                    {
+                                        $recommendedJobs = $this->GetJobsByTop4Category($category[0], $category[1], $category[2], $category[3]);
+                                        $countOfRecommendedJobs = $this->CountJobsByTop4Category($category[0], $category[1], $category[2], $category[3]); 
+                                        if($recommendedJobs != null)
+                                        {
+                                            foreach($recommendedJobs as $row)
+                                            {
+                                                if($row->date)
+                                                {
+                                                    $var = $row->date;
+                                                    // Check if more than 10 days
+                                                    if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                    {
+                                                        $countOfRecommendedJobs = $countOfRecommendedJobs -1;
+                                                    }
+                                                }
+                                            }
+                                                    $result.="<div class='row' style='border-bottom: 1px solid #EBEBEB;'>
+                                                        <p style='text-align:center;'><a href='SearchResult.php?epr=recommendedJob&cat1=".$category[0]."&cat2=".$category[1]."&cat3=".$category[2]."&cat4=".$category[3]."'> Recommended Jobs </a> - <font color='#f60'> $countOfRecommendedJobs new </font></p>
+                                                    </div>";
+                                        }
+
+                                    }
+                            }
+                            if($search != null)
+                            {
+                                $numResult = 0;
+                                $result.="<div class='row' style='border-bottom: 1px solid #EBEBEB;'>
+                                    <p style='text-align:center;'> My Recent Searches - <a href='home.php?epr=clear'>clear</a></p>
+                                </div>";
+
+                                    foreach($search as $row)
+                                    {
+                                        $numResult= $this->CountJobsByName($row->keyword);
+                                        if($numResult > $row->numResult)
+                                        {
+                                            $numNew = $numResult - $row->numResult;
+                                            $result.= "<p style='text-align:center;'><a href='SearchResult.php?epr=previouskeyword&keyword=".$row->keyword."'>$row->keyword</a> &nbsp<font color='#f60'> $numNew new</font></p>";            
+                                        }else
+                                        {
+                                            $result.= "<p style='text-align:center;'><a href='SearchResult.php?epr=previouskeyword&keyword=".$row->keyword."'>$row->keyword</a></p>";
+                                        } 
+                                    }  
+                            }
+                            
+                            $numUserSearches = $userSearchesModel->CountNumberOfUserSearhesById($_SESSION['id']);
+                    }catch(Exception $x)
+                        {
+                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                        }
+     $result.=" </div>
+           </div>";
                 
         return $result;
+    }
+    
+    //Get Job By Top 4 Category.
+    function GetJobsByTop4Category($typeId1,$typeId2,$typeId3,$typeId4)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetJobsByTop4Category($typeId1, $typeId2, $typeId3, $typeId4);
+    }
+    
+    //Count Job By Top 4 Category.
+    function CountJobsByTop4Category($typeId1,$typeId2,$typeId3,$typeId4)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->CountJobsByTop4Category($typeId1, $typeId2, $typeId3, $typeId4);
     }
     
     // Get Highest Priced Jobs
@@ -125,24 +217,27 @@ class JobController {
                                                                             $expectedRate = 0;
                                                                             $res = 0;
                                                                             $allUserReviews = $userReviewModel->GetUserReviewById($row->id);
+                                                                            $userId = 0;
                                                                             if($allUserReviews != null)
                                                                             {
                                                                                 foreach($allUserReviews as $row1)
                                                                                 {
-                                                                                    $actualRate= $actualRate + $row1->rating;
-                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    $actualRate= $actualRate + $row1->punctionality + $row1->workSatisfaction + $row1->skills;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 15;
                                                                                     
                                                                                     $res = ($actualRate / $expectedRate) * 5;
+                                                                                    $userId = $row1->userid;
                                                                                 }
                                                                                 
                                                                                 if($res >= 4)
                                                                                 {
                                                                                     $result.= "<li>
-                                                                                                <a href='$row->photo'>
+                                                                                                <a href='UserReview.php?epr=review&id=".$userId."'>
                                                                                                   <img src='$row->photo' width='150' height='150' />
                                                                                                   <span class='text-content'><span>$row->firstName &nbsp&nbsp $row->lastName</span></span>
                                                                                                 </a>
-                                                                                                <p style='text-align:center;'><strong>Vote Data:&nbsp&nbsp</strong>$res.0</p>
+                                                                                                <p style='text-align:center;'><strong>Vote Data:&nbsp&nbsp</strong>";$result.=round($res, 2);$result.="/ 5.0</p>
                                                                                               </li>";
                                                                                 }
                                                                             }
@@ -366,7 +461,9 @@ class JobController {
         $userModel = new UserModel();
         
         $user = $userModel->GetUserById($id);
-        
+        $followingModel = new FollowingModel();
+        $followed = $followingModel->CheckIfUserAlreadyFollowedAnotherUser($_SESSION['id'], $user->id);
+                
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -382,11 +479,18 @@ class JobController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='profile-userbuttons'>
-                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
-                                        Follow </a>
+				<div class='profile-userbuttons'>";
+                                    if($followed != NULL)
+                                    {
+                                        $result.= "<a href='Following.php?epr=unfollowfromjobposted&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Un-Follow </a>";
+                                    }else
+                                    {
+                                        $result.= "<a href='Following.php?epr=followfromjobposted&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Follow </a>";
+                                    }
                                         
-                                        <div class='row'>
+                                        $result.= "<div class='row'>
                                             <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
                                             Message </a>
                                         </div>
@@ -666,6 +770,7 @@ class JobController {
                                                         . "     <th>Number Of Days</th>"
                                                         . "     <th>Number Of People Required</th>"
                                                         . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -676,15 +781,23 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td align='center'>$row->address</td>"
                                                                             . "<td align='center'>$row->numberOfDays</td>"
                                                                             . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>"
-                                                                            . "</tr>";
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            $result.="</tr>";
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -748,6 +861,7 @@ class JobController {
                                                         . "     <th>Number Of Days</th>"
                                                         . "     <th>Number Of People Required</th>"
                                                         . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -758,15 +872,24 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td align='center'>$row->address</td>"
                                                                             . "<td align='center'>$row->numberOfDays</td>"
                                                                             . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>"
-                                                                            . "</tr>";
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                // Check if more than 10 days
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            $result.="</tr>";
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -801,10 +924,15 @@ class JobController {
                 return $result; 
     }
     
+    //Get Job By Name.
+    function CountJobsByName($name)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->CountJobsByName($name);
+    }
+    
     function SearchResult($name)
     {
-
-        require 'Model/QualificationModel.php';
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
@@ -822,7 +950,7 @@ class JobController {
 							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
                                                     </div>
                                                     <div class='table-responsive'>"
-                                                        . "<table class='table sortable'>"
+                                                        . "<table id='myJobTable' class='table sortable'>"
                                                         . "<tr>"
                                                         . "     <th>Name</th>"
                                                         . "     <th>Description</th>"
@@ -832,6 +960,7 @@ class JobController {
                                                         . "     <th>Number Of Days</th>"
                                                         . "     <th>Number Of People Required</th>"
                                                         . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -842,15 +971,118 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td align='center'>$row->address</td>"
                                                                             . "<td align='center'>$row->numberOfDays</td>"
                                                                             . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>"
-                                                                            . "</tr>";
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                // Check if more than 10 days
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    function RecommendedJobsResult($cat1,$cat2,$cat3,$cat4)
+    {
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $jobModel->GetJobsByTop4Category($cat1, $cat2, $cat3, $cat4);
+        $typeModel = new TypeModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive'>"
+                                                        . "<table id='myJobTable' class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th>Name</th>"
+                                                        . "     <th>Description</th>"
+                                                        . "     <th>Category</th>"
+                                                        . "     <th>Qualificaion</th>"
+                                                        . "     <th>Address</th>"
+                                                        . "     <th>Number Of Days</th>"
+                                                        . "     <th>Number Of People Required</th>"
+                                                        . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                // Check if more than 10 days
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            
+                                                                            $result.="</tr>";
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -915,6 +1147,7 @@ class JobController {
                                                         . "     <th>Number Of Days</th>"
                                                         . "     <th>Number Of People Required</th>"
                                                         . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -925,15 +1158,25 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td align='center'>$row->address</td>"
                                                                             . "<td align='center'>$row->numberOfDays</td>"
                                                                             . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>"
-                                                                            . "</tr>";
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                // Check if more than 10 days
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            
+                                                                            $result.="</tr>";
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -997,6 +1240,7 @@ class JobController {
                                                         . "     <th style='text-align:center;'>Number Of Days</th>"
                                                         . "     <th style='text-align:center;'>Number Of People Required</th>"
                                                         . "     <th style='text-align:center;'>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
                                                         . "     <th style='text-align:center;'>Action: </th>"
                                                         . "</tr>";
                                                         try
@@ -1015,8 +1259,16 @@ class JobController {
                                                                             . "<td align='center'>$row->address</td>"
                                                                             . "<td align='center'>$row->numberOfDays</td>"
                                                                             . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>"
-                                                                            . "<td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            $result.="<td>"
                                                                             . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
                                                                             . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
                                                                             . "</td>"
@@ -1361,6 +1613,13 @@ class JobController {
     {
         $userModel = new UserModel();
         $user = $userModel->CheckUser($_SESSION['username']);
+        $notificationModel = new NotificationModel();
+        $userNotification = $notificationModel->CountNotificationByToUsername($_SESSION['username']);
+        
+        require 'Model/MessagesModel.php';
+	$messagesModel = new MessagesModel();
+	$myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -1379,10 +1638,28 @@ class JobController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='nav-button-sidebar'>
-                                    <a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
-				</div>
+				<div class='nav-button-sidebar'>";
+                                        if($userNotification != null && $myMessages != null)
+                                        {
+
+                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";
+                                        }else if($userNotification == null && $myMessages != null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
+                                        }else if($userNotification != null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
+                                        }else if($userNotification == null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                        }
+				$result.="</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class='profile-usermenu'>
@@ -1401,6 +1678,16 @@ class JobController {
 							<a href='JobsOverview.php'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							My Review </a>
+						</li>
+						<li>
+							<a href='Following.php'>
+							<i class='glyphicon glyphicon-star-empty'></i>
+							Followers </a>
 						</li>
                                                 <li>
 							<a href='Logout.php'>
@@ -1648,6 +1935,9 @@ class JobController {
                                                                         <td><strong>Number Of People Required:</strong> $jobController->numberOfPeopleRequired </td>
                                                                     </tr>
                                                                     <tr>
+                                                                        <td><strong>Date Posted:</strong> $jobController->date </td>
+                                                                    </tr>
+                                                                    <tr>
                                                                         <td><strong>Price / Minimum Bid:</strong> $jobController->price </td>
                                                                     </tr>
                                                                 </table>
@@ -1686,7 +1976,7 @@ class JobController {
                                                                         $name = $userModel->GetUserById($row->userID)->firstName;
                                                                         $name .= " " .$userModel->GetUserById($row->userID)->lastName;
                                                                         $result.= "<tr>"
-                                                                                . "<td align='center'><a href='UserAccount.php?epr=view&id=".$row->jobid."'>$name</a></td>"
+                                                                                . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                 . "<td align='center'>$row->comment</td>"
                                                                                 . "<td align='center'>$row->placementDate</td>"
                                                                                 . "<td align='center'>$row->offerPrice</td>"
@@ -1735,7 +2025,7 @@ class JobController {
                                                                         $name = $userModel->GetUserById($row->userID)->firstName;
                                                                         $name .= " " .$userModel->GetUserById($row->userID)->lastName;
                                                                         $result.= "<tr>"
-                                                                                . "<td align='center'><a href='UserAccount.php?epr=view&id=".$row->jobid."'>$name</a></td>"
+                                                                                . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                 . "<td align='center'>$row->comment</td>"
                                                                                 . "<td align='center'>$row->placementDate</td>"
                                                                                 . "<td align='center'>$row->offerPrice</td>"
@@ -1770,6 +2060,10 @@ class JobController {
         
         $userName = $userModel->GetUserById($jobController->id)->username;
         $user = $userModel->GetUserById($jobController->id);
+        
+        $followingModel = new FollowingModel();
+        $followed = $followingModel->CheckIfUserAlreadyFollowedAnotherUser($_SESSION['id'], $user->id);
+        
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -1788,9 +2082,20 @@ class JobController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='nav-button-sidebar'>
+				<div class='nav-button-sidebar'>";
+                                    if($followed != NULL)
+                                    {
+                                        $result.= "<a href='Following.php?epr=unfollowfromViewJob&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Un-Follow </a>";
+                                    }else
+                                    {
+                                        $result.= "<a href='Following.php?epr=followfromviewjob&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Follow </a>";
+                                    }
+                                    $result.= "<div class='row'>
                                         <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
                                         Message </a>
+                                    </div>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -2072,6 +2377,13 @@ class JobController {
         return $result;
     }
     
+    //Get Jobs By Number of Days Required.
+    function GetLastpostedJobs()
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetLastpostedJobs();
+    }
+    
     //Insert a new admin user into the database
     function InsertAJob($id)
     {
@@ -2085,7 +2397,11 @@ class JobController {
         $price = $_POST["price"];
         $isActive = 1;
         
-        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id);
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('d-m-Y H:i:s');
+        
+        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime);
         $jobModel = new JobModel();
         $jobModel->InsertANewJob($job);
     }

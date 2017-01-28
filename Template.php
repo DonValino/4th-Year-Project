@@ -9,8 +9,10 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $title; ?></title>
         <link rel="stylesheet" type="text/css" href="./Styles/StyleSheet.css">
+        <link rel="stylesheet" type="text/css" href="./Styles/circle.css">
         
         <script src="Styles/sorttable.js"></script>
+
         
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">

@@ -37,7 +37,29 @@ if($epr=='review')
     $id =$_GET['id'];
     $content = $userReviewController->UserReviewContent($id);
     $content.= $userController->AddAUserReviewModal($id);
-    $sidebar = $userController->ViewUserReviewSideBar($id);
+    $content.= $userController->SendMessageModal($id);
+    if($_SESSION['id'] == $id)
+    {
+        $sidebar = $userController->CreateUserReviewSidebar();
+    }else
+    {
+        $sidebar = $userController->ViewUserReviewSideBar($id);
+    }
+    
+}
+
+if (isset($_POST['sendMessage']) && !empty($_POST['messages'])) 
+{
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        require 'Model/MessagesModel.php';
+	$MessagesModel = new MessagesModel();
+        // Store the message in the database
+        $MessagesModel->SendAMessage($_SESSION['username'], $_SESSION['SendUsername'], $_POST['messages'], $dateTime);
+        
+        $errorMessage = "Message Sent :)";
+
 }
 
 if($epr=='reviewAdded')
@@ -47,15 +69,21 @@ if($epr=='reviewAdded')
     $id =$_GET['id'];
     $content = $userReviewController->UserReviewContent($id);
     $content.= $userController->AddAUserReviewModal($id);
-    $sidebar = $userController->ViewUserReviewSideBar($id);
+    if($_SESSION['id'] == $id)
+    {
+        $sidebar = $userController->CreateUserReviewSidebar();
+    }else
+    {
+        $sidebar = $userController->ViewUserReviewSideBar($id);
+    }
 }
 
-if(isset($_POST['addUserReview']) && !empty($_POST['descriptionreview']) && !empty($_POST['ratingreview']))
+if(isset($_POST['addUserReview']) && !empty($_POST['descriptionreview']) && !empty($_POST['punctionalityreview']) && !empty($_POST['worksatisfactionreview']) && !empty($_POST['skillreview']))
 {
     //Today's date
     $date = new DateTime();
     $dateTime = $date->format('Y-m-d H:i:s');
-    $userReviewController->InsertANewReview($_SESSION['username'], $id, $_POST['descriptionreview'], $_POST['ratingreview'], $dateTime);
+    $userReviewController->InsertANewReview($_SESSION['username'], $id, $_POST['descriptionreview'], $_POST['punctionalityreview'],$_POST['worksatisfactionreview'],$_POST['skillreview'], $dateTime);
     header('Location: UserReview.php?epr=reviewAdded&id='.$id);
 }
  

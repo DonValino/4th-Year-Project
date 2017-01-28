@@ -34,8 +34,9 @@ if (isset($_POST['insertANewJob']) && !empty($_POST['name']) && !empty($_POST['d
     {
         // Insert new User to the Database
         $jobController->InsertAJob($_SESSION['id']);
-        //Go to Home Page
-        header('Location: Home.php');
+        $jobid = $jobController->GetLastpostedJobs()->jobid;
+        // Add a timeline event
+        header('Location: AddTimelineEvent.php?epr=add&jobid='.$jobid);
     }
 }
  

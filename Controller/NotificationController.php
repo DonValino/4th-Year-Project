@@ -16,6 +16,7 @@ require 'Model/NotificationModel.php';
 require 'Model/TypeModel.php';
 require 'Model/NotificationTypeModel.php';
 require 'Model/JobModel.php';
+require 'Model/UserModel.php';
 
 class NotificationController {
     
@@ -50,6 +51,19 @@ class NotificationController {
         return $notificationModel->GetNotificationByToUsername($toUsername);
     }
     
+    // Update a notification
+    function updateNotification($tousername,$dateofnotification)
+    {
+        $notificationModel = new NotificationModel();
+        $notificationModel->updateNotification($tousername,$dateofnotification);
+    }
+    
+    // Get Notification By ToUsername
+    function CountNotificationByToUsername($toUsername)
+    {
+        $notificationModel = new NotificationModel();
+        $notificationModel->CountNotificationByToUsername($toUsername);
+    }
     
     // Notification Content
     function NotificationContent()
@@ -57,7 +71,7 @@ class NotificationController {
        $myNotification = $this->GetNotificationByToUsername($_SESSION['username']);
        $notificationTypeModel = new NotificationTypeModel();
        $jobModel = new JobModel();
-       
+       $userModel = new UserModel();
        $result= '<div class="panel-group col-md-12">
 			  <div class="panel panel-default">
 					<div class="panel-heading" style="text-align:center;">
@@ -82,22 +96,47 @@ class NotificationController {
                                                                     {
                                                                         if($row->seen == 0)
                                                                         {
-                                                                            $result.='<tr>
-                                                                                <td style="color:blue;"><strong>'; $result.= '<a href="google.ie">'. $row->fromusername;$result.='</strong></a> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
-                                                                                <td style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
-                                                                                <td style="color:blue;">'; $result.= '<a href="viewJob.php?epr=view&jobid='.$row->jobid.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
-                                                                                <td style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
-                                                                                <td style="color:blue;"> No </td>
-                                                                            </tr>';
+                                                                            $result.='<tr>';
+                                                                            if($userModel->CheckUser($row->fromusername) === 0)
+                                                                            {
+                                                                               $result.='<td><strong>' .$row->fromusername;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                            <td  style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
+                                                                                            <td  style="color:blue;">'; $result.= '<a href="viewJob.php?epr=viewfromnotification&jobid='.$row->jobid.'&date='.$row->dateofnotification.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
+                                                                                            <td  style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
+                                                                                            <td  style="color:blue;"> No </td>
+                                                                                    </tr>';
+                                                                            }else
+                                                                            {
+                                                                                $result.='<td bgcolor="#ccd7ea" style="color:blue;"><strong>'; $result.= '<a href="ViewUserProfile.php?epr=view&id='.$userModel->CheckUser($row->fromusername)->id.'">'. $row->fromusername;$result.='</strong></a> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                            <td bgcolor="#ccd7ea" style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
+                                                                                            <td bgcolor="#ccd7ea" style="color:blue;">'; $result.= '<a href="viewJob.php?epr=viewfromnotification&jobid='.$row->jobid.'&date='.$row->dateofnotification.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
+                                                                                            <td bgcolor="#ccd7ea" style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
+                                                                                            <td bgcolor="#ccd7ea" style="color:blue;"> No </td>
+                                                                                    </tr>';
+                                                                            }
+                                                                                
+                                                                                
                                                                         }else if($row->seen == 1)
                                                                         {
-                                                                            $result.='<tr>
-                                                                                <td style="color:blue;"><strong>'; $result.= '<a href="google.ie">'. $row->fromusername;$result.='</strong></a> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
-                                                                                <td style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
-                                                                                <td style="color:blue;">'; $result.= '<a href="viewJob.php?epr=view&jobid='.$row->jobid.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
-                                                                                <td style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
-                                                                                <td style="color:blue;"> Yes </td>
-                                                                            </tr>';
+                                                                            if($userModel->CheckUser($row->fromusername) === 0)
+                                                                            {
+                                                                                $result.='<tr>
+                                                                                        <td><strong>' .$row->fromusername;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                        <td style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
+                                                                                        <td style="color:blue;">'; $result.= '<a href="viewJob.php?epr=view&jobid='.$row->jobid.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
+                                                                                        <td style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
+                                                                                        <td style="color:blue;"> Yes </td>
+                                                                                    </tr>';
+                                                                            }else
+                                                                            {
+                                                                                $result.='<tr>
+                                                                                        <td style="color:blue;"><strong>'; $result.= '<a href="ViewUserProfile.php?epr=view&id='.$userModel->CheckUser($row->fromusername)->id.'">'. $row->fromusername;$result.='</strong></a> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                        <td style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
+                                                                                        <td style="color:blue;">'; $result.= '<a href="viewJob.php?epr=view&jobid='.$row->jobid.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
+                                                                                        <td style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
+                                                                                        <td style="color:blue;"> Yes </td>
+                                                                                    </tr>';
+                                                                            }
                                                                         }
 
                                                                     }

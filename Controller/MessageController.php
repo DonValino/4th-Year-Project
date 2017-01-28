@@ -56,12 +56,27 @@ class MessageController {
         return $messagesModel->GetMyInbox();
     }
     
+    // Get All Messages Belonging to a user
+    function CountAllMyMessages($username)
+    {
+       $messagesModel = new MessagesModel();
+       $messagesModel->CountAllMyMessages($username);
+    }
+    
     // Message Content
     function MessageContent()
     {
        $myMessages = $this->GetAllMyMessages($_SESSION['username']);
        $myInbox = $this->GetMyInbox(); 
-       $result= "
+       $result= "<div class='row'>
+                    <div class='clearfix'>
+                        <label for='searchuser' class='col-md-1'> Search: </label>
+                        <input type='text' onkeyup='getResult(this.value)' name = 'searchuser' id='searchuser' class='col-md-4' placeholder='Username' autofocus>
+                    </div>
+                </div>
+           <div class='row' style='padding-bottom:10px'>
+                    <div class='col-md-8 col-md-offset-1' style='background-color: white;' id='searchResults'></div>
+                </div>
            <div class='row'>
            <div class='panel-group col-md-5'>
 			  <div class='panel panel-default'>
@@ -121,6 +136,14 @@ class MessageController {
 				."</div>"
 			."</div>"
                                                             
+. "<script type='text/javascript'>
+	function getResult(value){
+		$.post('GetUsers.php', {'partialResult':value}, function(data){
+			$('#searchResults').html(data);
+		});
+	}
+</script>"
+                                                            
                         . "<div class='panel-group col-md-7'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
@@ -132,9 +155,10 @@ class MessageController {
                                                     <form action='' method = 'POST'>
                                                     <div class='clearfix'>
                                                       <label for='tousername' class='col-md-2'> To: </label>
-                                                      <input type='text' name = 'tousername' id='tousername' class='col-md-8' placeholder='Name' required autofocus>
+                                                      <input type='text' onkeyup='getResult(this.value)' type='search' name = 'tousername' id='tousername' class='col-md-8' placeholder='Username' required autofocus>
                                                     </div>
-                                                    <div class='msg-container'>
+
+                                                    <div class='msg-container' id='msg-container'>
                                                         <div class='msg-area' id='msg-area'>";
                                                             $result.="<div class='msgc' style='margin-bottom: 30px;'> 
                                                                     <div class='msg msgfrom'> Send A New Message :) </div> 
@@ -205,9 +229,17 @@ class MessageController {
     {
        $myMessages = $this->GetMyInbox();
        $search = $this->GetMessages();
-       $result= "
+       $result= "<div class='row'>
+                    <div class='clearfix'>
+                        <label for='searchuser' class='col-md-1'> Search: </label>
+                        <input type='text' onkeyup='getResult(this.value)' name = 'searchuser' id='searchuser' class='col-md-4' placeholder='Username' autofocus>
+                    </div>
+                </div>
+           <div class='row' style='padding-bottom:10px'>
+                    <div class='col-md-8 col-md-offset-1' style='background-color: white;' id='searchResults'></div>
+            </div>
            <div class='row'>
-           <div class='panel-group col-md-4'>
+           <div class='panel-group col-md-5'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Inbox</strong></a>
@@ -263,8 +295,15 @@ class MessageController {
 					."</div>"
 				."</div>"
 			."</div>"
+. "<script type='text/javascript'>
+	function getResult(value){
+		$.post('GetUsers.php', {'partialResult':value}, function(data){
+			$('#searchResults').html(data);
+		});
+	}
+</script>"
                                                             
-                        . "<div class='panel-group col-md-8'>
+                        . "<div class='panel-group col-md-7'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMessages' class='glyphicon glyphicon-hand-up'><strong>Message</strong></a>
@@ -275,7 +314,7 @@ class MessageController {
                                                     <form action='' method = 'POST'>
                                                     <div class='clearfix'>
                                                       <label for='tousername' class='col-md-2'> To: </label>
-                                                      <input type='text' name = 'tousername' id='tousername' value='$tousername' class='col-md-8' placeholder='Name' autofocus>
+                                                      <input type='text' onkeyup='getResult(this.value)' name = 'tousername' id='tousername' value='$tousername' class='col-md-8' placeholder='Name' autofocus>
                                                     </div>
                                                     <div class='msg-container'>
                                                         <div class='msg-area' id='msga'>";

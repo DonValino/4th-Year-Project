@@ -26,6 +26,9 @@ function showConfirm()
 
 require 'Model/UserModel.php';
 require 'Model/PlacedOffersModel.php';
+require 'Model/FollowingModel.php';
+require 'Model/NotificationModel.php';
+
 
 class UserController {
 
@@ -36,6 +39,11 @@ class UserController {
     {
         $userModel = new UserModel();
         $user = $userModel->CheckUser($_SESSION['username']);
+        $notificationModel = new NotificationModel();
+        $userNotification = $notificationModel->CountNotificationByToUsername($_SESSION['username']);
+        require 'Model/MessagesModel.php';
+        $messagesModel = new MessagesModel();
+        $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -54,10 +62,34 @@ class UserController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='nav-button-sidebar'>
-                                    <a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
-				</div>
+				<div class='nav-button-sidebar'>";
+                                    try
+                                   {
+                                        if($userNotification != null && $myMessages != null)
+                                        {
+
+                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";
+                                        }else if($userNotification == null && $myMessages != null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
+                                        }else if($userNotification != null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
+                                        }else if($userNotification == null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                        }
+                                    }catch(Exception $x)
+                                    {
+                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                    } 
+				$result.="</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
 				<div class='profile-usermenu'>
@@ -76,6 +108,116 @@ class UserController {
 							<a href='JobsOverview.php'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							My Review </a>
+						</li>
+						<li>
+							<a href='Following.php'>
+							<i class='glyphicon glyphicon-star-empty'></i>
+							Followers </a>
+						</li>
+                                                <li>
+							<a href='Logout.php'>
+							<i class='glyphicon glyphicon-log-out'></i>
+							Logout </a>
+						</li>
+						<li>
+							<a href='#' target='_blank'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
+                
+        return $result;
+    }
+    
+    //Code to create the user profile sidebar
+    function CreateUserReviewSidebar()
+    {
+        $userModel = new UserModel();
+        $user = $userModel->CheckUser($_SESSION['username']);
+        $notificationModel = new NotificationModel();
+        $userNotification = $notificationModel->CountNotificationByToUsername($_SESSION['username']);
+        
+        require 'Model/MessagesModel.php';
+	$messagesModel = new MessagesModel();
+	$myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
+        $result = "<div class='col-md-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR USERPIC -->
+				<div class='profile-userpic'>
+					<img src='$user->photo' class='img-responsive' alt=''>
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class='profile-usertitle'>
+					<div class='profile-usertitle-name'>
+						$_SESSION[username]
+					</div>
+					<div class='profile-usertitle-job'>
+						Developer
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class='nav-button-sidebar'>";
+                                        if($userNotification != null && $myMessages != null)
+                                        {
+
+                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";
+                                        }else if($userNotification == null && $myMessages != null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
+                                        }else if($userNotification != null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
+                                        }else if($userNotification == null && $myMessages == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                        }
+				$result.="</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li>
+							<a href='UserAccount.php'>
+							<i class='glyphicon glyphicon-home'></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href='AccountSettings.php'>
+							<i class='glyphicon glyphicon-user'></i>
+							Account Settings </a>
+						</li>
+						<li>
+							<a href='JobsOverview.php'>
+							<i class='glyphicon glyphicon-ok'></i>
+							Jobs </a>
+						</li>
+						<li class='active'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							My Review </a>
+						</li>
+						<li>
+							<a href='Following.php'>
+							<i class='glyphicon glyphicon-star-empty'></i>
+							Followers </a>
 						</li>
                                                 <li>
 							<a href='Logout.php'>
@@ -143,6 +285,16 @@ class UserController {
 							<a href='JobsOverview.php'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<i class='glyphicon glyphicon-comment'></i>
+							My Review </a>
+						</li>
+						<li>
+							<a href='Following.php'>
+							<i class='glyphicon glyphicon-star-empty'></i>
+							Followers </a>
 						</li>
                                                 <li>
 							<a href='Logout.php'>
@@ -524,6 +676,7 @@ class UserController {
         require 'Model/TypeModel.php';
         require 'Model/QualificationModel.php';
         require 'Model/JobModel.php';
+        require 'Model/UserReviewModel.php';
         
         $userModel = new UserModel();
         
@@ -536,6 +689,10 @@ class UserController {
         $placedOffersModel = new PlacedOffersModel();
         $allOfUsersPlacedOffers = $placedOffersModel->GetAllPlacedOffersByUserID($id);
         $offersToUsersJob= $placedOffersModel->GetAllPlacedOffersToUsersJob($id);
+        
+        $userReviewModel = new UserReviewModel();
+        $review = $userReviewModel->GetUserReviewById($id);
+        $count = $userReviewModel->GetNumberOfUserReviewById($id);
         
         $result = "<H4 Style='text-align:center;'>Welcome to the User Account Page: </H4>"
                 . "<div class='row'>"
@@ -569,7 +726,7 @@ class UserController {
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td>"
-                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
+                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Deactivate</a>&nbsp|"
                                                                             . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
                                                                             . "</td>"
                                                                             . "</tr>";
@@ -665,7 +822,98 @@ class UserController {
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
 					</div>
 					<div id='collapseRating' class='panel-collapse collapse in'>
-						<div class='panel-body'>"
+						<div class='panel-body'>
+                                                <div class='col-md-12'>
+                                                    <div class='row'>
+                                                    <a href='UserReview.php?epr=review&id=".$id."'><p style='text-align:center;'><strong>Based on $count reviews</strong></p></a>
+                                                    </div>
+                                                            <div class='col-md-1' style='padding-left:20px;'>";
+                                                                try
+                                                                {
+                                                                            $actualRate = 0;
+                                                                            $expectedRate = 0;
+                                                                            $res = 0;
+                                                                            if($review != null)
+                                                                            {
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->punctionality;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                               
+                                                                                $result.="<div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Punctionality</p>
+                                                                                </div> 
+                                                                            </div>";
+                                                                                
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->workSatisfaction;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                            
+                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                                <div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Work Satisfaction</p>
+                                                                                </div>
+                                                                            </div>";
+                                                                            
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->skills;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                                <div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Skills</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>";
+                                                                        }
+                                                                }catch(Exception $x)
+                                                                {
+                                                                    echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                                }
+                                             $result.= "</div>"          
 						."</div>"
 					."</div>"
 				."</div>"
@@ -686,9 +934,15 @@ class UserController {
     // View to display user profile
     function ViewUserProfile($id)
     {
+        require ("Model/UserReviewModel.php");
         $userModel = new UserModel();
         
         $user = $userModel->GetUserById($id);
+        
+        $userReviewModel = new UserReviewModel();
+        $review = $userReviewModel->GetUserReviewById($id);
+        $count = $userReviewModel->GetNumberOfUserReviewById($id);
+        
         $result="<div class='row'>"
                     . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
@@ -725,9 +979,98 @@ class UserController {
                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>User Rating</strong></a>
 					</div>
 					<div id='collapseuserrating' class='panel-collapse collapse in'>
-						<div class='panel-body'>"
-                
-						."</div>"
+						<div class='panel-body'>
+                                                <div class='col-md-12'>
+                                                    <div class='row'>
+                                                    <a href='UserReview.php?epr=review&id=".$id."'><p style='text-align:center;'><strong>Based on $count reviews</strong></p></a>
+                                                    </div>
+                                                            <div class='col-md-1' style='padding-left:20px;'>";
+                                                                try
+                                                                {
+                                                                            $actualRate = 0;
+                                                                            $expectedRate = 0;
+                                                                            $res = 0;
+                                                                            if($review != null)
+                                                                            {
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->punctionality;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                               
+                                                                                $result.="<div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Punctionality</p>
+                                                                                </div> 
+                                                                            </div>";
+                                                                                
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->workSatisfaction;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                            
+                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                                <div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Work Satisfaction</p>
+                                                                                </div>
+                                                                            </div>";
+                                                                            
+                                                                                foreach($review as $row1)
+                                                                                {
+                                                                                    $actualRate= $actualRate + $row1->skills;
+                                                                                   
+                                                                                    $expectedRate = $expectedRate + 5;
+                                                                                    
+                                                                                    $res = ($actualRate / $expectedRate) * 100;
+                                                                                    $res = (int)$res;
+                                                                                }
+                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                                <div class='row'>
+                                                                                        <div class='c100 p$res'>
+                                                                                          <span>$res%</span>
+                                                                                          <div class='slice'>
+                                                                                                <div class='bar'></div>
+                                                                                                <div class='fill'></div>
+                                                                                          </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                                <div class='row'>
+                                                                                    <p class='col-md-12'>Skills</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>";
+                                                                        }
+                                                                }catch(Exception $x)
+                                                                {
+                                                                    echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                                }
+						$result.="</div>"
 					."</div>"
 				."</div>"
 			."</div>"
@@ -799,12 +1142,32 @@ class UserController {
                                          ."<form action='' method = 'POST'>
                                            <fieldset>
                                              <div class='clearfix'>
-                                               <label for='descriptionreview' class='col-md-2'> Description: </label>
+                                               <label for='descriptionreview' class='col-md-3'> Description: </label>
                                                <textarea class='col-md-8' rows='5' id='descriptionreview' name = 'descriptionreview' placeholder='Description' required autofocus></textarea>
                                              </div>
                                              <div class='clearfix'>
-                                                <label for='ratingreview' class='col-md-2'> Rating: </label>
-                                                <select class='form-control'id='ratingreview' name = 'ratingreview' style='width:200px;'>
+                                                <label for='punctionalityreview' class='col-md-3'> Punctionality: </label>
+                                                <select class='form-control'id='punctionalityreview' name = 'punctionalityreview' style='width:200px;'>
+                                                    <option value=1>1</option>
+                                                    <option value=2>2</option>
+                                                    <option value=3>3</option>
+                                                    <option value=4>4</option>
+                                                    <option value=5>5</option>
+                                                </select>
+                                             </div>
+                                             <div class='clearfix'>
+                                                <label for='worksatisfactionreview' class='col-md-3'> Work Satisfaction: </label>
+                                                <select class='form-control'id='worksatisfactionreview' name = 'worksatisfactionreview' style='width:200px;'>
+                                                    <option value=1>1</option>
+                                                    <option value=2>2</option>
+                                                    <option value=3>3</option>
+                                                    <option value=4>4</option>
+                                                    <option value=5>5</option>
+                                                </select>
+                                             </div>
+                                             <div class='clearfix'>
+                                                <label for='skillreview' class='col-md-3'> Skill: </label>
+                                                <select class='form-control'id='skillreview' name = 'skillreview' style='width:200px;'>
                                                     <option value=1>1</option>
                                                     <option value=2>2</option>
                                                     <option value=3>3</option>
@@ -835,6 +1198,8 @@ class UserController {
         
         $user = $userModel->GetUserById($id);
         
+        $followingModel = new FollowingModel();
+        $followed = $followingModel->CheckIfUserAlreadyFollowedAnotherUser($_SESSION['id'], $user->id);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -850,10 +1215,17 @@ class UserController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='nav-button-sidebar'>
-                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
-                                        Follow </a>
-                                        <div class='row'>
+				<div class='nav-button-sidebar'>";
+                                    if($followed != NULL)
+                                    {
+                                        $result.= "<a href='Following.php?epr=unfollowfromuserprofile&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Un-Follow </a>";
+                                    }else
+                                    {
+                                        $result.= "<a href='Following.php?epr=followfromuserprofile&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Follow </a>";
+                                    }
+                                       $result.= "<div class='row'>
                                             <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
                                             Message </a>
                                         </div>
@@ -902,7 +1274,8 @@ class UserController {
         $userModel = new UserModel();
         
         $user = $userModel->GetUserById($id);
-        
+        $followingModel = new FollowingModel();
+        $followed = $followingModel->CheckIfUserAlreadyFollowedAnotherUser($_SESSION['id'], $user->id);
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -918,10 +1291,18 @@ class UserController {
 				</div>
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
-				<div class='nav-button-sidebar'>
-                                        <a href='#' style='margin-bottom:10px;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
-                                        Follow </a>
-                                        <div class='row'>
+				<div class='nav-button-sidebar'>";
+                                    if($followed != NULL)
+                                    {
+                                        $result.= "<a href='Following.php?epr=unfollowfromusereview&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Un-Follow </a>";
+                                    }else
+                                    {
+                                        $result.= "<a href='Following.php?epr=followfromusereview&followinguserId=$user->id' style='margin-bottom:10px;' class='btn btn-success btn-sm'>
+                                        Follow </a>";
+                                    }
+
+                                        $result.= "<div class='row'>
                                             <a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
                                             Message </a>
                                         </div>

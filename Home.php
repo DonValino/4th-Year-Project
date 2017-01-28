@@ -9,7 +9,9 @@ and open the template in the editor.
 session_start();
 
 require 'Controller/JobController.php';
+require 'Controller/RecommenderController.php';
 $jobController = new JobController();
+$recommenderController = new RecommenderController();
 
 $epr='';
 $title = "home";
@@ -44,8 +46,33 @@ if($epr=='cat')
 {
     $id =$_GET['id'];
     $_SESSION['search'] = $id;
+    
+    //Today's date
+    $date = new DateTime();
+    $dateTime = $date->format('d-m-Y H:i:s');
+    
+    // Check if a record already exist
+    $exist = $recommenderController->GetRecordByCatIdAndUserId($id, $_SESSION['id']);
+    
+    if($exist != NULL)
+    {
+        $qty = $exist->qty;
+        $qty = $qty + 1;
+        $recommenderController->updateQtyByCatIdAndUserId($qty, $id, $_SESSION['id']);
+    }else
+    {
+        // Add a new record to recommender table database
+        $recommenderController->InsertANewRecord($id, $_SESSION['id'],1, $dateTime);  
+    }
+
     //Go to Search Result Page
     header('Location: SearchResult.php?epr=cat');
+}
+
+if($epr=='clear')
+{
+    // Go to DeleteKeywordSearches.php
+    header('Location: DeleteKeywordSearches.php?epr=delete');
 }
 
 if($epr=='qua')

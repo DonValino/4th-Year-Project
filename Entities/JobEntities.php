@@ -12,9 +12,10 @@ class JobEntities
   public $price;
   public $isActive;
   public $id;
+  public $date;
   
   //Constructor
-  function __construct($jobid, $name, $description, $type, $qualification, $address, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id) {
+  function __construct($jobid, $name, $description, $type, $qualification, $address, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $date) {
       $this->jobid = $jobid;
       $this->name = $name;
       $this->description = $description;
@@ -26,99 +27,109 @@ class JobEntities
       $this->price = $price;
       $this->isActive = $isActive;
       $this->id = $id;
-  }
-  
-  function getJobid() {
-      return $this->jobid;
+      $this->date = $date;
   }
 
-  function getName() {
-      return $this->name;
-  }
+    // Getters
+    function getJobid() {
+        return $this->jobid;
+    }
 
-  function getDescription() {
-      return $this->description;
-  }
+    function getName() {
+        return $this->name;
+    }
 
-  function getType() {
-      return $this->type;
-  }
+    function getDescription() {
+        return $this->description;
+    }
 
-  function getQualification() {
-      return $this->qualification;
-  }
+    function getType() {
+        return $this->type;
+    }
 
-  function getAddress() {
-      return $this->address;
-  }
+    function getQualification() {
+        return $this->qualification;
+    }
 
-  function getNumberOfDays() {
-      return $this->numberOfDays;
-  }
+    function getAddress() {
+        return $this->address;
+    }
 
-  function getNumberOfPeopleRequired() {
-      return $this->numberOfPeopleRequired;
-  }
+    function getNumberOfDays() {
+        return $this->numberOfDays;
+    }
 
-  function getPrice() {
-      return $this->price;
-  }
+    function getNumberOfPeopleRequired() {
+        return $this->numberOfPeopleRequired;
+    }
 
-  function getIsActive() {
-      return $this->isActive;
-  }
+    function getPrice() {
+        return $this->price;
+    }
 
-  function getId() {
-      return $this->id;
-  }
+    function getIsActive() {
+        return $this->isActive;
+    }
 
-  function setJobid($jobid) {
-      $this->jobid = $jobid;
-  }
+    function getId() {
+        return $this->id;
+    }
 
-  function setName($name) {
-      $this->name = $name;
-  }
+    function getDate() {
+        return $this->date;
+    }
 
-  function setDescription($description) {
-      $this->description = $description;
-  }
+    // Setters
+    function setJobid($jobid) {
+        $this->jobid = $jobid;
+    }
 
-  function setType($type) {
-      $this->type = $type;
-  }
+    function setName($name) {
+        $this->name = $name;
+    }
 
-  function setQualification($qualification) {
-      $this->qualification = $qualification;
-  }
+    function setDescription($description) {
+        $this->description = $description;
+    }
 
-  function setAddress($address) {
-      $this->address = $address;
-  }
+    function setType($type) {
+        $this->type = $type;
+    }
 
-  function setNumberOfDays($numberOfDays) {
-      $this->numberOfDays = $numberOfDays;
-  }
+    function setQualification($qualification) {
+        $this->qualification = $qualification;
+    }
 
-  function setNumberOfPeopleRequired($numberOfPeopleRequired) {
-      $this->numberOfPeopleRequired = $numberOfPeopleRequired;
-  }
+    function setAddress($address) {
+        $this->address = $address;
+    }
 
-  function setPrice($price) {
-      $this->price = $price;
-  }
+    function setNumberOfDays($numberOfDays) {
+        $this->numberOfDays = $numberOfDays;
+    }
 
-  function setIsActive($isActive) {
-      $this->isActive = $isActive;
-  }
+    function setNumberOfPeopleRequired($numberOfPeopleRequired) {
+        $this->numberOfPeopleRequired = $numberOfPeopleRequired;
+    }
 
-  function setId($id) {
-      $this->id = $id;
-  }
+    function setPrice($price) {
+        $this->price = $price;
+    }
+
+    function setIsActive($isActive) {
+        $this->isActive = $isActive;
+    }
+
+    function setId($id) {
+        $this->id = $id;
+    }
+
+    function setDate($date) {
+        $this->date = $date;
+    }
 
 
-
-
+    
 }
 
 ?>

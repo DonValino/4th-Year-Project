@@ -143,6 +143,25 @@ WHERE t1.id = (SELECT t2.id
         }
     }
     
+    // Get All Messages Belonging to a user
+    function CountAllMyMessages($username)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM messages WHERE tousername='$username' AND seen = 0") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        { 
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     // Set Message Seen by user.
     function SetMessagesSeen($fromusername,$tousername)
     {

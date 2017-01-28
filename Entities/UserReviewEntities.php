@@ -16,23 +16,31 @@ class UserReviewEntities {
   public $reviewer;
   public $userid;
   public $description;
-  public $rating;
+  public $punctionality;
+  public $workSatisfaction;
+  public $skills;
   public $date;
   
   //Constructor
-  function __construct($id, $reviewer, $userid, $description, $rating, $date) {
+  function __construct($id, $reviewer, $userid, $description, $punctionality, $workSatisfaction, $skills, $date) {
       $this->id = $id;
       $this->reviewer = $reviewer;
       $this->userid = $userid;
       $this->description = $description;
-      $this->rating = $rating;
+      $this->punctionality = $punctionality;
+      $this->workSatisfaction = $workSatisfaction;
+      $this->skills = $skills;
       $this->date = $date;
   }
 
-  
+    
   // Getters
   function getId() {
       return $this->id;
+  }
+
+  function getReviewer() {
+      return $this->reviewer;
   }
 
   function getUserid() {
@@ -43,23 +51,32 @@ class UserReviewEntities {
       return $this->description;
   }
 
-  function getRating() {
-      return $this->rating;
+  function getPunctionality() {
+      return $this->punctionality;
+  }
+
+  function getWorkSatisfaction() {
+      return $this->workSatisfaction;
+  }
+
+  function getSkills() {
+      return $this->skills;
   }
 
   function getDate() {
       return $this->date;
   }
-  
-  function getReviewer() {
-      return $this->reviewer;
-  }
 
+  
   
 
   // Setters
   function setId($id) {
       $this->id = $id;
+  }
+
+  function setReviewer($reviewer) {
+      $this->reviewer = $reviewer;
   }
 
   function setUserid($userid) {
@@ -70,17 +87,23 @@ class UserReviewEntities {
       $this->description = $description;
   }
 
-  function setRating($rating) {
-      $this->rating = $rating;
+  function setPunctionality($punctionality) {
+      $this->punctionality = $punctionality;
+  }
+
+  function setWorkSatisfaction($workSatisfaction) {
+      $this->workSatisfaction = $workSatisfaction;
+  }
+
+  function setSkills($skills) {
+      $this->skills = $skills;
   }
 
   function setDate($date) {
       $this->date = $date;
   }
 
-  function setReviewer($reviewer) {
-      $this->reviewer = $reviewer;
-  }
+
 
 
 

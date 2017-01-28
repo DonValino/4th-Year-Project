@@ -34,6 +34,11 @@ if($epr == 'view')
     $content .= $jobController->UpdateAnOfferModal();
 }
 
+if($epr == 'viewfromnotification')
+{
+    header('Location: updateNotification.php?epr=updateNofication&jobid='.$_GET['jobid'].'&date='.$_GET['date']); 
+}
+
 $userobjectForChecking = $jobController->GetUserByJobId($_SESSION['jobId']);
 
 if($userobjectForChecking->username != $_SESSION['username'])
