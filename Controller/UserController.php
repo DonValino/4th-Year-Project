@@ -721,7 +721,7 @@ class UserController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
