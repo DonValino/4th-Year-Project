@@ -14,9 +14,8 @@
 require ("Entities/TypeEntities.php");
 
 class TypeModel {
-    //put your code here
     
- //Get Qualification By ID.
+    // Get Type By ID.
     function GetTypeByID($id)
     {
         require 'Model/Credentials.php';
@@ -43,7 +42,7 @@ class TypeModel {
             return 0;
         }
     }
-    
+
     //Get Qualifications.
     function GetTypes()
     {

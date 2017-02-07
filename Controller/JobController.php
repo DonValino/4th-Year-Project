@@ -19,7 +19,8 @@ require 'Model/QualificationModel.php';
 require 'Model/PlacedOffersModel.php';
 require 'Model/FollowingModel.php';
 require 'Model/NotificationModel.php';
-
+require 'Model/FavoriteJobsModel.php';
+require 'Model/CountyModel.php';
 
 class JobController {
     
@@ -40,7 +41,7 @@ class JobController {
             <fieldset>
               <div class='clearfix row'>
                 <label for='keyword' class='col-md-1'> Search: </label>
-                <input type='text' class='col-md-4' style='padding-bottom:8px;' name = 'keyword' id='keyword' value='$keyword'placeholder='Search Jobs' required autofocus>
+                <input type='text' class='col-md-6' style='padding-bottom:8px;' name = 'keyword' id='keyword' value='$keyword'placeholder='Search Jobs' required autofocus>
                 <button class='btn primary col-md-1 col-md-offset-1' name = 'search' type='submit'>Search</button>
               </div>
             </fieldset>
@@ -59,7 +60,7 @@ class JobController {
                                         array_push($category, $row->catId);
                                     }
                                     
-                                    if($category != null)
+                                    if(sizeof($category) == 4)
                                     {
                                         $recommendedJobs = $this->GetJobsByTop4Category($category[0], $category[1], $category[2], $category[3]);
                                         $countOfRecommendedJobs = $this->CountJobsByTop4Category($category[0], $category[1], $category[2], $category[3]); 
@@ -137,6 +138,20 @@ class JobController {
         return $jobModel->GetHighestPricedJobs($id);
     }
     
+    // Get Number Of Jobs Per Category
+    function GetNumberOfJobsPerQualification($id)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetNumberOfJobsPerQualification($id);
+    }
+    
+    // Get Number Of Jobs Per Location
+    function GetNumberOfJobsPerLocation($id)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetNumberOfJobsPerLocation($id);
+    }
+    
     function CreateHomeContent($id)
     {
         $jobModel = new JobModel();
@@ -152,6 +167,8 @@ class JobController {
         
         $userReviewModel = new UserReviewModel();
         
+        $countyModel = new CountyModel();
+        $allCounty = $countyModel->GetAllCounties();
         $result = "<div class='row'>"
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
@@ -160,7 +177,10 @@ class JobController {
 					</div>
 					<div id='collapseTopPayingjobs' class='panel-collapse collapse in'>
 						<div class='panel-body'>
-                                                    <div class='table-responsive scrollit'>"
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='topPayingJobsInput' class='col-md-4' onkeyup='topPayingJobsFunction()' placeholder='Filter' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive scrollit' id='topPayingJobsTable'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
                                                         . "     <th>Job</th>"
@@ -178,7 +198,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -216,6 +236,7 @@ class JobController {
                                                                             $actualRate = 0;
                                                                             $expectedRate = 0;
                                                                             $res = 0;
+                                                                            $numberOfReviews = 0;
                                                                             $allUserReviews = $userReviewModel->GetUserReviewById($row->id);
                                                                             $userId = 0;
                                                                             if($allUserReviews != null)
@@ -228,9 +249,10 @@ class JobController {
                                                                                     
                                                                                     $res = ($actualRate / $expectedRate) * 5;
                                                                                     $userId = $row1->userid;
+                                                                                    $numberOfReviews = $numberOfReviews + 1;
                                                                                 }
                                                                                 
-                                                                                if($res >= 4)
+                                                                                if($res >= 4 && $numberOfReviews >= 4)
                                                                                 {
                                                                                     $result.= "<li>
                                                                                                 <a href='UserReview.php?epr=review&id=".$userId."'>
@@ -263,8 +285,11 @@ class JobController {
 					</div>
 					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='categoryInput' class='col-md-4' onkeyup='categoryFunction()' placeholder='Filter' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
                                                     <div class='table-responsive scrollit'>"
-                                                        . "<table class='table sortable'>"
+                                                        . "<table class='table sortable' id='categoryTable'>"
                                                         . "<tr>"
                                                         . "     <th style='text-align:center;'>Name</th>"
                                                         . "</tr>";
@@ -274,9 +299,19 @@ class JobController {
                                                             {
                                                                 foreach($allType as $row)
                                                                 {
-                                                                    $result.= "<tr style='text-align:center;'>"
-                                                                            . "<td align='center'><a href='Home.php?epr=cat&id=".$row->typeId."'>$row->name</a></td>"
-                                                                            . "</tr>";
+                                                                    $countOfJobs = $jobModel->GetNumberOfJobsPerCategory($row->typeId);
+                                                                    if($countOfJobs != 0)
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=cat&id=".$row->typeId."'>$row->name</a> - <font color='#f60'> $countOfJobs active </font></td>"
+                                                                                . "</tr>";
+                                                                    }else
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=cat&id=".$row->typeId."'>$row->name</a></td>"
+                                                                                . "</tr>";
+                                                                    }
+
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -296,7 +331,10 @@ class JobController {
 					</div>
 					<div id='collapseRequiredQualifications' class='panel-collapse collapse in'>
 						<div class='panel-body'>
-                                                    <div class='table-responsive scrollit'>"
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='qualificationInput' class='col-md-4' onkeyup='qualificationFunction()' placeholder='Filter' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive scrollit' id='qualificationTable'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
                                                         . "     <th style='text-align:center;'>Name</th>"
@@ -307,9 +345,19 @@ class JobController {
                                                             {
                                                                 foreach($allQualifications as $row)
                                                                 {
-                                                                    $result.= "<tr style='text-align:center;'>"
-                                                                            . "<td align='center'><a href='Home.php?epr=qua&id=".$row->qualificationId."'>$row->qualificationName</a></td>"
-                                                                            . "</tr>";
+                                                                    $countOfJobs = $jobModel->GetNumberOfJobsPerQualification($row->qualificationId);
+                                                                    if($countOfJobs != 0)
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=qua&id=".$row->qualificationId."'>$row->qualificationName</a> - <font color='#f60'> $countOfJobs active </font></td>"
+                                                                                . "</tr>";
+                                                                    }else
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=qua&id=".$row->qualificationId."'>$row->qualificationName</a></td>"
+                                                                                . "</tr>";
+                                                                    }
+
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -327,11 +375,47 @@ class JobController {
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offer</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Locations:</strong></a>
 					</div>
 					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
-						<div class='panel-body'>"
-
+						<div class='panel-body'>
+                                                    <div class='row'>
+                                                        <a href='SearchJobsByMap.php' class='col-md-offset-10'> View Map </a>
+                                                    </div>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='locationInput' class='col-md-4' onkeyup='locationFunction()' placeholder='Filter' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive scrollit'>"
+                                                        . "<table class='table sortable' id='locationTable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($allCounty != null)
+                                                            {
+                                                                foreach($allCounty as $row)
+                                                                {
+                                                                    $countOfJobs = $jobModel->GetNumberOfJobsPerLocation($row->id);
+                                                                    if($countOfJobs != 0)
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=location&id=".$row->id."'>$row->county</a> - <font color='#f60'> $countOfJobs active </font></td>"
+                                                                                . "</tr>"; 
+                                                                    }else
+                                                                    {
+                                                                        $result.= "<tr style='text-align:center;'>"
+                                                                                . "<td align='center'><a href='Home.php?epr=location&id=".$row->id."'>$row->county</a></td>"
+                                                                                . "</tr>";
+                                                                    }
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
 						."</div>"
 					."</div>"
 				."</div>"
@@ -348,7 +432,250 @@ class JobController {
 				."</div>"
 			."</div>"
                 . "</div>"
-                . "</div>";
+                . "</div>"
+                     . "<script>
+				function topPayingJobsFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('topPayingJobsInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('topPayingJobsTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>"
+                     . "<script>
+				function categoryFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('categoryInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('categoryTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>"
+                     . "<script>
+				function qualificationFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('qualificationInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('qualificationTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>"
+                     . "<script>
+				function locationFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('locationInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('locationTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                
+        return $result;
+    }
+    
+     //Get All Job Addresses.
+    function GetJobAddresses()
+    {
+         $jobModel = new JobModel();
+         return $jobModel->GetJobAddresses();
+    }
+    
+     //Get All Job Names.
+    function GetJobNames()
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetJobNames();
+    }
+    
+     //Get All Job Ids.
+    function GetJobIds()
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetJobIds(); 
+    }
+    
+     //Get All Descriptions.
+    function GetJobDescription()
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetJobDescription();   
+    }    
+    function MapSearchContent()
+    {
+        $jobModel = new JobModel();
+        
+        $typeModel = new TypeModel();
+        
+        $allCategories = $typeModel->GetTypes();
+        
+        $alljobsaddress = $jobModel->GetJobAddresses();
+        // Convert PHP Array to JSON Array.
+        $alljobsaddress = json_encode($alljobsaddress);
+        
+        $allJobNames = $jobModel->GetJobNames();
+        // Convert PHP Array to JSON Array.
+        $allJobNames = json_encode($allJobNames);
+        
+        $allJobId = $jobModel->GetJobIds();
+        // Convert PHP Array to JSON Array.
+        $allJobId = json_encode($allJobId);
+        
+        $allJobDescriptions = $jobModel->GetJobDescription();
+        // Convert PHP Array to JSON Array.
+        $allJobDescriptions = json_encode($allJobDescriptions);
+        $result = "<div class='row'>"
+                . "<p style='background-color:white; text-align:center; font-size:23px;'>Map Search</p>"
+                . "<a href='#' data-toggle='modal' id='placeAnOfferButton' style='margin-bottom:8px;' class='btn btn-success col-md-6 col-md-offset-3' data-target='#placeAnOfferModal'>
+                            <i class='glyphicon glyphicon-filter'></i>
+                            Filter </a>"
+                . "</div>"
+                . "<div class='row'>"
+                . "<div id='map' style='height:420px;'></div>"
+                . "</div>"
+. "<script>
+    var geocoder;
+    var map;
+    // Initialize the address with a JSON object array to contain list of Geolocation address.
+    var address = $alljobsaddress;
+    var jobIds = $allJobId;
+    var jobDescriptions = $allJobDescriptions;
+    var des;
+    var pos;
+    var index = address.length;
+    var markers;
+  // Initialize the map
+  function initMap() {
+      
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var mapOptions = {
+      zoom: 6,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    codeAddress();
+  }
+    // A JSON Array Where the locations are stored
+      var locations = [
+      ]
+    
+    // A JSON Array containing names of Jobs
+    var infowindowsNames = $allJobNames;
+    
+  // Method that contains a Geocoder to convert an address into Geolocation.
+  function codeAddress() {
+    for (i in address)
+    {
+         console.log(address[i]);
+
+        geocoder.geocode( { 'address': address[i]}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            des = results[0].geometry.location;
+
+            // Add A New Item
+            locations.push(
+                {lat: des.lat(), lng: des.lng()}
+            );
+
+            map.setCenter(new google.maps.LatLng(53.514257, -7.914886)); 
+
+            // Create an array of alphabetical characters used to label the markers.
+            var labels = 'J';
+
+            // Add some markers to the map.
+            // Note: The code uses the JavaScript Array.prototype.map() method to
+            // create an array of markers based on a given locations array.
+            // The map() method here has nothing to do with the Google Maps API.
+
+            markers = locations.map(function(location, i) {
+              return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length],
+                title:'Job'
+              });
+            });
+            // Add a marker clusterer to manage the markers.
+            var markerCluster = new MarkerClusterer(map, markers,
+                {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+            
+           // alert('Index: ' + index + ' ' + 'Locations: ' + locations.length);
+
+            if (index == locations.length)
+            {
+                for (var i = 0; i < markers.length; i++) {
+                ( function(i){
+                    var marker = markers[i];
+                    var infowindow = null;
+
+                     /* now inside your initialise function */
+                     infowindow = new google.maps.InfoWindow({
+                     content: '<p style=".'font-size:20px;'."><a href=ViewJob.php?epr=view&jobid=' + jobIds[i] + '>' + infowindowsNames[i] + '</a></p>' +
+                              '<p style=".'font-size:14px;'.">Description:</p>' +
+                              '<p style=".'font-size:14px;'.">' + jobDescriptions[i] + '</p>'
+                     });
+                     
+                google.maps.event.addListener(marker, 'click', function() {
+                  infowindow.open(map,this);
+                });
+                })(i);
+              }
+            }
+
+          } else {  
+          this.index = this.index - 1;
+        }
+      });
+    }
+
+  }
+    </script>
+    <script async defer
+        src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDn-XDOkmKcNjVjNbgRIP41yIjE-ZS7-Sk&callback=initMap'>
+    </script>
+    
+    <script src='https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js'>
+    </script>";
                 
         return $result;
     }
@@ -383,7 +710,7 @@ class JobController {
 				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
 				  <h4 class='modal-title'>List Of Categories</h4>
 				</div>
-				<div class='modal-body'>
+				<div class='modal-body scrollitY'>
                                 <div class='row'>
                                     <ul class='nav col-md-12' style='text-align:center;'>";
                                         try
@@ -577,7 +904,7 @@ class JobController {
                                                                                             Job Offers </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='Favorite.php'>
+                                                                                            <a href='FavoriteJobs.php'>
                                                                                             <i class='glyphicon glyphicon-heart'></i>
                                                                                             Favorite </a>
                                                                                     </li>
@@ -714,7 +1041,7 @@ class JobController {
                                                                                             Job Offers </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='Favorite.php'>
+                                                                                            <a href='FavoriteJobs.php'>
                                                                                             <i class='glyphicon glyphicon-save'></i>
                                                                                             Favorite </a>
                                                                                     </li>
@@ -838,6 +1165,112 @@ class JobController {
         $qualificationModel = new QualificationModel();
         
         $search = $jobModel->GetJobsByQualification($id);
+        $typeModel = new TypeModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th>Name</th>"
+                                                        . "     <th>Description</th>"
+                                                        . "     <th>Category</th>"
+                                                        . "     <th>Qualificaion</th>"
+                                                        . "     <th>Address</th>"
+                                                        . "     <th>Number Of Days</th>"
+                                                        . "     <th>Number Of People Required</th>"
+                                                        . "     <th>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                // Check if more than 10 days
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    // Get Jobs By Location
+    function GetJobsByLocation($id)
+    {
+        $jobModel = new JobModel();
+        $jobModel->GetJobsByLocation($id);
+    }
+    
+    // Get Number Of Jobs Per Category
+    function GetNumberOfJobsPerCategory($id)
+    {
+        $jobModel = new JobModel();
+        $jobModel->GetNumberOfJobsPerCategory($id); 
+    }
+    
+   function SearchByLocationResult($id)
+    {
+        $jobModel = new JobModel();
+        $qualificationModel = new QualificationModel();
+        
+        $search = $jobModel->GetJobsByLocation($id);
         $typeModel = new TypeModel();
         
         $result = "<div class='panel-group col-md-12'>
@@ -1252,7 +1685,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1324,6 +1757,9 @@ class JobController {
         $typeModel = new TypeModel();
         $allType = $typeModel->GetTypes();
         
+        $countyModel = new CountyModel();
+        $allCounties = $countyModel->GetAllCounties();
+        
         $qualificationModel = new QualificationModel();
         $allQualification = $qualificationModel->GetQualifications();
         
@@ -1369,6 +1805,17 @@ class JobController {
               <div class='clearfix'>
               <label for='address' class='col-md-2'> Address: </label>
                 <input type='text' class='col-md-8' name = 'address' value='$address' placeholder='Address' required>
+              </div>
+              <div class='clearfix'>
+                <div class='form-group'>
+                  <label for='county' class='col-md-2'>County:</label>
+                  <select class='form-control col-md-8' id='county' name = 'county' style='width:200px;'>";
+                    foreach($allCounties as $row)
+                    { 
+                      $re .= '<option value='.$row->id.'>'.$row->county.'</option>';
+                    }
+                 $re .=" </select>
+                </div>
               </div>
               <div class='clearfix'>
                 <label for='numberOfDays' class='col-md-2'> Number Of Days: </label>
@@ -1422,6 +1869,9 @@ class JobController {
         $qualificationModel = new QualificationModel();
         $allQualification = $qualificationModel->GetQualifications();
         
+        $countyModel = new CountyModel();
+        $allCounties = $countyModel->GetAllCounties();
+        
         $jobController = $this->GetJobsByID($id);
         
         $name = $jobController->name;
@@ -1429,6 +1879,7 @@ class JobController {
         $typeId = $jobController->type;
         $qualificationId = $jobController->qualification;
         $address = $jobController->address;
+        $county = $jobController->county;
         $numberOfDays = $jobController->numberOfDays;
         $numberOfPeopleRequired = $jobController->numberOfPeopleRequired;
         $price = $jobController->price;
@@ -1491,6 +1942,23 @@ class JobController {
               <label for='address' class='col-md-2'> Address: </label>
                 <input type='text' class='col-md-8' name = 'address' value='$address' placeholder='Address' required>
               </div>
+              <div class='clearfix'>
+                <div class='form-group'>
+                  <label for='county' class='col-md-2'>County:</label>
+                  <select class='form-control col-md-8' value='$county' id='county' name = 'county' style='width:200px;'>";
+                    foreach($allCounties as $row)
+                    { 
+                        if($jobController->county == $row->id)
+                        {
+                            $re .= '<option selected value='.$row->id.'>'.$row->county.'</option>';
+                        }else
+                        {
+                            $re .= '<option value='.$row->id.'>'.$row->county.'</option>';
+                        }   
+                    }
+                 $re.= " </select>
+                </div>
+                </div>
               <div class='clearfix'>
                 <label for='numberOfDays' class='col-md-2'> Number Of Days: </label>
                 <select class='form-control'id='numberOfDays' value='$numberOfDays' name = 'numberOfDays' style='width:200px;'>";
@@ -1856,6 +2324,8 @@ class JobController {
     // View the Job Details
     function ViewJobDetails($id)
     {
+        $favoriteJobsModel = new FavoriteJobsModel();
+        
         $jobController = $this->GetJobsByID($id);
         
         $qualificationModel = new QualificationModel();
@@ -1874,8 +2344,9 @@ class JobController {
         
         $offer_placed = $placedOffersModel->GetAllPlacedOffersByJobIdAndUserId($_SESSION['jobId'], $_SESSION['id']);
         
-        $result = '
-            <div class="row col-md-12 text-center" style="padding-bottom:20px;">';
+        $countyModel = new CountyModel();
+        $county =$countyModel->GetCountyById($jobController->county)->county;
+        $result = '<div class="row col-md-12 text-center" style="padding-bottom:20px;">';
                         if ($offer_placed == 0 && ($jobController->id != $_SESSION['id']))
                         {
                            $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
@@ -1900,10 +2371,137 @@ class JobController {
                                                     . "<div class='row'>
                                                         <p class='col-md-12' id='description' style='font-size:13px;'><font face='arial'>$jobController->description</font></p>
                                                        </div>"
+                                                    . "<div class='row'>"
+                                                        . "<div id='map' class='col-md-10' style='height: 220px;'></div>"
+                                                    . "</div>"
+                                                    . "<div class='row'>
+                                                        </p>
+                                                        <p id='ad' style='text-align:center; font-weight:bold;'>$jobController->address</p>
+                                                        <div id='right-panel' class='scrollitY'>
+                                                          <p>Total Distance: <span id='total'></span></p>
+                                                        </div>
+                                                       </div>"
 						."</div>"
 					."</div>"
                             ."</div>"
                     ."</div>"
+    . "<script>
+    var geocoder;
+    var map;
+    var address;
+    var des;
+    var pos;
+  function initMap() {
+      
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var mapOptions = {
+      zoom: 7,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    codeAddress();
+}
+      
+  function codeAddress() {
+     var address = document.getElementById('ad').innerHTML;
+
+     console.log(address);
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        des = results[0].geometry.location;
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+
+        });
+        var jdata = 'Job Location';
+        var jinfowindow = new google.maps.InfoWindow({
+          content: jdata
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+          jinfowindow.open(map,marker);
+        });
+    
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            var marker1 = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                position: pos,
+                title:'Your Location!'
+            });
+            var data = 'Estimation Of Your Location. Drag And Drop [A] To get route to job location.';
+            var infowindow = new google.maps.InfoWindow({
+              content: data
+            });
+            google.maps.event.addListener(marker1, 'click', function() {
+              infowindow.open(map,marker1);
+            });
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer({
+              draggable: true,
+              map: map,
+              panel: document.getElementById('right-panel')
+            });
+
+            directionsDisplay.addListener('directions_changed', function() {
+              computeTotalDistance(directionsDisplay.getDirections());
+            });
+
+            displayRoute(pos, des, directionsService,
+                directionsDisplay);
+            
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+            
+      } else {
+        alert('Address could not be displayed: ');
+}
+
+      function displayRoute(origin, destination, service, display) {
+        service.route({
+          origin: origin,
+          destination: destination,
+          travelMode: 'DRIVING',
+          avoidTolls: false
+        }, function(response, status) {
+          if (status === 'OK') {
+            display.setDirections(response);
+          } else {
+            alert('Could not display directions due to: ' + status);
+          }
+        });
+}
+
+      function computeTotalDistance(result) {
+        var total = 0;
+        var myroute = result.routes[0];
+        for (var i = 0; i < myroute.legs.length; i++) {
+          total += myroute.legs[i].distance.value;
+        }
+        total = total / 1000;
+        document.getElementById('total').innerHTML = total + ' km';
+}
+    });
+  }
+    </script>
+    <script async defer
+        src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDn-XDOkmKcNjVjNbgRIP41yIjE-ZS7-Sk&callback=initMap'>
+    </script>"
                 
                 
                   ."<div class='panel-group col-md-6'>
@@ -1912,7 +2510,21 @@ class JobController {
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobProperties' class='glyphicon glyphicon-hand-up'><strong>Job Properties:</strong></a>
 					</div>
 					<div id='collapseJobProperties' class='panel-collapse collapse in'>
-						<div class='panel-body'>"
+						<div class='panel-body'>
+                                                <div class='row'>";
+                                                if (($favoriteJobsModel->GetFavoriteJobsByJobIdANDUserId($jobController->jobid,$_SESSION['id']) == 0) &&($jobController->id != $_SESSION['id']))
+                                                {
+                                                    $result.="<a href='FavoriteJobs.php?epr=add&jobId=$jobController->jobid&typeId=$jobController->type' id='addFavorite' class='btn btn-primary col-md-4 col-md-offset-4'>
+                                                        <i class='glyphicon glyphicon-heart'></i>
+                                                    Favorite </a>";
+                                                }else if($jobController->id != $_SESSION['id'])
+                                                {
+                                                    $result.="<a href='FavoriteJobs.php?epr=remove&jobId=$jobController->jobid&typeId=$jobController->type' id='addFavorite' class='btn btn-danger col-md-4 col-md-offset-4'>
+                                                        <i class='glyphicon glyphicon-remove-sign'></i>
+                                                    Favorite </a>";
+                                                }
+                                                    
+                                                $result.="</div>"
                                                     . "<div class='row'>
                                                             <div class='table-responsive'>
                                                                 <table class='sortable table' id='myJobTable'>
@@ -1927,6 +2539,9 @@ class JobController {
                                                                     </tr>
                                                                     <tr>
                                                                         <td><strong>Address:</strong> $jobController->address</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong>County:</strong> $county</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td><strong>Number Of Days:</strong> $jobController->numberOfDays</td>
@@ -2319,7 +2934,7 @@ class JobController {
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $noOffers = $placedOffersModel->CountNoPlacedOffersByJobId($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -2392,6 +3007,7 @@ class JobController {
         $type = $_POST["typeId"];
         $qualification = $_POST["qualificationId"];
         $address = $_POST["address"];
+        $county = $_POST["county"];
         $numberOfDays = $_POST["numberOfDays"];
         $numberOfPeopleRequired = $_POST["numberOfPeopleRequired"];
         $price = $_POST["price"];
@@ -2401,7 +3017,7 @@ class JobController {
         $date = new DateTime();
         $dateTime = $date->format('d-m-Y H:i:s');
         
-        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime);
+        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime);
         $jobModel = new JobModel();
         $jobModel->InsertANewJob($job);
     }
@@ -2470,10 +3086,10 @@ class JobController {
     }
     
     //Update a user
-    function updateJob($name,$description1,$type,$qualification,$address,$numberOfDays,$numberOfPeopleRequired,$price,$jobid)
+    function updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid)
     {
         $jobModel = new JobModel();
-        return $jobModel->updateJob($name,$description1,$type,$qualification,$address,$numberOfDays,$numberOfPeopleRequired,$price,$jobid);
+        return $jobModel->updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid);
     }
     
     //Delete a job

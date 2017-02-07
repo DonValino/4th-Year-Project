@@ -40,7 +40,7 @@ else if($epr == 'delete')
 //Code to Insert a new job
 //First Check to ensure all fields are not empty
 if (isset($_POST['EditJobSubmit']) && !empty($_POST['name']) && !empty($_POST['description'])
-        && !empty($_POST['typeId']) && !empty($_POST['qualificationId']) && !empty($_POST['address'])
+        && !empty($_POST['typeId']) && !empty($_POST['qualificationId']) && !empty($_POST['address']) && !empty($_POST['county'])
         && !empty($_POST['numberOfDays']) && !empty($_POST['numberOfPeopleRequired']) && !empty($_POST['price'])) 
 {
     if(!is_numeric($_POST['price']))
@@ -50,7 +50,7 @@ if (isset($_POST['EditJobSubmit']) && !empty($_POST['name']) && !empty($_POST['d
     }else
     {
         // Edit Job to the Database
-        $jobController->updateJob($_POST['name'], $_POST['description'], $_POST['typeId'], $_POST['qualificationId'], $_POST['address'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id);
+        $jobController->updateJob($_POST['name'], $_POST['description'], $_POST['typeId'], $_POST['qualificationId'], $_POST['address'],$_POST['county'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id);
         header('Location: Home.php');
     }
 }

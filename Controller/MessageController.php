@@ -152,7 +152,7 @@ class MessageController {
 					<div id='collapseMessages' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
                                                  ."<div class=''>
-                                                    <form action='' method = 'POST'>
+                                                    <form action='' id='formm' method = 'POST'>
                                                     <div class='clearfix'>
                                                       <label for='tousername' class='col-md-2'> To: </label>
                                                       <input type='text' onkeyup='getResult(this.value)' type='search' name = 'tousername' id='tousername' class='col-md-8' placeholder='Username' required autofocus>
@@ -184,7 +184,14 @@ class MessageController {
 					."</div>"
 				."</div>"
 			."</div>"
-                . "</div>";
+                . "</div>"
+                . "<script>
+                    $('#messages').keypress(function (e) {
+                    if(e.which == 13 && !e.shiftKey) {        
+                       $('formm').submit();
+                    }
+                });
+                </script>";
        
        return $result;
     }

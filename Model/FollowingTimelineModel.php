@@ -45,7 +45,7 @@ class FollowingTimelineModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM followingtimeline") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM followingtimeline ORDER BY dateposted DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $timelineArray = array();

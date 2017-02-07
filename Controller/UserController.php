@@ -83,7 +83,11 @@ class UserController {
                                         }else if($userNotification == null && $myMessages == null)
                                         {
                                                 $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                                    <div class='row' style='margin-top:10px;'>
+                                                    <a href='Notification.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
+                                                    </div>
+                                                "; 
                                         }
                                     }catch(Exception $x)
                                     {
@@ -761,8 +765,9 @@ class UserController {
                                                             {
                                                                 foreach($allOfUsersPlacedOffers as $row)
                                                                 {
+                                                                   $job = $jobModel->GetJobsByID($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
                                                                             . "<td align='center'>$row->offerPrice</td>"
                                                                             . "<td align='center'>$row->placementDate</td>"
                                                                             . "</tr>";
@@ -782,7 +787,7 @@ class UserController {
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offer</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>My Job Offers</strong></a>
 					</div>
 					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -799,8 +804,9 @@ class UserController {
                                                             {
                                                                 foreach($offersToUsersJob as $row)
                                                                 {
+                                                                    $job = $jobModel->GetJobsByID($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
                                                                             . "<td align='center'>".$userModel->GetUserById($row->userID)->username."</td>"
                                                                             . "<td align='center'>$row->offerPrice</td>"
                                                                             . "<td align='center'>$row->placementDate</td>"

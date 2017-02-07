@@ -83,6 +83,14 @@ if($epr=='qua')
     header('Location: SearchResult.php?epr=qua');
 }
 
+if($epr=='location')
+{
+    $id =$_GET['id'];
+    $_SESSION['search'] = $id;
+    //Go to Search Result Page
+    header('Location: SearchResult.php?epr=location');
+}
+
     if(isset($_POST['searchByPrice']))
     {
         $min =$_POST['min'];

@@ -68,12 +68,23 @@ if($epr == 'price')
     
     //Go to Search Result Page
     header('Location: ViewJob.php');
+}else if($epr == 'viewremove')
+{
+    $id =$_GET['id'];
+    $_SESSION['jobId'] = $id;
+    $typeId = $_GET['typeId'];
+    
+    //Go to Search Result Page
+    header('Location: ViewJob.php');
 }else if($epr == 'cat')
 {
     $content = $jobController->SearchByCategoryResult($_SESSION['search']);
 }else if ($epr == 'qua')
 {
     $content = $jobController->SearchByQualificationResult($_SESSION['search']);
+}else if ($epr == 'location')
+{
+    $content = $jobController->SearchByLocationResult($_SESSION['search']);
 }else if ($epr == 'previouskeyword')
 {
     $keyword =$_GET['keyword'];

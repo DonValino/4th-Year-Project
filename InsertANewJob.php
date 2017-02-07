@@ -23,7 +23,7 @@ if(isset($_SESSION['username']))
 //Code to Insert a new job
 //First Check to ensure all fields are not empty
 if (isset($_POST['insertANewJob']) && !empty($_POST['name']) && !empty($_POST['description'])
-        && !empty($_POST['typeId']) && !empty($_POST['qualificationId']) && !empty($_POST['address'])
+        && !empty($_POST['typeId']) && !empty($_POST['qualificationId']) && !empty($_POST['address']) && !empty($_POST['county'])
         && !empty($_POST['numberOfDays']) && !empty($_POST['numberOfPeopleRequired']) && !empty($_POST['price'])) 
 {
     if(!is_numeric($_POST['price']))
