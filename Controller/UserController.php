@@ -44,6 +44,10 @@ class UserController {
         require 'Model/MessagesModel.php';
         $messagesModel = new MessagesModel();
         $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        require 'Model/RequestModel.php';
+        $requestModel = new RequestModel();
+        $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -63,28 +67,77 @@ class UserController {
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class='nav-button-sidebar'>";
-                                    try
+                                   try
                                    {
-                                        if($userNotification != null && $myMessages != null)
+                                        if($userNotification != null && $myMessages != null && $myRequest != null)
                                         {
 
-                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
                                                     <div class='row'>
                                                 <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
                                                 . "</div>";
-                                        }else if($userNotification == null && $myMessages != null)
+                                        }else if($userNotification != null && $myMessages != null && $myRequest == null)
                                         {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
-                                        }else if($userNotification != null && $myMessages == null)
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest != null)
                                         {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
-                                        }else if($userNotification == null && $myMessages == null)
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest == null)
                                         {
                                                 $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
                                                     <div class='row' style='margin-top:10px;'>
-                                                    <a href='Notification.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
                                                     <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
                                                     </div>
                                                 "; 
@@ -154,6 +207,10 @@ class UserController {
 	$messagesModel = new MessagesModel();
 	$myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
         
+        require 'Model/RequestModel.php';
+        $requestModel = new RequestModel();
+        $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -173,26 +230,85 @@ class UserController {
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class='nav-button-sidebar'>";
-                                        if($userNotification != null && $myMessages != null)
+                                   try
+                                   {
+                                        if($userNotification != null && $myMessages != null && $myRequest != null)
                                         {
 
-                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
                                                     <div class='row'>
                                                 <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
                                                 . "</div>";
-                                        }else if($userNotification == null && $myMessages != null)
+                                        }else if($userNotification != null && $myMessages != null && $myRequest == null)
                                         {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
-                                        }else if($userNotification != null && $myMessages == null)
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest == null)
                                         {
                                                 $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
-                                        }else if($userNotification == null && $myMessages == null)
-                                        {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                                    <div class='row' style='margin-top:10px;'>
+                                                    <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
+                                                    </div>
+                                                "; 
                                         }
+                                    }catch(Exception $x)
+                                    {
+                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                    }
 				$result.="</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -949,6 +1065,8 @@ class UserController {
         $review = $userReviewModel->GetUserReviewById($id);
         $count = $userReviewModel->GetNumberOfUserReviewById($id);
         
+        $requestModel = new RequestModel();
+        $cvCoverLetterRequest = $requestModel->GetCVCoverLetterRequestsByUserIdANDTargetUserId($_SESSION['id'], $id);
         $result="<div class='row'>"
                     . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
@@ -1082,15 +1200,18 @@ class UserController {
 			."</div>"
 			."</div>"
                 
-                    ."<div class='row'>"
-                
-                           . "<div class='panel-group col-md-6'>
+                    ."<div class='row'>";
+                           $result.= "<div class='panel-group col-md-6'>
                                 <div class='panel panel-default'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapsresume' class='glyphicon glyphicon-hand-up'><strong>Resume</strong></a>
                                             </div>
                                             <div id='collapsresume' class='panel-collapse collapse in'>
                                                     <div class='panel-body'>";
+                                            try
+                                            {
+                                                if($cvCoverLetterRequest != NULL && $cvCoverLetterRequest->typeId == 1 && $cvCoverLetterRequest->status == 2)
+                                                {
                                                     if($user->cv != NULL)
                                                     {
                                                         $result.="<div class='row'>
@@ -1106,7 +1227,36 @@ class UserController {
                                                         </div>
                                                         <a href='download.php?epr=cv&path=".$user->coverletter."'><img src='Images/wordicon.png' alt='Cover Letter' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
                                                     }
-                                                    
+                                                }else if($cvCoverLetterRequest != NULL && $cvCoverLetterRequest->typeId == 1 && $cvCoverLetterRequest->status == 1)
+                                                {
+                                                    $result.="<div class='row'>
+                                                                <p style='color:Green; font-size:18px; text-align:center;'> Request Sent :) </p>
+                                                              </div>
+                                                                <div class='row'>
+                                                                    <a href='ViewUserProfile.php?epr=cancelRequest&id=$id' id='addFavorite' class='btn btn-danger col-md-4 col-md-offset-4'>
+                                                                    <i class='glyphicon glyphicon-remove-sign'></i>
+                                                                Cancel Request </a>
+                                                                </div>";
+                                                }else if($cvCoverLetterRequest != NULL && $cvCoverLetterRequest->typeId == 1 && $cvCoverLetterRequest->status == 0)
+                                                {
+                                                    $result.= "<div class='row'>"
+                                                            . "<p style='color:red; text-align:center;'>* Permission to view resume has been denied </p>"
+                                                            . "</div>";
+                                                }else
+                                                {
+                                                    $result.="<div class='row'>
+                                                                <p style='color:Green; font-size:18px; text-align:center;'> Request Permission to view user resume. </p>
+                                                              </div>
+                                                              <div class='row'>
+                                                                    <a href='ViewUserProfile.php?epr=request&id=$id' class='btn btn-primary col-md-5 col-md-offset-3'>
+                                                                    <i class='glyphicon glyphicon-flag'></i>
+                                                                Request Permission </a>
+                                                              </div>";
+                                                }
+                                            }catch(Exception $x)
+                                            {
+                                                echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                            }
                                                     $result.="</div>"
                                             ."</div>"
                                     ."</div>"

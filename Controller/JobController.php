@@ -180,7 +180,7 @@ class JobController {
                                                     <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
 							<input type='text' id='topPayingJobsInput' class='col-md-4' onkeyup='topPayingJobsFunction()' placeholder='Filter' title='Type in a job name' style='display: block; margin: auto;'>
                                                     </div>
-                                                    <div class='table-responsive scrollit' id='topPayingJobsTable'>"
+                                                    <div class='table-responsive scrollitY' id='topPayingJobsTable'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
                                                         . "     <th>Job</th>"
@@ -2087,6 +2087,9 @@ class JobController {
         require 'Model/MessagesModel.php';
 	$messagesModel = new MessagesModel();
 	$myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        require 'Model/RequestModel.php';
+        $requestModel = new RequestModel();
+        $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
         
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
@@ -2107,26 +2110,85 @@ class JobController {
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class='nav-button-sidebar'>";
-                                        if($userNotification != null && $myMessages != null)
+                                   try
+                                   {
+                                        if($userNotification != null && $myMessages != null && $myRequest != null)
                                         {
 
-                                                $result.="<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
                                                     <div class='row'>
                                                 <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
                                                 . "</div>";
-                                        }else if($userNotification == null && $myMessages != null)
+                                        }else if($userNotification != null && $myMessages != null && $myRequest == null)
                                         {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>";
-                                        }else if($userNotification != null && $myMessages == null)
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest == null)
                                         {
                                                 $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>";
-                                        }else if($userNotification == null && $myMessages == null)
-                                        {
-                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
-                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"; 
+                                                    <div class='row' style='margin-top:10px;'>
+                                                    <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
+                                                    </div>
+                                                "; 
                                         }
+                                    }catch(Exception $x)
+                                    {
+                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                    }
 				$result.="</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -2553,7 +2615,7 @@ class JobController {
                                                                         <td><strong>Date Posted:</strong> $jobController->date </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td><strong>Price / Minimum Bid:</strong> $jobController->price </td>
+                                                                        <td><strong>Price (Per Day) / Maximum Bid:</strong> $jobController->price </td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -2568,7 +2630,7 @@ class JobController {
                   ."<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBiddingTable' class='glyphicon glyphicon-hand-up'><strong>Bidding Table:</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBiddingTable' class='glyphicon glyphicon-hand-up'><strong>Full Time Bidding Table:</strong></a>
 					</div>
 					<div id='collapseBiddingTable' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -2576,11 +2638,11 @@ class JobController {
                                                         <div class='table-responsive scrollit'>"
                                                             . "<table class='table sortable'>"
                                                             . "<tr>"
-                                                            . "     <th>Name</th>"
-                                                            . "     <th>Comment</th>"
-                                                            . "     <th>Date</th>"
-                                                            . "     <th>Price</th>"
-                                                            . "     <th>Action: </th>"
+                                                            . "     <th style='text-align:center'>Name</th>"
+                                                            . "     <th style='text-align:center'>Comment</th>"
+                                                            . "     <th style='text-align:center'>Date</th>"
+                                                            . "     <th style='text-align:center'>Price</th>"
+                                                            . "     <th style='text-align:center'>Action: </th>"
                                                             . "</tr>";
                                                            try
                                                             {
@@ -2595,7 +2657,7 @@ class JobController {
                                                                                 . "<td align='center'>$row->comment</td>"
                                                                                 . "<td align='center'>$row->placementDate</td>"
                                                                                 . "<td align='center'>$row->offerPrice</td>"
-                                                                                . "<td>"
+                                                                                . "<td align='center'>"
                                                                                 . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
                                                                                 . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
                                                                                 . "</td>"
@@ -2617,7 +2679,7 @@ class JobController {
                     ."<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseHighestBid' class='glyphicon glyphicon-hand-up'><strong>Lowest Bid:</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseHighestBid' class='glyphicon glyphicon-hand-up'><strong>Part Time Bidding Table:</strong></a>
 					</div>
 					<div id='collapseHighestBid' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -2625,11 +2687,12 @@ class JobController {
                                                         <div class='table-responsive scrollit'>"
                                                         . "<table class='table sortable'>"
                                                             . "<tr>"
-                                                            . "     <th>Name</th>"
-                                                            . "     <th>Comment</th>"
-                                                            . "     <th>Date</th>"
-                                                            . "     <th>Price</th>"
-                                                            . "     <th>Action: </th>"
+                                                            . "     <th style='text-align:center'>Name</th>"
+                                                            . "     <th style='text-align:center'>Comment</th>"
+                                                            . "     <th style='text-align:center'>Date</th>"
+                                                            . "     <th style='text-align:center'>Price</th>"
+                                                            . "     <th style='text-align:center'>No. Days</th>"    
+                                                            . "     <th style='text-align:center'>Action: </th>"
                                                             . "</tr>";
                                                            try
                                                             {
@@ -2644,7 +2707,8 @@ class JobController {
                                                                                 . "<td align='center'>$row->comment</td>"
                                                                                 . "<td align='center'>$row->placementDate</td>"
                                                                                 . "<td align='center'>$row->offerPrice</td>"
-                                                                                . "<td>"
+                                                                                . "<td align='center'>5</td>"
+                                                                                . "<td align='center'>"
                                                                                 . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
                                                                                 . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
                                                                                 . "</td>"

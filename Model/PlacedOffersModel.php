@@ -244,14 +244,14 @@ class PlacedOffersModel {
             echo "Error updating record: " . mysqli_error($connection);
         }
         
-        $sql = "UPDATE placedoffers SET offerPrice='$offerPrice' WHERE jobid=$jobid AND userID=$userId";
+        $sql = "UPDATE placedoffers SET offerPrice=$offerPrice WHERE jobid=$jobid AND userID=$userId";
 
         if (mysqli_query($connection, $sql)) {
             echo "Record updated successfully";
         } else {
             echo "Error updating record: " . mysqli_error($connection);
         }
-        
+
         $sql = "UPDATE placedoffers SET placementDate='$newDate' WHERE jobid=$jobid AND userID=$userId";
 
         if (mysqli_query($connection, $sql)) {

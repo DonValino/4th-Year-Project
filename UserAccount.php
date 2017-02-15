@@ -15,7 +15,8 @@ $title = "My Account";
 $loginStatus= "Login";
 $log = "";
 $errorMessage = "";
-
+$epr= '';
+        
 if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
@@ -25,6 +26,16 @@ if(isset($_SESSION['username']))
 $loginStatus="Home";
 $log = "index.php";
 
+if(isset($_GET['epr']))
+{
+    $epr=$_GET['epr'];
+}
+
+if($epr == 'requestseen')
+{
+    // Update user seen the request
+    header('Location: RequestSeen.php?epr=updateSeen');
+}
 $sidebar = $userController->CreateUserProfileSidebar();
 $content = $userController->CreateOverviewContent($_SESSION['id']);
  

@@ -20,7 +20,7 @@ if($epr == 'placed')
 {
     $date = new DateTime();
     $dateTime = $date->format('Y-m-d H:i:s');
-    $placedOffersController->updateAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername']);
+    $placedOffersController->updateAnOffer($_SESSION['jobId'], $_GET['userId'], $dateTime, $_GET['offerprice'], $_GET['comment'] ,$_SESSION['username'],$_GET['tousername']);
     header('Location: ViewJob.php?epr=offerUpdated');
 }
 ?>
