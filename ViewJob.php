@@ -85,13 +85,58 @@ if($epr == 'offerUpdated')
     
 //Code to place an offer
 //First Check to ensure all fields are not empty
-if (isset($_POST['placeOffer']) && !empty($_POST['offerPrice']) && !empty($_POST['comment'])) 
+if (isset($_POST['placeOfferFB']) && !empty($_POST['offerPrice']) && !empty($_POST['comment'])) 
 {
-    $userId = $_SESSION['id'];
-    
-    $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-    header('Location: placeOffer.php?epr=placed&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername);
+    if(!is_numeric($_POST['offerPrice']))
+    {
+        $errorMessage="Error: Price Must Be Numberic!!";
+    }else
+    {
+        $userId = $_SESSION['id'];
+
+        $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
+        header('Location: placeOffer.php?epr=placedFB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername);
+    }
+
 }
+
+if (isset($_POST['placeOfferPB']) && !empty($_POST['offerPrice']) && !empty($_POST['comment']) && !empty($_POST['numberOfDays']) && !empty($_POST['prefferedCommenceDate'])) 
+{
+    if(!is_numeric($_POST['offerPrice']))
+    {
+        $errorMessage="Error: Price Must Be Numberic!!";
+    }else
+    {
+        $userId = $_SESSION['id'];
+
+        $prefferedCommenceDate = $_POST['prefferedCommenceDate'];
+
+        // Last Dat of User
+        $time = strtotime($prefferedCommenceDate);
+        $dateFinished = new DateTime(date('Y-m-d',$time));
+        $dateFinished->modify('+'.$_POST['numberOfDays'].' day');
+
+        // Start Of Job
+        $dateOfJob = "2017-02-1";
+        // End Of Job
+        $dateEnd ="2017-02-3";
+
+
+        if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd) && strtotime($prefferedCommenceDate) >= strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd)))
+        {
+            $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
+            header('Location: placeOffer.php?epr=placedPB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&numberOfDays='.$_POST['numberOfDays'].'&prefferedCommenceDate='.$prefferedCommenceDate);
+        }else if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd) && strtotime($prefferedCommenceDate) < strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd)))
+        {
+            $errorMessage= 'Error: Preferred Commence Date is before the start date of the job';
+        }else
+        {
+            $errorMessage= 'Error: You must allow enough days between your preferred commence date and the number of days you want to work';
+        }
+
+    }
+}
+    
 
 //Code to update an offer
 //First Check to ensure all fields are not empty

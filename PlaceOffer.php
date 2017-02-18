@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 require ("Controller/PlacedOffersController.php");
+require ("Model/JobModel.php");
 session_start();
 $placedOffersController = new PlacedOffersController();
 
@@ -16,11 +17,26 @@ if(isset($_GET['epr']))
     $epr=$_GET['epr'];
 }
 
-if($epr == 'placed')
+if($epr == 'placedFB')
 {
     $date = new DateTime();
     $dateTime = $date->format('Y-m-d H:i:s');
-    $placedOffersController->PlaceAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername']);
+    
+    $jobModel = new JobModel();
+    $numberOfDays = $jobModel->GetJobsByID($_SESSION['jobId'])->numberOfDays;
+    $placedOffersController->PlaceAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername'],0,$numberOfDays,"N/A");
+    header('Location: ViewJob.php?epr=offerPlaced');
+}
+
+if($epr == 'placedPB')
+{
+    $date = new DateTime();
+    $dateTime = $date->format('Y-m-d H:i:s');
+    
+    $numberOfDays=$_GET['numberOfDays'];
+    $prefferedCommenceDate = $_GET['prefferedCommenceDate'];
+    
+    $placedOffersController->PlaceAnOffer($_SESSION['jobId'], $_GET['userId'],  $_GET['comment'], $dateTime, $_GET['offerprice'],$_SESSION['username'],$_GET['tousername'],1,$numberOfDays,$prefferedCommenceDate);
     header('Location: ViewJob.php?epr=offerPlaced');
 }
 ?>
