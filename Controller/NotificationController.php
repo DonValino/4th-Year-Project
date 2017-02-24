@@ -99,11 +99,11 @@ class NotificationController {
                                                                             $result.='<tr>';
                                                                             if($userModel->CheckUser($row->fromusername) === 0)
                                                                             {
-                                                                               $result.='<td><strong>' .$row->fromusername;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
-                                                                                            <td  style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
-                                                                                            <td  style="color:blue;">'; $result.= '<a href="viewJob.php?epr=viewfromnotification&jobid='.$row->jobid.'&date='.$row->dateofnotification.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
-                                                                                            <td  style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
-                                                                                            <td  style="color:blue;"> No </td>
+                                                                               $result.='<td bgcolor="#ccd7ea"><strong>' .$row->fromusername;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                            <td bgcolor="#ccd7ea"  style="color:blue;">'; $result.= $notificationTypeModel->GetNotificationTypeById($row->typeId)->name;  $result.='</td>
+                                                                                            <td  bgcolor="#ccd7ea" style="color:blue;">'; $result.= '<a href="viewJob.php?epr=viewfromnotification&jobid='.$row->jobid.'&date='.$row->dateofnotification.'">'. $jobModel->GetJobsByID($row->jobid)->name; $result.='</a></td>
+                                                                                            <td bgcolor="#ccd7ea" style="color:blue;">'; $result.=$row->dateofnotification; $result.='</td>
+                                                                                            <td  bgcolor="#ccd7ea" style="color:blue;"> No </td>
                                                                                     </tr>';
                                                                             }else
                                                                             {

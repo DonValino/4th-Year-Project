@@ -25,6 +25,9 @@ if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
    $log = "home.php";
+}else
+{
+    header('Location: index.php');
 }
  
  include 'Template.php'

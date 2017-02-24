@@ -340,54 +340,58 @@ class FollowingController {
                                                                                     {
                                                                                         $user = $userModel->GetUserById($row->followinguserId);
                                                                                         $timeLineEvent = $notificationTypeModel->GetNotificationTypeById($row1->typeid)->name;
+
                                                                                         $job = $jobModel->GetJobsByID($row1->jobid);
-                                                                                        $qualification = $qualificationModel->GetQualificationByID($job->qualification);
-                                                                                        $type = $typeModel->GetTypeByID($job->type);
-                                                                                        if($row1->typeid == 6)
+                                                                                        if($job != NULL)
                                                                                         {
-                                                                                            
-                                                                                            $dateT = new DateTime($row1->dateposted);
-                                                                                            $dateposted = $dateT->format("H:i:s d/m/Y");
-                                                                                            $result.="<div class='timeline-item' id='gdsa'>
-                                                                                                <div class='year'><div class='col-md-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
-                                                                                                </div>
-                                                                                                <div class='info'>
-                                                                                                    <div class='row'>
-                                                                                                        <div class='tl col-md-3'>
-                                                                                                                <a href='ViewUserProfile.php?epr=view&id=".$job->id."'><img src='$user->photo' class='img-responsive' alt=''></a>
-                                                                                                                <div class='row col-md-3'>
-                                                                                                                    <p style='text-align:center;'><strong>$user->username</strong></p>
-                                                                                                                </div>
-                                                                                                        </div>
+                                                                                            $qualification = $qualificationModel->GetQualificationByID($job->qualification);
+                                                                                            $type = $typeModel->GetTypeByID($job->type);
+                                                                                            if($row1->typeid == 6)
+                                                                                            {
 
-                                                                                                        <div class='col-md-9'>
-                                                                                                            <p style='font-size: 14px;' style='text-align:center;'><strong>$timeLineEvent:</strong></p>
-                                                                                                            <div class='row col-md-offset-2'>
-                                                                                                                <p><a href='SearchResult.php?epr=view&id=".$job->jobid."&typeId=".$job->type."' style='font-size: 14px; text-align:center;margin-left:10px;'><strong>$job->name</strong></a></p>
-                                                                                                                    </br>
-                                                                                                                <table class='sortable table' id='myJobTable'>
-                                                                                                                    <tr>
-                                                                                                                        <td><strong>Qualification:</strong>&nbsp&nbsp$qualification->qualificationName</td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td><strong>Category:</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp$type->name</td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td><strong>Number Of Days:</strong>&nbsp&nbsp $job->numberOfDays </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td><strong>Number Of People Required:</strong>&nbsp&nbsp $job->numberOfPeopleRequired </td>
-                                                                                                                    </tr>
-                                                                                                                    <tr>
-                                                                                                                        <td><strong>Price / Minimum Bid:</strong>&nbsp&nbsp $job->price </td>
-                                                                                                                    </tr>
-                                                                                                                </table>
-                                                                                                            </div>
-                                                                                                        </div>
-
+                                                                                                $dateT = new DateTime($row1->dateposted);
+                                                                                                $dateposted = $dateT->format("H:i:s d/m/Y");
+                                                                                                $result.="<div class='timeline-item' id='gdsa'>
+                                                                                                    <div class='year'><div class='col-md-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                            </div>"; 
+                                                                                                    <div class='info'>
+                                                                                                        <div class='row'>
+                                                                                                            <div class='tl col-md-3'>
+                                                                                                                    <a href='ViewUserProfile.php?epr=view&id=".$job->id."'><img src='$user->photo' class='img-responsive' alt=''></a>
+                                                                                                                    <div class='row col-md-3'>
+                                                                                                                        <p style='text-align:center;'><strong>$user->username</strong></p>
+                                                                                                                    </div>
+                                                                                                            </div>
+
+                                                                                                            <div class='col-md-9'>
+                                                                                                                <p style='font-size: 14px;' style='text-align:center;'><strong>$timeLineEvent:</strong></p>
+                                                                                                                <div class='row col-md-offset-2'>
+                                                                                                                    <p><a href='SearchResult.php?epr=view&id=".$job->jobid."&typeId=".$job->type."' style='font-size: 14px; text-align:center;margin-left:10px;'><strong>$job->name</strong></a></p>
+                                                                                                                        </br>
+                                                                                                                    <table class='sortable table' id='myJobTable'>
+                                                                                                                        <tr>
+                                                                                                                            <td><strong>Qualification:</strong>&nbsp&nbsp$qualification->qualificationName</td>
+                                                                                                                        </tr>
+                                                                                                                        <tr>
+                                                                                                                            <td><strong>Category:</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp$type->name</td>
+                                                                                                                        </tr>
+                                                                                                                        <tr>
+                                                                                                                            <td><strong>Number Of Days:</strong>&nbsp&nbsp $job->numberOfDays </td>
+                                                                                                                        </tr>
+                                                                                                                        <tr>
+                                                                                                                            <td><strong>Number Of People Required:</strong>&nbsp&nbsp $job->numberOfPeopleRequired </td>
+                                                                                                                        </tr>
+                                                                                                                        <tr>
+                                                                                                                            <td><strong>Price / Minimum Bid:</strong>&nbsp&nbsp $job->price </td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>"; 
+                                                                                            }
                                                                                         }
                                                                                     }
                                                                                 }

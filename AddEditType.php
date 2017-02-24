@@ -6,25 +6,29 @@
  * and open the template in the editor.
  */
 
-
-
 session_start();
 require 'Controller/TypeController.php';
 $typeController = new TypeController();
+
+$loginStatus= "Login";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 
 $title = "Add / Edit Type";
 $content = $typeController->AddDisplaytypeForm();
 
-$loginStatus= "Login";
-$log = "";
 $errorMessage = "";
 $sidebar = $typeController->CreateJobOverviewSidebar();
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-}
 
 if(isset($_GET['epr']))
 {

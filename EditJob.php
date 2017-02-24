@@ -3,6 +3,19 @@ session_start();
  
 require 'Controller/JobController.php';
 $jobController = new JobController();
+
+$loginStatus= "";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 
 if(isset($_GET['epr']))
@@ -16,15 +29,10 @@ $errors = array();
 $title = "Edit Job";
 $content = "";
 
-$loginStatus= "";
-$log = "";
 $errorMessage = "";
 $sidebar = $jobController->CreateJobOverviewSidebar();
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-}
+
+
 $id = 0;
 if($epr == 'update')
 {
@@ -41,7 +49,7 @@ else if($epr == 'delete')
 //First Check to ensure all fields are not empty
 if (isset($_POST['EditJobSubmit']) && !empty($_POST['name']) && !empty($_POST['description'])
         && !empty($_POST['typeId']) && !empty($_POST['qualificationId']) && !empty($_POST['address']) && !empty($_POST['county'])
-        && !empty($_POST['numberOfDays']) && !empty($_POST['numberOfPeopleRequired']) && !empty($_POST['price'])) 
+        && !empty($_POST['numberOfDays']) && !empty($_POST['numberOfPeopleRequired']) && !empty($_POST['startDateUpdate']) && !empty($_POST['price'])) 
 {
     if(!is_numeric($_POST['price']))
     {
@@ -50,7 +58,7 @@ if (isset($_POST['EditJobSubmit']) && !empty($_POST['name']) && !empty($_POST['d
     }else
     {
         // Edit Job to the Database
-        $jobController->updateJob($_POST['name'], $_POST['description'], $_POST['typeId'], $_POST['qualificationId'], $_POST['address'],$_POST['county'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id);
+        $jobController->updateJob($_POST['name'], $_POST['description'], $_POST['typeId'], $_POST['qualificationId'], $_POST['address'],$_POST['county'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id,$_POST['startDateUpdate']);
         header('Location: Home.php');
     }
 }

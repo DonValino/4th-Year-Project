@@ -18,6 +18,11 @@
         <div class="container-fluid">
             
 <?php 
+session_start();
+if(!isset($_SESSION['username']))
+{
+    header('Location: index.php');
+}
                                       echo  "<div class='row'>
                                                <h2 class='col-md-12' style='text-align:center;'>Place An Offer</h2>
                                              </div>

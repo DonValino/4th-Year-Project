@@ -5,6 +5,11 @@ session_start();
 require 'Controller/NotificationController.php';
 $notificationController = new NotificationController();
 
+if(!isset($_SESSION['username']))
+{
+    header('Location: index.php');
+}
+
 $epr='';
 if(isset($_GET['epr']))
 {

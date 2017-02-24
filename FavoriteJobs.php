@@ -15,21 +15,24 @@ $favoriteJobsController = new FavoriteJobsController();
 
 $recommenderController = new RecommenderController();
 
-$epr='';
-$title = "Favorite Jobs";
-$content = $favoriteJobsController->FavoriteJobContent($_SESSION['id']);
-
-
 $loginStatus= "Login";
 $log = "";
-$errorMessage = "";
-$sidebar = $favoriteJobsController->FavoriteJobsSideBar();
 
 if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
    $log = "home.php";
+}else
+{
+    header('Location: index.php');
 }
+
+$epr='';
+$title = "Favorite Jobs";
+$content = $favoriteJobsController->FavoriteJobContent($_SESSION['id']);
+
+$errorMessage = "";
+$sidebar = $favoriteJobsController->FavoriteJobsSideBar();
 
 if(isset($_GET['epr']))
 {

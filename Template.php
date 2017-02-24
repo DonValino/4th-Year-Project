@@ -27,7 +27,7 @@ function startTime() {
     var m = today.getMinutes();
     var s = today.getSeconds();
     var day = today.getDate();
-    var month = today.getMonth();
+    var month = today.getMonth() + 1;
     var year = today.getFullYear();
     m = checkTime(m);
     s = checkTime(s);
@@ -47,17 +47,17 @@ function checkTime(i) {
         <div class="container-fluid">
             <div id="bannerAndSearchBar" class="row">
                 <a href="home.php"><img src="Images/jobsbanner.jpg" class="col-md-1 col-sm-1" style="width: 145px;"/></a>
-                <div id="time" class="col-sm-1 col-md-1 col-md-offset-4 col-sm-offset-4" style="width: 135px; height:37px; font-family: forte; font-size: 20px; border:2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>
-                <div id="date" class="col-md-2 col-sm-2" style="width: 155px; margin-left: 5px; height:37px; font-family: forte; font-size: 20px; border:2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>
+                <div id="time" class="col-sm-1 col-md-1 col-md-offset-4 col-sm-offset-4" style="width: 135px; height:37px; font-family: Arial; font-size: 20px; border:2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>
+                <div id="date" class="col-md-2 col-sm-2" style="width: 155px; margin-left: 5px; height:37px; font-family: Arial; font-size: 20px; border:2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>
                     <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-3"><?php echo $loginStatus; ?></a>
             </div>
             
             <div class="row">
-            <div id="sidebar" class="col-md-2">
+            <div id="sidebar" class="col-md-2 col-sm-12">
                <?php echo $sidebar; ?>
             </div>
 
-            <div id="content_area" class="col-md-9">
+            <div id="content_area" class="col-md-9 col-sm-12">
                 <div class="row">
                 <h4 class="col-md-12" style="color:red; text-align: center;"> <?php echo $errorMessage; ?> </h4>
                 </div>

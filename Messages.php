@@ -16,26 +16,30 @@ $registerController = new RegisterController();
 //Creating an instance of Message Controller
 $messageController = new MessageController();
 
+$loginStatus= "Login";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 $title = "Messages";
 $content = $messageController->MessageContent();
 $content .= $messageController->CategoryModal();
 $content .= $messageController->PriceModal();
 
-$loginStatus= "Login";
-$log = "";
 $errorMessage = "";
 $sidebar = $messageController->CreateMessengerSideBar();
 
 if(isset($_GET['epr']))
 {
     $epr=$_GET['epr'];
-}
-
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
 }
 
 if(isset($_SESSION['fromusername']) && $epr != "MessageSent")

@@ -11,19 +11,24 @@ session_start();
 require 'Controller/FollowingController.php';
 $followingController = new FollowingController();
 
-$epr='';
-$title = "Following";
-$content = $followingController->FollowingContent();
-
 $loginStatus= "Login";
 $log = "";
-$errorMessage = "";
-$sidebar = $followingController->FollowingSidebar();
+
 if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
    $log = "home.php";
+}else
+{
+    header('Location: index.php');
 }
+
+$epr='';
+$title = "Following";
+$content = $followingController->FollowingContent();
+
+$errorMessage = "";
+$sidebar = $followingController->FollowingSidebar();
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {

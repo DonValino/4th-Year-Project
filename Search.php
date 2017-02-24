@@ -23,6 +23,9 @@ if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
    $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
 }
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))

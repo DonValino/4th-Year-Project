@@ -27,6 +27,9 @@ if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
    $log = "index.php";
+}else
+{
+    header('Location: index.php');
 }
 
 if(isset($_GET['epr']))

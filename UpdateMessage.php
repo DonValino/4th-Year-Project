@@ -25,6 +25,9 @@
                                                             {
                                                                $loginStatus=$_SESSION['username'];
                                                                $log = $_SESSION['log'];
+                                                            }else
+                                                            {
+                                                                header('Location: index.php');
                                                             }
                                                        
                                                         //Creating an instance of Message Controller

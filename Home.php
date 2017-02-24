@@ -13,6 +13,18 @@ require 'Controller/RecommenderController.php';
 $jobController = new JobController();
 $recommenderController = new RecommenderController();
 
+$loginStatus= "Login";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 $title = "home";
 $content = $jobController->CreateSearchBar();
@@ -20,15 +32,9 @@ $content .= $jobController->CreateHomeContent($_SESSION['id']);
 $content .= $jobController->CategoryModal();
 $content .= $jobController->PriceModal();
 
-$loginStatus= "Login";
-$log = "";
+
 $errorMessage = "";
 $sidebar = $jobController->CreateHomeSideBar();
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-}
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {

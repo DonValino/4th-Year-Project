@@ -26,6 +26,9 @@ if(isset($_SESSION['username']))
    $content .= $userController->CreateResumeForm($_SESSION['id']);
    $content .= $userController->ProfilePictureModal();
    $emailOfUserLoggedIn = $userObject->email;
+}else
+{
+    header('Location: index.php');
 }
    $loginStatus="Home";
    $log = "home.php";

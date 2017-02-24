@@ -42,7 +42,7 @@ $sidebar = '<div id="aboutFreelanceMe">'
             $_SESSION['username'] = $userObject->username;
             $_SESSION['id'] = $userObject->id;
             $_SESSION['log'] = "UserAccount.php";
-            header('Location: Home.php');
+            header('Location: CheckExpiredJobs.php');
         }else
         {
             $_SESSION['valid'] = false;

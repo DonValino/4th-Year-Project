@@ -18,6 +18,26 @@
         <div class="container-fluid">
             
 <?php 
+require 'Controller/JobController.php';
+
+session_start();
+
+if(!isset($_SESSION['username']))
+{
+    header('Location: index.php');
+}
+
+$jobController = new JobController();
+$job = $jobController->GetJobsByID($_SESSION['jobId']);
+
+        $starttime = strtotime($job->startDate);
+        $startDate = new DateTime(date('Y-m-d',$starttime));
+        
+        $endtime = strtotime($job->startDate);
+        $dateFinished = new DateTime(date('Y-m-d',$endtime));
+        $dateFinished->modify('+'.$job->numberOfDays.' day');
+        
+
                                       echo  "<div class='row'>
                                                <h2 class='col-md-12' style='text-align:center;'>Place An Offer</h2>
                                              </div>
@@ -56,9 +76,12 @@
                                                       <option value=28>4 Weeks</option>
                                                   </select>
                                                 </div>
-                                                
                                                  <div class='clearfix'>
-                                                 <label for='prefferedCommenceDate' class='col-md-2'> Preffered Commence Date: </label>
+                                                    <p class='col-md-12' style='color:green;text-align:center;font-size:13px;'> Select a date between: </p> 
+                                                    <p class='col-md-12' style='color:blue;font-weight:bold;text-align:center;font-size:13px;'><font style='color:green;'>Job Start Date: </font>".$startDate->format("d-m-Y")."  &nbsp &nbsp  -  &nbsp &nbsp  <font style='color:green;'>Job End Date: </font>".$dateFinished->format("d-m-Y")."</p>  
+                                                 </div>
+                                                 <div class='clearfix'>
+                                                 <label for='prefferedCommenceDate' class='col-md-2'> Preffered Commence Date: </label> 
                                                    <input type='date' name = 'prefferedCommenceDate' class='col-md-8' placeholder='Preferred Commence Date' required autofocus>
                                                  </div>
                                                 

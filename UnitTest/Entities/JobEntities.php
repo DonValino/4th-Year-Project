@@ -14,9 +14,10 @@ class JobEntities
   public $isActive;
   public $id;
   public $date;
+  public $startDate;
   
   //Constructor
-  function __construct($jobid, $name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $date) {
+  function __construct($jobid, $name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $date, $startDate) {
       $this->jobid = $jobid;
       $this->name = $name;
       $this->description = $description;
@@ -30,9 +31,10 @@ class JobEntities
       $this->isActive = $isActive;
       $this->id = $id;
       $this->date = $date;
+      $this->startDate = $startDate;
   }
 
-      // Getters
+        // Getters
     function getJobid() {
         return $this->jobid;
     }
@@ -84,7 +86,10 @@ class JobEntities
     function getCounty() {
         return $this->county;
     }
-
+    
+    function getStartDate() {
+        return $this->startDate;
+    }
     
     // Setters
     function setJobid($jobid) {
@@ -139,6 +144,9 @@ class JobEntities
         $this->county = $county;
     }
     
+    function setStartDate($startDate) {
+        $this->startDate = $startDate;
+    }    
 }
 
 ?>

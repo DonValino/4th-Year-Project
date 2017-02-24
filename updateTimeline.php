@@ -26,7 +26,11 @@
                                                        require 'Model/FollowingTimelineModel.php';
                                                        require 'Model/UserModel.php';
                                                        session_start();
-
+                                                        if(!isset($_SESSION['username']))
+                                                        {
+                                                            header('Location: index.php');
+                                                        }
+                                                        
                                                             $epr='';
 if(isset($_GET['epr']))
 {

@@ -9,8 +9,12 @@ and open the template in the editor.
 session_start();
 
 require 'Controller/RequestController.php';
-
 $requestController = new RequestController();
+
+if(!isset($_SESSION['username']))
+{
+    header('Location: index.php');
+}
 
 $epr='';
 

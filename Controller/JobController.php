@@ -1,3 +1,14 @@
+<script>
+    function deleteOffer(userID) {
+    var ask = window.confirm("Are You Sure You Want To Delete Your Offer?");
+    if (ask) {
+        window.alert("Your Offer Was successfully deleted.");
+
+        document.location.href = "ViewJob.php?epr=delete&userId=" + userID ;
+
+    }
+}
+</script>
 <?php
 
 /*
@@ -186,7 +197,6 @@ class JobController {
                                                         . "     <th>Job</th>"
                                                         . "     <th>Description</th>"
                                                         . "     <th>Category</th>"
-                                                        . "     <th>Qualificaion</th>"
                                                         . "     <th>Price</th>"
                                                         . "</tr>";
                                                         try
@@ -201,7 +211,6 @@ class JobController {
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
                                                                             . "<td align='center'>$row->price</td>"
                                                                             . "</tr>";
                                                                 }
@@ -1108,7 +1117,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1178,7 +1187,7 @@ class JobController {
 							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
                                                     </div>
                                                     <div class='table-responsive'>"
-                                                        . "<table class='table sortable'>"
+                                                        . "<table class='table sortable' id='myJobTable'>"
                                                         . "<tr>"
                                                         . "     <th>Name</th>"
                                                         . "     <th>Description</th>"
@@ -1199,7 +1208,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1305,7 +1314,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1404,7 +1413,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1497,7 +1506,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1591,7 +1600,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1685,7 +1694,7 @@ class JobController {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
                                                                             . "<td align='center'>$qualification->qualificationName</td>"
@@ -1765,12 +1774,19 @@ class JobController {
         
         $re= " <div class='insertJob-form'>
           <div class='row'>
-            <h2 class='col-md-12' style='text-align:center;'>Upload A New Job</h2>
+            <h2 class='col-md-12' style='text-align:center;color:blue;'>Upload A New Job</h2>
           </div>
           <div class='row'>
-            <p class='col-md-4' style='margin-left:5px;'>Please ensure that each field is populated</p>
+            <p class='col-md-4' style='margin-left:5px;color:blue;'>Please ensure that each field is populated</p>
           </div>
           <form action='' method = 'POST'>
+            <div class='row'>
+            <p style='text-align:center; font-size:23px;color:green;'>Posting Type</p>
+            </div>
+            <div class='row'>
+                <input type='radio' style='margin-left:42%; margin-bottom:20px;' name='adType' value='0' required> Standard
+                &nbsp&nbsp&nbsp&nbsp&nbsp<input type='radio' name='adType' value='1' required> Featured 
+            </div>
             <fieldset>
               <div class='clearfix'>
                 <label for='name' class='col-md-2'> Name: </label>
@@ -1848,6 +1864,10 @@ class JobController {
                 </select>
               </div>
               <div class='clearfix'>
+                <label for='startDate' class='col-md-2'> Start Date: </label>
+                <input type='date' name = 'startDate' class='col-md-8' placeholder=Job Start Date' required autofocus>
+              </div>  
+              <div class='clearfix'>
                 <label for='price' class='col-md-2'> Price: </label>
                 <input type='text' class='col-md-8' name = 'price' value='$price' placeholder='Price' required>
               </div>
@@ -1884,8 +1904,8 @@ class JobController {
         $numberOfPeopleRequired = $jobController->numberOfPeopleRequired;
         $price = $jobController->price;
         $userId = $jobController->id;
+        $startDate = $jobController->startDate;
 
-        
         $re= "
             <div class='editJob-form' style='background-color:white;'>
           <div class='row'>
@@ -2059,6 +2079,10 @@ class JobController {
                     $re .="
                 </select>
               </div>
+              <div class='clearfix'>
+                <label for='startDateUpdate' class='col-md-2'> Start Date: </label>
+                <input type='date' name = 'startDateUpdate' class='col-md-8' value='$startDate' placeholder=Job Start Date' required autofocus>
+              </div>  
               <div class='clearfix'>
                 <label for='price' class='col-md-2'> Price: </label>
                 <input type='text' class='col-md-8' name = 'price' value='$price' placeholder='Price' required>
@@ -2282,7 +2306,7 @@ class JobController {
                 
         return $result;
     }
-    
+
    // Modal To Enable The User To Place An Offer
    function PlaceAnOfferModal()
     {
@@ -2349,54 +2373,183 @@ class JobController {
     {
        $placedOffersModel = new PlacedOffersModel();
        $placedOffer = $placedOffersModel->GetPlacedOffersByJobIdAndUserId($_SESSION['jobId'], $_SESSION['id']);
+       
+       $result = "";
+
+        $job = $this->GetJobsByID($_SESSION['jobId']);
+        
+        // Job Start Date
+        $starttime = strtotime($job->startDate);
+        $startDate = new DateTime(date('Y-m-d',$starttime));
+        
+        // Job End Date
+        $endtime = strtotime($job->startDate);
+        $dateFinished = new DateTime(date('Y-m-d',$endtime));
+        $dateFinished->modify('+'.$job->numberOfDays.' day');
+        
        if($placedOffer != null)
        {
-        $comment = $placedOffer->comment;
-        $offerPrice = $placedOffer->offerPrice;
-       }else
-       {
-           $comment = "";
-           $offerPrice = "";
-       }
-       
-                $result = "<div class='modal fade' id='updateAnOfferModal' role='dialog'>
-			<div class='modal-dialog'>
-			
-			  <!-- Modal content-->
-			  <div class='modal-content'>
-				<div class='modal-header'>
-				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
-				  <h4 class='modal-title'>Update Your Offer</h4>
-				</div>
-				<div class='modal-body'>
-                                <div class='row'>
-                                    <div class='register-form'>
-                                             <div class='row'>
-                                               <h2 class='col-md-12' style='text-align:center;'>Update Your Offer</h2>
+            if($placedOffer->bidType == 0)
+            {
+                 if($placedOffer != null)
+                 {
+                  $comment = $placedOffer->comment;
+                  $offerPrice = $placedOffer->offerPrice;
+                 }else
+                 {
+                     $comment = "";
+                     $offerPrice = "";
+                 }
+
+                          $result = "<div class='modal fade' id='updateAnOfferModal' role='dialog'>
+                                  <div class='modal-dialog'>
+
+                                    <!-- Modal content-->
+                                    <div class='modal-content'>
+                                          <div class='modal-header'>
+                                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                            <h4 class='modal-title'>Update Your Offer</h4>
+                                          </div>
+                                          <div class='modal-body'>
+                                          <div class='row'>
+                                              <div class='register-form'>
+                                                       <div class='row'>
+                                                         <h2 class='col-md-12' style='text-align:center;'>Update Your Offer</h2>
+                                                       </div>
+                                                       <form action='' method = 'POST'>
+                                                         <fieldset>
+                                                           <div class='clearfix'>
+                                                             <label for='offerPrice' class='col-md-2'> Price: </label>
+                                                             <input type='text' name = 'updateOfferPrice' id='offerPrice' value=$offerPrice class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                           </div>
+                                                           <div class='clearfix'>
+                                                           <label for='comment' class='col-md-2'> Comment: </label>
+                                                             <input type='text' name = 'updateComment' class='col-md-8' value='$comment' placeholder='Comment' required autofocus>
+                                                           </div>
+                                                           <button class='btn primary col-md-2 col-md-offset-8' name = 'updateOfferFB' type='submit'>Submit</button>
+                                                         </fieldset>
+                                                       </form>
                                              </div>
-                                             <form action='' method = 'POST'>
-                                               <fieldset>
-                                                 <div class='clearfix'>
-                                                   <label for='offerPrice' class='col-md-2'> Price: </label>
-                                                   <input type='text' name = 'updateOfferPrice' id='offerPrice' value=$offerPrice class='col-md-8' placeholder='Enter Price' required autofocus>
-                                                 </div>
-                                                 <div class='clearfix'>
-                                                 <label for='comment' class='col-md-2'> Comment: </label>
-                                                   <input type='text' name = 'updateComment' class='col-md-8' value='$comment' placeholder='Comment' required autofocus>
-                                                 </div>
-                                                 <button class='btn primary col-md-2 col-md-offset-8' name = 'updateOffer' type='submit'>Submit</button>
-                                               </fieldset>
-                                             </form>
-                                   </div>
-                                </div>
-				</div>
-				<div class='modal-footer'>
-				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
-				</div>
-			  </div>
-			  
-			</div>
-	  </div>";
+                                          </div>
+                                          </div>
+                                          <div class='modal-footer'>
+                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                          </div>
+                                    </div>
+
+                                  </div>
+                    </div>";
+            }else if($placedOffer->bidType == 1)
+            {
+                 if($placedOffer != null)
+                 {
+                  $comment = $placedOffer->comment;
+                  $offerPrice = $placedOffer->offerPrice;
+                  $prefferedCommenceDate = $placedOffer->prefferedCommenceDate;
+                  $numberOfDays = $placedOffer->numberOfDays;
+                 }else
+                 {
+                     $comment = "";
+                     $offerPrice = "";
+                 }
+
+                          $result = "<div class='modal fade' id='updateAnOfferModal' role='dialog'>
+                                  <div class='modal-dialog'>
+
+                                    <!-- Modal content-->
+                                    <div class='modal-content'>
+                                          <div class='modal-header'>
+                                            <button type='button' class='close' data-dismiss='modal'>&times;</button>
+                                            <h4 class='modal-title'>Update Your Offer</h4>
+                                          </div>
+                                          <div class='modal-body'>
+                                          <div class='row'>
+                                              <div class='register-form'>
+                                                       <div class='row'>
+                                                         <h2 class='col-md-12' style='text-align:center;'>Update Your Offer</h2>
+                                                       </div>
+                                                       <form action='' method = 'POST'>
+                                                         <fieldset>
+                                                           <div class='clearfix'>
+                                                             <label for='offerPrice' class='col-md-2'> Price: </label>
+                                                             <input type='text' name = 'updateOfferPrice' id='offerPrice' value=$offerPrice class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                           </div>
+                                                           <div class='clearfix'>
+                                                           <label for='comment' class='col-md-2'> Comment: </label>
+                                                             <input type='text' name = 'updateComment' class='col-md-8' value='$comment' placeholder='Comment' required autofocus>
+                                                           </div>
+                                                            <div class='clearfix'>
+                                                              <label for='numberOfDaysUpdate' class='col-md-2'> Number Of Days: </label>
+                                                              <select class='form-control'id='numberOfDaysUpdate' name = 'numberOfDaysUpdate' value=$numberOfDays style='width:200px;'>";
+                                                                for ($x = 1; $x <= 7; $x++) {
+                                                                    if($numberOfDays == $x)
+                                                                    {
+                                                                        $result .="<option selected value=$x>$x</option>";
+                                                                    }else
+                                                                    {
+                                                                        $result .="<option value=$x>$x</option>";
+                                                                    }
+
+                                                                }  
+                                                                $x = 14;
+                                                                while ( $x <= 28) {
+                                                                    if($x == 14)
+                                                                    {
+                                                                        if($numberOfDays == $x)
+                                                                        {
+                                                                            $result .="<option selected value=$x>2 Weeks</option>";
+                                                                        }else
+                                                                        {
+                                                                            $result .="<option value=$x>2 Weeks</option>";
+                                                                        }
+                                                                    }else if($x == 21)
+                                                                    {
+                                                                        if($numberOfDays == $x)
+                                                                        {
+                                                                            $result .="<option selected value=$x>3 Weeks</option>";
+                                                                        }else
+                                                                        {
+                                                                            $result .="<option value=$x>3 Weeks</option>";
+                                                                        }
+
+                                                                    }else
+                                                                    {
+                                                                        if($numberOfDays == $x)
+                                                                        {
+                                                                             $result .="<option selected value=$x>4 Weeks</option>";
+                                                                        }else
+                                                                        {
+                                                                            $result .="<option value=$x>4 Weeks</option>";
+                                                                        }
+
+                                                                    }
+                                                                    $x= $x + 7;
+                                                                }
+                                                    $result .=" </select>
+                                                            </div>
+                                                            <div class='clearfix'>
+                                                               <p class='col-md-12' style='color:green;text-align:center;font-size:13px;'> Select a date between: </p> 
+                                                               <p class='col-md-12' style='color:blue;font-weight:bold;text-align:center;font-size:13px;'><font style='color:green;'>Job Start Date: </font>".$startDate->format("d-m-Y")."  &nbsp &nbsp  -  &nbsp &nbsp  <font style='color:green;'>Job End Date: </font>".$dateFinished->format("d-m-Y")."</p>  
+                                                            </div>
+                                                            <div class='clearfix'>
+                                                            <label for='prefferedCommenceDateUpdate' class='col-md-2'> Preffered Commence Date: </label> 
+                                                              <input type='date' name = 'prefferedCommenceDateUpdate' class='col-md-8' value=$prefferedCommenceDate placeholder='Preferred Commence Date' required autofocus>
+                                                            </div>
+                                                           <button class='btn primary col-md-2 col-md-offset-8' name = 'updateOfferPB' type='submit'>Submit</button>
+                                                         </fieldset>
+                                                       </form>
+                                             </div>
+                                          </div>
+                                          </div>
+                                          <div class='modal-footer'>
+                                            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+                                          </div>
+                                    </div>
+
+                                  </div>
+                    </div>";
+            }
+       }
         return $result;
     }
     
@@ -2428,6 +2581,17 @@ class JobController {
         $countyModel = new CountyModel();
         $county =$countyModel->GetCountyById($jobController->county)->county;
         $result = '<div class="row col-md-12 text-center" style="padding-bottom:20px;">';
+                        if(($jobController->id == $_SESSION['id']) && ($jobController->adtype == 1))
+                        {
+                            $result .='<a href="#" data-toggle="modal" id="featureInfoButton" class="btn btn-info col-md-6 col-md-offset-3" data-target="#">
+                            <i class="glyphicon glyphicon-star-empty"></i>
+                            Featured Job </a>';
+                        }else if(($jobController->id == $_SESSION['id']) && ($jobController->adtype == 0))
+                        {
+                            $result .='<a href="UpgradeFeatureJob.php" id="featureAJobButton" class="btn btn-info col-md-6 col-md-offset-3">
+                            <i class="glyphicon glyphicon glyphicon-plus"></i>
+                            Upgrade This Job To Be Featured </a>';
+                        }
                         if ($offer_placed == 0 && ($jobController->id != $_SESSION['id']))
                         {
                            $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
@@ -2610,6 +2774,9 @@ class JobController {
                                                             <div class='table-responsive'>
                                                                 <table class='sortable table' id='myJobTable'>
                                                                     <tr>
+                                                                        <td><strong>Job Start Date:</strong> $jobController->startDate </td>
+                                                                    </tr>
+                                                                    <tr>
                                                                         <td><strong>Name:</strong> $jobController->name</td>
                                                                     </tr>
                                                                     <tr>
@@ -2671,16 +2838,51 @@ class JobController {
                                                                     {
                                                                         $name = $userModel->GetUserById($row->userID)->firstName;
                                                                         $name .= " " .$userModel->GetUserById($row->userID)->lastName;
-                                                                        $result.= "<tr>"
-                                                                                . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                . "<td align='center'>$row->comment</td>"
-                                                                                . "<td align='center'>$row->placementDate</td>"
-                                                                                . "<td align='center'>$row->offerPrice</td>"
-                                                                                . "<td align='center'>"
-                                                                                . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
-                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
-                                                                                . "</td>"
-                                                                                . "</tr>";
+                                                                        if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']))
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center'>"
+                                                                                    . "     <a href='#' onclick='deleteOffer(".$userModel->GetUserById($row->userID)->id.")'>Delete</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                            
+                                                                        }else if($row->seen == 0 && $jobController->id == $_SESSION['id'])
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>"
+                                                                                    . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                    . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                        }else if($row->seen == 1 && $jobController->id == $_SESSION['id'])
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center'>"
+                                                                                    . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                    . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                        }else
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "</tr>";
+                                                                        }
                                                                     }
                                                                }
                                                             }catch(Exception $x)
@@ -2721,17 +2923,54 @@ class JobController {
                                                                     {
                                                                         $name = $userModel->GetUserById($row->userID)->firstName;
                                                                         $name .= " " .$userModel->GetUserById($row->userID)->lastName;
-                                                                        $result.= "<tr>"
-                                                                                . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                . "<td align='center'>$row->comment</td>"
-                                                                                . "<td align='center'>$row->placementDate</td>"
-                                                                                . "<td align='center'>$row->offerPrice</td>"
-                                                                                . "<td align='center'>$row->numberOfDays</td>"
-                                                                                . "<td align='center'>"
-                                                                                . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
-                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
-                                                                                . "</td>"
-                                                                                . "</tr>";
+                                                                        if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']))
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td align='center'>"
+                                                                                    . "     <a href='#' onclick='deleteOffer(".$userModel->GetUserById($row->userID)->id.")'>Delete</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                        }else if($row->seen == 0 && $jobController->id == $_SESSION['id'])
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>"
+                                                                                    . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                    . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                        } else if($row->seen == 1 && $jobController->id == $_SESSION['id'])
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td align='center'>"
+                                                                                    . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Accept</a>&nbsp|"
+                                                                                    . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Decline</a>"
+                                                                                    . "</td>"
+                                                                                    . "</tr>";
+                                                                        }else
+                                                                        {
+                                                                            $result.= "<tr>"
+                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center'>$row->comment</td>"
+                                                                                    . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center'>$row->numberOfDays</td>"
+                                                                                    . "</tr>";
+                                                                        }
                                                                     }
                                                                }
                                                             }catch(Exception $x)
@@ -2984,7 +3223,7 @@ class JobController {
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
-        $search = $jobModel->GetJobsByUserID($id);
+        $search = $jobModel->GetActiveJobsByUserID($id);
         $typeModel = new TypeModel();
         
         $placedOffersModel = new PlacedOffersModel();
@@ -3100,9 +3339,18 @@ class JobController {
         $date = new DateTime();
         $dateTime = $date->format('d-m-Y H:i:s');
         
-        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime);
+        $startDate = $_POST["startDate"];
+
+        $job = new JobEntities(-1, $name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime,$startDate,$_SESSION['adType']);
         $jobModel = new JobModel();
         $jobModel->InsertANewJob($job);
+    }
+    
+    //Insert a new job into the database
+    function InsertANewJobPaymentCompleted($name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime,$startDate, $adType)
+    {
+         $jobModel = new JobModel();
+         $jobModel->InsertANewJobPaymentCompleted($name, $description, $type, $qualification, $address, $county, $numberOfDays, $numberOfPeopleRequired, $price, $isActive, $id, $dateTime, $startDate, $adType);
     }
     
     //Get Jobs in a particular type from the database.
@@ -3168,11 +3416,39 @@ class JobController {
         return $jobModel->GetJobsBetweenPrices($minPrice, $maxPrice);
     }
     
-    //Update a user
-    function updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid)
+    //Update a job
+    function updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid,$startDate)
     {
         $jobModel = new JobModel();
-        return $jobModel->updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid);
+        return $jobModel->updateJob($name,$description1,$type,$qualification,$address,$county,$numberOfDays,$numberOfPeopleRequired,$price,$jobid,$startDate);
+    }
+    
+    //Update a job to be a featured job
+    function updateStandardJobToFeaturedJob($jobid,$adType)
+    {
+        $jobModel = new JobModel();
+        $jobModel->updateStandardJobToFeaturedJob($jobid, $adType);
+    }
+    
+    //Update a job posted date
+    function updateJobPostedDate($jobid,$date)
+    {
+        $jobModel = new JobModel();
+        $jobModel->updateJobPostedDate($jobid, $date);
+    }
+    
+    //Update a job active status
+    function updateJobActiveStatus($jobid,$activeStatus)
+    {
+        $jobModel = new JobModel();
+        $jobModel->updateJobActiveStatus($jobid, $activeStatus);  
+    }
+    
+    //Update a job Ad Type
+    function updateJobAdType($jobid,$adType)
+    {
+        $jobModel = new JobModel();
+        $jobModel->updateJobAdType($jobid, $adType);
     }
     
     //Delete a job

@@ -11,22 +11,26 @@ session_start();
 require 'Controller/NotificationController.php';
 $notificationController = new NotificationController();
 
+$loginStatus= "Login";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 $title = "Notification";
 $content = $notificationController->NotificationContent();
 $content .= $notificationController->CategoryModal();
 $content .= $notificationController->PriceModal();
 
-$loginStatus= "Login";
-$log = "";
 $errorMessage = "";
 $sidebar = $notificationController->CreateNotificationSideBar();
-
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-}
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {
@@ -55,6 +59,6 @@ if($epr=='cat')
     header('Location: SearchResult.php?epr=cat');
 }
  
- include 'Template.php'
- ?>
+include 'Template.php'
+?>
 

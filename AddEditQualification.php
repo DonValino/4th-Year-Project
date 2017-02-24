@@ -9,20 +9,26 @@
 session_start();
 require 'Controller/QualificationController.php';
 $qualificationController = new QualificationController();
+
+$loginStatus= "Login";
+$log = "";
+
+if(isset($_SESSION['username']))
+{
+   $loginStatus=$_SESSION['username'];
+   $log = $_SESSION['log'];
+}else
+{
+    header('Location: index.php');
+}
+
 $epr='';
 
 $title = "Add / Edit Type";
 $content = $qualificationController->AddDisplayQualificationForm();
 
-$loginStatus= "Login";
-$log = "";
 $errorMessage = "";
 $sidebar = $qualificationController->CreateJobOverviewSidebar();
-if(isset($_SESSION['username']))
-{
-   $loginStatus=$_SESSION['username'];
-   $log = $_SESSION['log'];
-}
 
 if(isset($_GET['epr']))
 {

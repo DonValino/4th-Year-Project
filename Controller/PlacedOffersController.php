@@ -27,10 +27,10 @@ class PlacedOffersController {
     }
     
     //Update an offer
-    function updateAnOffer($jobid,$userId,$newDate,$offerPrice,$comment,$fromusername,$tousername)
+    function updateAnOffer($jobid,$userId,$newDate,$offerPrice,$comment,$fromusername,$tousername,$numberOfDays,$prefferedCommenceDate)
     {
         $placedOffersModel = new PlacedOffersModel();
-        $placedOffersModel->updateAnOffer($jobid, $userId, $newDate, $offerPrice, $comment);
+        $placedOffersModel->updateAnOffer($jobid, $userId, $newDate, $offerPrice, $comment, $numberOfDays, $prefferedCommenceDate);
         
         //Today's date
         $date = new DateTime();
@@ -38,6 +38,13 @@ class PlacedOffersController {
         
         $notificationModel = new NotificationModel();
         $notificationModel->InsertNotification($fromusername, $tousername, 5, 0, $dateTime,$jobid);
+    }
+    
+    //Update seen
+    function updateSeen($seen,$jobid,$userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->updateSeen($seen, $jobid, $userId);
     }
     
     // Get The Lowest Placed Offers Price in a specific job
@@ -66,5 +73,12 @@ class PlacedOffersController {
     {
         $placedOffersModel = new PlacedOffersModel();
         $placedOffersModel->GetAllPlacedOffers();
+    }
+    
+    //Delete an Offer
+    function deleteAnOffer($jobid,$userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->deleteAnOffer($jobid, $userId);
     }
 }

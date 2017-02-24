@@ -34,7 +34,8 @@ class PlacedOffersModel {
                 mysqli_real_escape_string($connection,$offerPrice),
                 mysqli_real_escape_string($connection,$bidType),
                 mysqli_real_escape_string($connection,$numberOfDays),
-                mysqli_real_escape_string($connection,$prefferedCommenceDate));
+                mysqli_real_escape_string($connection,$prefferedCommenceDate),
+                mysqli_real_escape_string($connection,0));
             
         //Define and execute query
 
@@ -69,8 +70,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -104,8 +106,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -158,8 +161,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -193,8 +197,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -228,8 +233,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -263,8 +269,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
                 array_push($jobArray, $placedOffersEntities);
             }
             
@@ -276,7 +283,7 @@ class PlacedOffersModel {
     }
     
     //Update an offer
-    function updateAnOffer($jobid,$userId,$newDate,$offerPrice,$comment)
+    function updateAnOffer($jobid,$userId,$newDate,$offerPrice,$comment,$numberOfDays,$prefferedCommenceDate)
     {
         require 'Model/Credentials.php';
         
@@ -312,6 +319,71 @@ class PlacedOffersModel {
             echo "Error updating record: " . mysqli_error($connection);
         }
         
+        $sql = "UPDATE placedoffers SET numberOfDays='$numberOfDays' WHERE jobid=$jobid AND userID=$userId";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+        $sql = "UPDATE placedoffers SET prefferedCommenceDate='$prefferedCommenceDate' WHERE jobid=$jobid AND userID=$userId";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+        $connection->close();
+    }
+    
+    //Update seen
+    function updateSeen($seen,$jobid,$userId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
+        $sql = "UPDATE placedoffers SET seen='$seen' WHERE jobid=$jobid AND userID=$userId";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+        $connection->close();
+    }
+    
+    //Delete an Offer
+    function deleteAnOffer($jobid,$userId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
+                // sql to delete a record
+        $sql = "DELETE FROM placedoffers WHERE jobid=$jobid AND userID=$userId";
+
+        if ($connection->query($sql) === TRUE) {
+            echo "Record deleted successfully";
+        } else {
+            echo "Error deleting record: " . $connection->error;
+        }
+
         $connection->close();
     }
     
@@ -337,8 +409,9 @@ class PlacedOffersModel {
                 $dbBidType= $row['bidType'];
                 $dbNumberOfDays= $row['numberOfDays'];
                 $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
                 
-                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate);
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen);
             }
             return $placedOffersEntities;
         }else

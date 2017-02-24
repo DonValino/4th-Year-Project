@@ -28,6 +28,9 @@ if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
    $log ="home.php";
+}else
+{
+    header('Location: index.php');
 }
 
 if(isset($_GET['epr']))
@@ -41,6 +44,14 @@ if($epr=='view')
     $content = $userController->ViewUserProfile($userId);
     $content.= $userController->SendMessageModal($userId);
     $sidebar = $userController->ViewUserProfileSideBar($userId);
+}
+
+if($epr=='viewAndSetBidSeen')
+{
+    $userId =$_GET['id'];
+    $jobId =$_GET['jobId'];
+    
+    header('Location: PlaceOffer.php?epr=update&userId='.$userId.'&jobId='.$jobId);
 }
 
 if($epr=='cancelRequest')

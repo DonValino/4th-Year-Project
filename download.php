@@ -3,6 +3,12 @@ session_start();
 
 require 'Controller/UserController.php';
 $userController = new UserController();
+
+if(!isset($_SESSION['username']))
+{
+    header('Location: index.php');
+}
+
 $epr='';
 
 if(isset($_GET['epr']))

@@ -45,8 +45,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
                 
             }
@@ -86,8 +87,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);  
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);  
             }
             
             return $jobEntities;
@@ -104,7 +106,7 @@ class JobModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM jobs WHERE id=$id AND isActive=1 ORDER BY date DESC") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE id=$id ORDER BY date DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();
@@ -125,8 +127,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);  
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);  
                 array_push($jobArray, $jobEntities);
             }
             
@@ -165,8 +168,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);  
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);  
                 array_push($jobArray, $jobEntities);
             }
             
@@ -262,8 +266,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);  
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);  
                 array_push($jobArray, $jobEntities);
             }
             
@@ -322,8 +327,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
             }
             
@@ -362,8 +368,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
             }
             
@@ -402,8 +409,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
             }
             
@@ -462,8 +470,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
             }
             
@@ -610,8 +619,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
                 
             }
@@ -651,8 +661,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
                 
             }
@@ -692,8 +703,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);  
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);  
             }
             
             return $jobEntities;
@@ -731,8 +743,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
                 
             }
@@ -773,8 +786,9 @@ class JobModel {
                 $isActive = $row['isActive'];
                 $id = $row['id'];
                 $date = $row['date'];
+                $startDate = $row['startDate'];
                 
-                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date);
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate);
                 array_push($jobArray, $jobEntities);
                 
             }
@@ -796,8 +810,8 @@ class JobModel {
         $connection = mysqli_connect($host, $user, $passwd, $database);
 
             $query = sprintf("INSERT INTO jobs"
-                . "(name,description,typeId,qualificationId,address,county,numberOfDays,numberOfPeopleRequired,price,isActive,id,date)"
-                . "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+                . "(name,description,typeId,qualificationId,address,county,numberOfDays,numberOfPeopleRequired,price,isActive,id,date,startDate)"
+                . "VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')",
                 mysqli_real_escape_string($connection,$jobParameter->name),
                 mysqli_real_escape_string($connection,$jobParameter->description),
                 mysqli_real_escape_string($connection,$jobParameter->type),
@@ -809,7 +823,8 @@ class JobModel {
                 mysqli_real_escape_string($connection,$jobParameter->price),
                 mysqli_real_escape_string($connection,$jobParameter->isActive),
                 mysqli_real_escape_string($connection,$jobParameter->id),
-                mysqli_real_escape_string($connection,$jobParameter->date));
+                mysqli_real_escape_string($connection,$jobParameter->date),
+                mysqli_real_escape_string($connection,$jobParameter->startDate));
             
 
         if (mysqli_query($connection, $query)) {
@@ -821,7 +836,7 @@ class JobModel {
     }
     
     //Update a user
-    function updateJob($name,$description1,$type,$qualification,$address,$numberOfDays,$county,$numberOfPeopleRequired,$price,$jobid)
+    function updateJob($name,$description1,$type,$qualification,$address,$numberOfDays,$county,$numberOfPeopleRequired,$price,$jobid,$startDate)
     {
         require 'Model/Credentials.php';
         
@@ -903,7 +918,15 @@ class JobModel {
             echo "Record updated successfully";
         } else {
             echo "Error updating record: " . mysqli_error($connection);
-        } 
+        }
+        
+        $sql = "UPDATE jobs SET startDate='$startDate' WHERE jobid=$jobid";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
         
         $connection->close();
     }

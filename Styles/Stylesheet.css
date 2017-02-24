@@ -140,6 +140,13 @@ span.text-content {
     padding-bottom: 10px;
 }
 
+/*footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   Height of the footer 
+   background:#6cf;
+}*/
 footer
 {
     clear: both;
@@ -152,7 +159,6 @@ footer
     text-shadow: 0.1em 0.1em #333;
     background-color: #0076be;
 }
-
 .login-form
 {
     border: 3px solid #E3E3E3;

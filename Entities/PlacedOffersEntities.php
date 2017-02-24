@@ -22,9 +22,10 @@ class PlacedOffersEntities
   public $bidType;
   public $numberOfDays;
   public $prefferedCommenceDate;
+  public $seen;
   
   // Contructor
-  function __construct($jobid, $userID, $comment, $placementDate, $offerPrice, $bidType, $numberOfDays, $prefferedCommenceDate) {
+  function __construct($jobid, $userID, $comment, $placementDate, $offerPrice, $bidType, $numberOfDays, $prefferedCommenceDate, $seen) {
       $this->jobid = $jobid;
       $this->userID = $userID;
       $this->comment = $comment;
@@ -33,9 +34,10 @@ class PlacedOffersEntities
       $this->bidType = $bidType;
       $this->numberOfDays = $numberOfDays;
       $this->prefferedCommenceDate = $prefferedCommenceDate;
+      $this->seen = $seen;
   }
 
-  // Getters
+    // Getters
   function getJobid() {
       return $this->jobid;
   }
@@ -67,7 +69,12 @@ class PlacedOffersEntities
   function getPrefferedCommenceDate() {
       return $this->prefferedCommenceDate;
   }
+  
+  function getSeen() {
+      return $this->seen;
+  }
 
+  
   
   // Setters
   function setJobid($jobid) {
@@ -100,6 +107,10 @@ class PlacedOffersEntities
   
   function setPrefferedCommenceDate($prefferedCommenceDate) {
       $this->prefferedCommenceDate = $prefferedCommenceDate;
+  }
+  
+  function setSeen($seen) {
+      $this->seen = $seen;
   }
 
 }

@@ -536,7 +536,7 @@ class UserController {
             <p class='col-md-3'>e.g. Change FirstName and Save</p>
           </div>
           <div class='row'>
-           &nbsp&nbsp<a href='' onclick='showConfirm()' class='btn btn-info col-md-2 col-md-offset-9'>Delete Account</a>
+           &nbsp&nbsp<a href='#' onclick='showConfirm()' class='btn btn-info col-md-2 col-md-offset-9'>Delete Account</a>
           </div>
           </br>
           <form action='' method = 'POST'>
