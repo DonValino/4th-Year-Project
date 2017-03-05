@@ -152,37 +152,37 @@ class UserController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -315,37 +315,37 @@ class UserController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li class='active'>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -363,7 +363,7 @@ class UserController {
     {
         $userModel = new UserModel();
         $user = $userModel->CheckUser($_SESSION['username']);
-        $result = "<div class='col-md-12'>
+        $result = "<div class='col-md-12 col-sm-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
 				<div class='profile-userpic'>
@@ -392,37 +392,37 @@ class UserController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li class='active'>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -443,7 +443,7 @@ class UserController {
         $userName = $userModel->GetUserById($id)->username;
         $_SESSION['SendUsername']=$userName;
                 $result = "
-                    <div class='modal fade' id='sendMessageModal' role='dialog'>
+                    <div class='modal fade col-xs-11' id='sendMessageModal' role='dialog'>
 			<div class='modal-dialog'>
 			
 			  <!-- Modal content-->
@@ -473,12 +473,12 @@ class UserController {
                                                           <fieldset>
                                                           
                                                             <div class='clearfix'>
-                                                            <label for='messages' class='col-md-2'> Message: </label>
-                                                              <textarea class='col-md-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
+                                                            <label for='messages' class='col-md-2 col-sm-2 col-xs-3'> Message: </label>
+                                                              <textarea class='col-md-8 col-sm-8 col-xs-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
                                                             </div>
 
                                                             <div class='row'>
-                                                            <button class='btn primary col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
+                                                            <button class='btn primary col-sm-2 col-sm-offset-9 col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
                                                             </div>
                                                           </fieldset>
                                     </form>
@@ -498,7 +498,7 @@ class UserController {
     function ProfilePictureModal()
     {
                 $result = "
-                    <div class='modal fade' id='profilePictureModal' role='dialog'>
+                    <div class='modal fade col-xs-11' id='profilePictureModal' role='dialog'>
 			<div class='modal-dialog'>
 			
 			  <!-- Modal content-->
@@ -510,7 +510,7 @@ class UserController {
 				<div class='modal-body'>
                                                     <form action='uploadProfilePicture.php' method='post' enctype='multipart/form-data'>
                                                         <div class='row'>
-                                                            <input required class='col-md-8' type='file' name='file'>
+                                                            <input required class='col-md-8 col-sm-8 col-xs-8' type='file' name='file'>
                                                             <input type='submit' value='upload'>
                                                         </div>
                                                     </form>
@@ -530,43 +530,43 @@ class UserController {
     {
         $result = " <div class='register-form'>
           <div class='row'>
-            <h2 class='col-md-12' style='text-align:center;'>Change Account Details</h2>
+            <h2 class='col-md-12 col-sm-12 col-xs-12' style='text-align:center;'>Change Account Details</h2>
           </div>
           <div class='row'>
-            <p class='col-md-3'>e.g. Change FirstName and Save</p>
+            <p class='col-md-3 col-sm-3 col-xs-8'>e.g. Change FirstName and Save</p>
           </div>
           <div class='row'>
-           &nbsp&nbsp<a href='#' onclick='showConfirm()' class='btn btn-info col-md-2 col-md-offset-9'>Delete Account</a>
+           &nbsp&nbsp<a href='#' onclick='showConfirm()' class='btn btn-info col-xs-4 col-xs-offset-7 col-sm-2 col-sm-offset-9 col-md-2 col-md-offset-9'>Delete Account</a>
           </div>
           </br>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='firstName' class='col-md-2'> First Name: </label>
-                <input type='text' name = 'firstName' class='col-md-8' id='firstName' value='$firstName'placeholder='First Name' required autofocus>
+                <label for='firstName' class='col-xs-3 col-md-2 col-sm-2'> First Name: </label>
+                <input type='text' name = 'firstName' class='col-xs-8 col-md-8 col-sm-8' id='firstName' value='$firstName'placeholder='First Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='lastName' class='col-md-2'> Last Name: </label>
-                <input type='text' name = 'lastName' class='col-md-8' value='$lastName' placeholder='Last Name' required autofocus>
+              <label for='lastName' class='col-xs-3 col-md-2 col-sm-2'> Last Name: </label>
+                <input type='text' name = 'lastName' class='col-xs-8 col-md-8 col-sm-8' value='$lastName' placeholder='Last Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='usernameRegister' class='col-md-2'> Username: </label>
-                    <input type='text' id='usernameRegister' class='col-md-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
+              <label for='usernameRegister' class='col-xs-3 col-md-2 col-sm-2'> Username: </label>
+                    <input type='text' id='usernameRegister' class='col-xs-8 col-md-8 col-sm-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                     <?php echo error_for('usernameRegister') ?>
               </div>
               <div class='clearfix'>
-              <label for='password' class='col-md-2'> Password: </label>
-                <input type='password' name = 'password' class='col-md-8' value='$password' placeholder='Password' required>
+              <label for='password' class='col-xs-3 col-md-2 col-sm-2'> Password: </label>
+                <input type='password' name = 'password' class='col-xs-8 col-md-8 col-sm-8' value='$password' placeholder='Password' required>
               </div>
               <div class='clearfix'>
-              <label for='email' class='col-md-2'> Email: </label>
-                <input type='text' name = 'email' class='col-md-8' value='$email' placeholder='email' required>
+              <label for='email' class='col-xs-3 col-md-2 col-sm-2'> Email: </label>
+                <input type='text' name = 'email' class='col-xs-8 col-md-8 col-sm-8' value='$email' placeholder='email' required>
               </div>
               <div class='clearfix'>
-                <label for='phone' class='col-md-2'> Phone: </label>
-                <input type='text' name = 'phone' class='col-md-8' value='$phone' placeholder='phone' required>
+                <label for='phone' class='col-xs-3 col-md-2 col-sm-2'> Phone: </label>
+                <input type='text' name = 'phone' class='col-xs-8 col-md-8 col-sm-8' value='$phone' placeholder='phone' required>
               </div>
-              <button class='btn primary col-md-2 col-md-offset-8' name = 'save' type='submit'>Save</button>
+              <button class='btn primary col-xs-3 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'save' type='submit'>Save</button>
             </fieldset>
           </form>
         </div>"; //This ensures that the data entered by the user retains retains 
@@ -580,7 +580,7 @@ class UserController {
         $userModel = new UserModel();
         $user = $userModel->GetUserById($id);
         
-        $result = "<div class='row'>"
+        $result = "<div class='row' style='margin-top:15px;'>"
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
@@ -590,17 +590,17 @@ class UserController {
 						<div class='panel-body'>
                                                     <form action='upload.php' method='post' enctype='multipart/form-data'>
                                                     <div class='row'>
-                                                        <p class='col-md-12' style=' font-size:20px;'> Upload A New CV</p>
+                                                        <p class='col-md-12 col-sm-12 col-xs-12' style=' font-size:20px;'> Upload A New CV</p>
                                                     </div>
                                                         <div class='row'>
-                                                            <input required class='col-md-6' type='file' name='file'>
+                                                            <input required class='col-md-6 col-sm-6 col-xs-8' type='file' name='file'>
                                                             <input type='submit' value='upload'>
                                                         </div>
                                                     </form>";
                                                     if($user->cv != NULL)
                                                     {
                                                         $result.="<div class='row'>
-                                                            <p class='col-md-12' style=' font-size:20px;'> Download CV</p>
+                                                            <p class='col-md-12 col-sm-12 col-xs-12 col-xs-12' style=' font-size:20px;'> Download CV</p>
                                                         </div>
                                                         <a href='download.php?epr=cv&path=".$user->cv."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
                                                     }
@@ -620,17 +620,17 @@ class UserController {
 						<div class='panel-body'>
                                                     <form action='uploadCoverLetter.php' method='post' enctype='multipart/form-data'>
                                                     <div class='row'>
-                                                        <p class='col-md-12' style=' font-size:20px;'> Upload A New Cover Letter</p>
+                                                        <p class='col-md-12 col-sm-12 col-xs-12' style=' font-size:20px;'> Upload A New Cover Letter</p>
                                                     </div>
                                                         <div class='row'>
-                                                            <input required class='col-md-6' type='file' name='file'>
+                                                            <input required class='col-md-6 col-sm-6 col-xs-8' type='file' name='file'>
                                                             <input type='submit' value='upload'>
                                                         </div>
                                                     </form>";
                                                     if($user->coverletter != NULL)
                                                     {
                                                         $result.="<div class='row'>
-                                                            <p class='col-md-12' style=' font-size:20px;'> Download Cover Letter</p>
+                                                            <p class='col-md-12 col-sm-12 col-xs-12' style=' font-size:20px;'> Download Cover Letter</p>
                                                         </div>
                                                         <a href='download.php?epr=cv&path=".$user->coverletter."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
                                                     }
@@ -865,7 +865,7 @@ class UserController {
                 . "<div class='panel-group col-md-5'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offer Placed By Me</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers Placed By Me</strong></a>
 					</div>
 					<div id='collapseMyPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -903,7 +903,7 @@ class UserController {
                 . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>My Job Offers</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers To My Jobs</strong></a>
 					</div>
 					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -938,18 +938,18 @@ class UserController {
 					."</div>"
 				."</div>"
 			."</div>"
-                . "<div class='panel-group col-md-6'>
+                . "<div class='panel-group col-md-6 col-xs-12'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
 					</div>
 					<div id='collapseRating' class='panel-collapse collapse in'>
 						<div class='panel-body'>
-                                                <div class='col-md-12'>
+                                                <div class='col-md-12 col-sm-12 col-xs-12'>
                                                     <div class='row'>
                                                     <a href='UserReview.php?epr=review&id=".$id."'><p style='text-align:center;'><strong>Based on $count reviews</strong></p></a>
                                                     </div>
-                                                            <div class='col-md-1' style='padding-left:20px;'>";
+                                                             <div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1'>";
                                                                 try
                                                                 {
                                                                             $actualRate = 0;
@@ -977,7 +977,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Punctionality</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Punctionality</p>
                                                                                 </div> 
                                                                             </div>";
                                                                                 
@@ -991,7 +991,7 @@ class UserController {
                                                                                     $res = (int)$res;
                                                                                 }
                                                                             
-                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:18px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -1002,7 +1002,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Work Satisfaction</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Work Satisfaction</p>
                                                                                 </div>
                                                                             </div>";
                                                                             
@@ -1015,7 +1015,7 @@ class UserController {
                                                                                     $res = ($actualRate / $expectedRate) * 100;
                                                                                     $res = (int)$res;
                                                                                 }
-                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:22px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -1026,7 +1026,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Skills</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Skills</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>";
@@ -1035,11 +1035,11 @@ class UserController {
                                                                 {
                                                                     echo 'Caught exception: ',  $x->getMessage(), "\n";
                                                                 }
-                                             $result.= "</div>"          
+						$result.="</div>"  
 						."</div>"
 					."</div>"
 				."</div>"
-			."</div>"
+			."</div>"                                
                 . "</div>"
                 . "</div>";
                 
@@ -1077,19 +1077,19 @@ class UserController {
 						<div class='panel-body'>"
                                                     ."<table class='sortable table' id='myJobTable'>
                                                             <tr>
-                                                                <td><strong>Id:</strong>&nbsp $user->id</td>
+                                                                <td style='text-align:center;'><strong>Id:</strong>&nbsp $user->id</td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>Name:</strong>&nbsp $user->firstName &nbsp&nbsp $user->lastName</td>
+                                                                <td style='text-align:center;'><strong>Name:</strong>&nbsp $user->firstName &nbsp&nbsp $user->lastName</td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>Username:</strong>&nbsp $user->username</td>
+                                                                <td style='text-align:center;'><strong>Username:</strong>&nbsp $user->username</td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>Email:</strong><a href='mailto:$user->email' class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-edit' style='font-size:15px; text-align: center; padding-right:10px;'> $user->email</a></td>
+                                                                <td style='text-align:center;'><strong>Email:</strong><a href='mailto:$user->email' class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-edit' style='font-size:15px; text-align: center; padding-right:10px;'> $user->email</a></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>Phone:</strong><a class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-phone' href='tel:$user->phone' style='font-size:15px; text-align: center;'> $user->phone </a></td>
+                                                                <td style='text-align:center;'><strong>Phone:</strong><a class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-phone' href='tel:$user->phone' style='font-size:15px; text-align: center;'> $user->phone </a></td>
                                                             </tr>
                                                     </table>"
                                              . "</div>"
@@ -1104,11 +1104,11 @@ class UserController {
 					</div>
 					<div id='collapseuserrating' class='panel-collapse collapse in'>
 						<div class='panel-body'>
-                                                <div class='col-md-12'>
+                                                <div class='col-md-12 col-sm-12'>
                                                     <div class='row'>
                                                     <a href='UserReview.php?epr=review&id=".$id."'><p style='text-align:center;'><strong>Based on $count reviews</strong></p></a>
                                                     </div>
-                                                            <div class='col-md-1' style='padding-left:20px;'>";
+                                                            <div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1'>";
                                                                 try
                                                                 {
                                                                             $actualRate = 0;
@@ -1136,7 +1136,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Punctionality</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Punctionality</p>
                                                                                 </div> 
                                                                             </div>";
                                                                                 
@@ -1150,7 +1150,7 @@ class UserController {
                                                                                     $res = (int)$res;
                                                                                 }
                                                                             
-                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:18px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -1161,7 +1161,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Work Satisfaction</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Work Satisfaction</p>
                                                                                 </div>
                                                                             </div>";
                                                                             
@@ -1174,7 +1174,7 @@ class UserController {
                                                                                     $res = ($actualRate / $expectedRate) * 100;
                                                                                     $res = (int)$res;
                                                                                 }
-                                                                            $result.="<div class='col-md-1 col-md-offset-3' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-6 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:22px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -1185,7 +1185,7 @@ class UserController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Skills</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Skills</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>";
@@ -1215,7 +1215,7 @@ class UserController {
                                                     if($user->cv != NULL)
                                                     {
                                                         $result.="<div class='row'>
-                                                            <p class='col-md-12' style=' font-size:20px;'> Download CV</p>
+                                                            <p class='col-md-12 col-sm-12 col-xs-12' style=' font-size:20px;'> Download CV</p>
                                                         </div>
                                                         <a href='download.php?epr=cv&path=".$user->cv."'><img src='Images/wordicon.png' alt='CV' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
                                                     }
@@ -1223,7 +1223,7 @@ class UserController {
                                                     if($user->coverletter != NULL)
                                                     {
                                                         $result.="<div class='row'>
-                                                            <p class='col-md-12' style=' font-size:20px;'> Download Cover Letter</p>
+                                                            <p class='col-md-12 col-sm-12 col-xs-12' style=' font-size:20px;'> Download Cover Letter</p>
                                                         </div>
                                                         <a href='download.php?epr=cv&path=".$user->coverletter."'><img src='Images/wordicon.png' alt='Cover Letter' style=' display: block; margin: auto; text-align:center; margin-top:10px;'></a>";
                                                     }
@@ -1233,7 +1233,7 @@ class UserController {
                                                                 <p style='color:Green; font-size:18px; text-align:center;'> Request Sent :) </p>
                                                               </div>
                                                                 <div class='row'>
-                                                                    <a href='ViewUserProfile.php?epr=cancelRequest&id=$id' id='addFavorite' class='btn btn-danger col-md-4 col-md-offset-4'>
+                                                                    <a href='ViewUserProfile.php?epr=cancelRequest&id=$id' id='addFavorite' class='btn btn-danger col-xs-5 col-xs-offset-4 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4'>
                                                                     <i class='glyphicon glyphicon-remove-sign'></i>
                                                                 Cancel Request </a>
                                                                 </div>";
@@ -1248,7 +1248,7 @@ class UserController {
                                                                 <p style='color:Green; font-size:18px; text-align:center;'> Request Permission to view user resume. </p>
                                                               </div>
                                                               <div class='row'>
-                                                                    <a href='ViewUserProfile.php?epr=request&id=$id' class='btn btn-primary col-md-5 col-md-offset-3'>
+                                                                    <a href='ViewUserProfile.php?epr=request&id=$id' class='btn btn-primary col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-5 col-md-offset-3'>
                                                                     <i class='glyphicon glyphicon-flag'></i>
                                                                 Request Permission </a>
                                                               </div>";
@@ -1284,7 +1284,7 @@ class UserController {
     // View to display user profile
     function AddAUserReviewModal($id)
     {
-        $result="<div class='modal fade' id='addUserReviewModal' role='dialog'>
+        $result="<div class='modal fade col-xs-11' id='addUserReviewModal' role='dialog'>
 			<div class='modal-dialog'>
 			
 			  <!-- Modal content-->
@@ -1298,11 +1298,11 @@ class UserController {
                                          ."<form action='' method = 'POST'>
                                            <fieldset>
                                              <div class='clearfix'>
-                                               <label for='descriptionreview' class='col-md-3'> Description: </label>
-                                               <textarea class='col-md-8' rows='5' id='descriptionreview' name = 'descriptionreview' placeholder='Description' required autofocus></textarea>
+                                               <label for='descriptionreview' class='col-md-3 col-sm-3 col-xs-4'> Description: </label>
+                                               <textarea class='col-md-8 col-sm-8 col-xs-7' rows='5' id='descriptionreview' name = 'descriptionreview' placeholder='Description' required autofocus></textarea>
                                              </div>
                                              <div class='clearfix'>
-                                                <label for='punctionalityreview' class='col-md-3'> Punctionality: </label>
+                                                <label for='punctionalityreview' class='col-md-3 col-sm-3 col-xs-4'> Punctionality: </label>
                                                 <select class='form-control'id='punctionalityreview' name = 'punctionalityreview' style='width:200px;'>
                                                     <option value=1>1</option>
                                                     <option value=2>2</option>
@@ -1312,7 +1312,7 @@ class UserController {
                                                 </select>
                                              </div>
                                              <div class='clearfix'>
-                                                <label for='worksatisfactionreview' class='col-md-3'> Work Satisfaction: </label>
+                                                <label for='worksatisfactionreview' class='col-md-3 col-sm-3 col-xs-4'> Work Satisfaction: </label>
                                                 <select class='form-control'id='worksatisfactionreview' name = 'worksatisfactionreview' style='width:200px;'>
                                                     <option value=1>1</option>
                                                     <option value=2>2</option>
@@ -1322,7 +1322,7 @@ class UserController {
                                                 </select>
                                              </div>
                                              <div class='clearfix'>
-                                                <label for='skillreview' class='col-md-3'> Skill: </label>
+                                                <label for='skillreview' class='col-md-3 col-sm-3 col-xs-4'> Skill: </label>
                                                 <select class='form-control'id='skillreview' name = 'skillreview' style='width:200px;'>
                                                     <option value=1>1</option>
                                                     <option value=2>2</option>
@@ -1331,7 +1331,7 @@ class UserController {
                                                     <option value=5>5</option>
                                                 </select>
                                              </div>
-                                             <button class='btn primary col-md-2 col-md-offset-8' name = 'addUserReview' type='submit'>Add</button>
+                                             <button class='btn primary col-xs-2 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'addUserReview' type='submit'>Add</button>
                                            </fieldset>
                                          </form>"
                                . "</div>
@@ -1391,27 +1391,27 @@ class UserController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='ViewUserProfile.php?epr=view&id=".$id."'>
+							<a href='ViewUserProfile.php?epr=view&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='JobPosted.php?epr=view&id=".$id."'>
+							<a href='JobPosted.php?epr=view&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-list'></i>
 							Jobs Posted </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$id."'>
+							<a href='UserReview.php?epr=review&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							Review </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-globe'></i>
 							Connections </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -1468,27 +1468,27 @@ class UserController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li>
-							<a href='ViewUserProfile.php?epr=view&id=".$id."'>
+							<a href='ViewUserProfile.php?epr=view&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='JobPosted.php?epr=view&id=".$id."'>
+							<a href='JobPosted.php?epr=view&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-list'></i>
 							Jobs Posted </a>
 						</li>
 						<li class='active'>
-							<a href='UserReview.php?epr=review&id=".$id."'>
+							<a href='UserReview.php?epr=review&id=".$id."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							Review </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-globe'></i>
 							Connections </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>

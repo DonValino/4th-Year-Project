@@ -207,37 +207,37 @@ class RequestController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>

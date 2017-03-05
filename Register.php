@@ -20,8 +20,8 @@ $loginStatus= "Login";
 $log = "index.php";
 $errorMessage = "";
 $sidebar = '<div id="aboutFreelanceMe">'
-        . '<h4> About Freelance Me:</h4>'
-        . '<p>This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
+        . '<h4 style="text-align:center;"> About Freelance Me:</h4>'
+        . '<p style="text-align:center;">This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
         . ' Users can post jobs on the website and vice versa, can also look for existing jobs posted by other users of the website. </p>'
         . '</div>';
 $title = "home";

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once('Stripe/config.php');
+require_once('Stripe/Config.php');
 
 if(!isset($_SESSION['username']))
 {

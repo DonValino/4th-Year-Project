@@ -67,15 +67,15 @@ class TypeController {
                         . "</div>"
             ."<div class='register-form'>
           <div class='row'>
-            <h2 class='col-md-12' style='text-align:center;'>Add a new Category</h2>
+            <h2 class='col-md-12 col-sm-12' style='text-align:center;'>Add a new Category</h2>
           </div>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='typeName' class='col-md-2'> Type Name: </label>
-                <input type='text' name = 'typeName' id='typeName' value='$typeName' class='col-md-8' placeholder='Type Name' required autofocus>
+                <label for='typeName' class='col-md-2 col-sm-2 col-xs-3'> Type Name: </label>
+                <input type='text' name = 'typeName' id='typeName' value='$typeName' class='col-md-8 col-sm-8 col-xs-7' placeholder='Type Name' required autofocus>
               </div>
-              <button class='btn primary col-md-2 col-md-offset-8' name = 'addType' type='submit'>Add</button>
+              <button class='btn primary col-xs-2 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'addType' type='submit'>Add</button>
             </fieldset>
           </form>
         </div>"                        
@@ -157,10 +157,10 @@ class TypeController {
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='typeName' class='col-md-2'> Type Name: </label>
-                <input type='text' name = 'typeName' id='typeName' value='$typeName' class='col-md-8' placeholder='Type Name' required autofocus>
+                <label for='typeName' class='col-md-2 col-xs-3'> Type Name: </label>
+                <input type='text' name = 'typeName' id='typeName' value='$typeName' class='col-md-8 col-xs-7' placeholder='Type Name' required autofocus>
               </div>
-              <button class='btn primary col-md-2 col-md-offset-8' name = 'updateType' type='submit'>Update</button>
+              <button class='btn primary col-xs-3 col-xs-offset-8 col-md-2 col-md-offset-8' name = 'updateType' type='submit'>Update</button>
             </fieldset>
           </form>
         </div>"                        
@@ -305,37 +305,37 @@ class TypeController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>

@@ -58,6 +58,64 @@ if($epr=='cat')
     //Go to Search Result Page
     header('Location: SearchResult.php?epr=cat');
 }
+
+if($epr=='CancellationOfferAccepted')
+{
+    $tousername =$_GET['tousername'];
+    $jobId =$_GET['jobId'];
+    
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+    
+    $notificationController->InsertNotification($_SESSION['username'], $tousername, 9, 0, $dateTime, $jobId);
+    
+    //Go to Search Result Page
+    header('Location: CancelOfferRequest.php?epr=NotificationSentAccepted');
+}
+
+if($epr=='CancellationOfferDenied')
+{
+    $tousername =$_GET['tousername'];
+    $jobId =$_GET['jobId'];
+    
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+    
+    $notificationController->InsertNotification($_SESSION['username'], $tousername, 10, 0, $dateTime, $jobId);
+    
+    //Go to Search Result Page
+    header('Location: CancelOfferRequest.php?epr=NotificationSentDenied');
+}
+
+if($epr=='sendAccepted')
+{
+    $userId =$_GET['userId'];
+    $tousername = $_GET['tousername'];
+    
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+    $notificationController->InsertNotification($_SESSION['username'], $tousername, 3, 0, $dateTime, $_SESSION['jobId']);
+    //Go to ViewJob Page
+    header('Location: ViewJob.php?epr=viewJobAcceptedOffer&jobid='.$_SESSION['jobId']);
+}
+
+if($epr=='sendDeclined')
+{
+    $userId =$_GET['userId'];
+    $tousername = $_GET['tousername'];
+    
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+    $notificationController->InsertNotification($_SESSION['username'], $tousername, 4, 0, $dateTime, $_SESSION['jobId']);
+    //Go to ViewJob Page
+    header('Location: ViewJob.php?epr=viewDeclineOffer&jobid='.$_SESSION['jobId']);
+}
  
 include 'Template.php'
 ?>

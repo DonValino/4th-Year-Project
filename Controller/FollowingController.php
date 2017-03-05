@@ -166,37 +166,37 @@ class FollowingController {
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li>
-							<a href='UserAccount.php'>
+							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
 						</li>
 						<li>
-							<a href='AccountSettings.php'>
+							<a href='AccountSettings.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
 						<li>
-							<a href='JobsOverview.php'>
+							<a href='JobsOverview.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-ok'></i>
 							Jobs </a>
 						</li>
 						<li>
-							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."'>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
 							My Review </a>
 						</li>
 						<li class='active'>
-							<a href='Following.php'>
+							<a href='Following.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-star-empty'></i>
 							Followers </a>
 						</li>
                                                 <li>
-							<a href='Logout.php'>
+							<a href='Logout.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -308,8 +308,8 @@ class FollowingController {
 					<div id='collapseTimeline' class='panel-collapse collapse in'>
                                             <div class='panel-body'>
                                                 <div class='timeline' id='timeline'>
-                                                <div class='row col-md-offset-8'>
-                                                    <select onchange='myFunction()' class='form-control col-md-8' id='userfollowing' name = 'userfollowing' style='width:200px;'>
+                                                <div class='row col-md-offset-8 col-sm-offset-8 col-xs-offset-5'>
+                                                    <select onchange='myFunction()' class='form-control col-md-8' id='userfollowing' name = 'userfollowing' style='width:200px; margin-bottom:10px;'>
                                                     <option value='0'>All</option>";
                                                     if($search != null)
                                                     {
@@ -341,7 +341,7 @@ class FollowingController {
                                                                                         $user = $userModel->GetUserById($row->followinguserId);
                                                                                         $timeLineEvent = $notificationTypeModel->GetNotificationTypeById($row1->typeid)->name;
 
-                                                                                        $job = $jobModel->GetJobsByID($row1->jobid);
+                                                                                        $job = $jobModel->GetJobsByID($row1->jobid + 1);
                                                                                         if($job != NULL)
                                                                                         {
                                                                                             $qualification = $qualificationModel->GetQualificationByID($job->qualification);
@@ -352,13 +352,13 @@ class FollowingController {
                                                                                                 $dateT = new DateTime($row1->dateposted);
                                                                                                 $dateposted = $dateT->format("H:i:s d/m/Y");
                                                                                                 $result.="<div class='timeline-item' id='gdsa'>
-                                                                                                    <div class='year'><div class='col-md-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
+                                                                                                    <div class='year'><div class='col-md-7 col-xs-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
                                                                                                     </div>
                                                                                                     <div class='info'>
                                                                                                         <div class='row'>
-                                                                                                            <div class='tl col-md-3'>
-                                                                                                                    <a href='ViewUserProfile.php?epr=view&id=".$job->id."'><img src='$user->photo' class='img-responsive' alt=''></a>
-                                                                                                                    <div class='row col-md-3'>
+                                                                                                            <div class='tl col-md-3 col-xs-12'>
+                                                                                                                    <a href='ViewUserProfile.php?epr=view&id=".$user->id."'><img src='$user->photo' class='img-responsive' alt=''></a>
+                                                                                                                    <div class='row col-md-3 col-xs-12'>
                                                                                                                         <p style='text-align:center;'><strong>$user->username</strong></p>
                                                                                                                     </div>
                                                                                                             </div>

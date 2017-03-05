@@ -60,4 +60,24 @@ if($epr == 'delete')
     $placedOffersController->deleteAnOffer($_SESSION['jobId'], $userId);
     header('Location: ViewJob.php?epr=view&jobid='.$_SESSION['jobId']);
 }
+
+// Offer Accepted
+if($epr == 'offerAccepted')
+{
+    $userId = $_GET['userId'];
+    $tousername = $_GET['tousername'];
+    $jobModel = new JobModel();
+    
+    $placedOffersController->updateBidStatus(1, $_SESSION['jobId'], $userId);
+    header('Location: Notification.php?epr=sendAccepted&jobid='.$_SESSION['jobId'].'&userId='.$userId.'&tousername='.$tousername);
+}
+
+// Offer Declined
+if($epr == 'declineOffer')
+{
+    $userId = $_GET['userId'];
+    $tousername = $_GET['tousername'];
+    $placedOffersController->updateBidStatus(0, $_SESSION['jobId'], $userId);
+    header('Location: Notification.php?epr=sendDeclined&jobid='.$_SESSION['jobId'].'&userId='.$userId.'&tousername='.$tousername);
+}
 ?>

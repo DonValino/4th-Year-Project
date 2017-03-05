@@ -1,6 +1,6 @@
 <?php
 
-require_once('Stripe/config.php');
+require_once('Stripe/Config.php');
 require 'Controller/UserController.php';
 
 

@@ -23,8 +23,9 @@ if($epr=='add')
     $date = new DateTime();
     $dateoffollowed = $date->format('Y-m-d H:i:s.u');
     $jobid = $_GET['jobid'];
+    $jobid = $jobid + 1;
     $followingTimelineController->InsertTimeline($_SESSION['id'], 6, $dateoffollowed, $_GET['jobid']);
-    header('Location: home.php');
+    header('Location: Home.php');
 }
 
     

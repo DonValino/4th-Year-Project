@@ -40,18 +40,18 @@ class UserReviewController {
         $review = $this->GetUserReviewById($id);
         $count = $this->GetNumberOfUserReviewById($id);
         $result="<div class='row'>"
-                    . "<div class='panel-group col-md-12'>
+                    . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
 			  <div class='panel panel-default'>
                                     <div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseusersummary' class='glyphicon glyphicon-hand-up'><strong>Summary</strong></a>
 					</div>
 					<div id='collapseusersummary' class='panel-collapse collapse in'>
 						<div class='panel-body'>
-                                                <div class='col-md-12'>
+                                                <div class='col-md-12 col-sm-12 col-xs-12'>
                                                     <div class='row'>
                                                     <p style='text-align:center;'><strong>Based on $count reviews</strong></p>
                                                     </div>
-                                                            <div class='col-md-1 col-md-offset-2' style='padding-left:20px;'>";
+                                                            <div class='col-xs-1 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2'>";
                                                                 try
                                                                 {
                                                                             $actualRate = 0;
@@ -79,7 +79,7 @@ class UserReviewController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Punctionality</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Punctionality</p>
                                                                                 </div> 
                                                                             </div>";
                                                                                 
@@ -93,7 +93,7 @@ class UserReviewController {
                                                                                     $res = (int)$res;
                                                                                 }
                                                                             
-                                                                            $result.="<div class='col-md-1 col-md-offset-2' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-1 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:20px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -104,7 +104,7 @@ class UserReviewController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Work Satisfaction</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Work Satisfaction</p>
                                                                                 </div>
                                                                             </div>";
                                                                             
@@ -117,7 +117,7 @@ class UserReviewController {
                                                                                     $res = ($actualRate / $expectedRate) * 100;
                                                                                     $res = (int)$res;
                                                                                 }
-                                                                            $result.="<div class='col-md-1 col-md-offset-2' style='padding-left:20px;'>
+                                                                            $result.="<div class='col-xs-1 col-xs-offset-3 col-sm-1 col-sm-offset-2 col-md-1 col-md-offset-2' style='padding-left:20px;'>
                                                                                 <div class='row'>
                                                                                         <div class='c100 p$res'>
                                                                                           <span>$res%</span>
@@ -128,7 +128,7 @@ class UserReviewController {
                                                                                         </div>
                                                                                 </div>
                                                                                 <div class='row'>
-                                                                                    <p class='col-md-12'>Skills</p>
+                                                                                    <p class='col-md-12 col-sm-12'>Skills</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>";
@@ -144,7 +144,7 @@ class UserReviewController {
 			."</div>"
                 
                     ."<div class='row'>"
-                           . "<div class='panel-group col-md-12'>
+                           . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
                                 <div class='panel panel-default'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>Reviews</strong></a>
@@ -152,10 +152,11 @@ class UserReviewController {
                                             <div id='collapseuserrating' class='panel-collapse collapse in'>
                                                     <div class='panel-body'>
                                                     <div class='row'>
-                                                        <a href='#' style='width:20%; margin-bottom:10px; margin:auto; display:block;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#addUserReviewModal' onclick='$(#addUserReviewModal).modal({backdrop: static});'>
+                                                        <a href='#' style='width:26%; margin-bottom:10px; margin:auto; display:block;' data-toggle='modal' class='btn btn-success btn-sm' data-target='#addUserReviewModal' onclick='$(#addUserReviewModal).modal({backdrop: static});'>
                                                         Add Review </a>
-                                                    </div>"
-                                                . "<table class='table sortable'>"
+                                                    </div>
+                                                <div class='table-responsive scrollit'>"
+                                                . "<table class='table sortable col-xs-12'>"
                                                         . "<tr>"
                                                         . "     <th>Reviewer</th>"
                                                         . "     <th>Description</th>"
@@ -185,7 +186,8 @@ class UserReviewController {
                                                                                     <p>$row->description</p>
                                                                                         
                                                                              </td>
-                                                    </tr>";
+                                                    </tr>"
+                                                                                            . "</div>";
                                                                 }
                                                             }
                                                         }catch(Exception $x)

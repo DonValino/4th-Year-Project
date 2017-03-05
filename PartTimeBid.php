@@ -1,7 +1,6 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><?php echo $title; ?></title>
         <link rel="stylesheet" type="text/css" href="Styles/StyleSheet.css">
         
         <script src="Styles/sorttable.js"></script>
@@ -39,21 +38,21 @@ $job = $jobController->GetJobsByID($_SESSION['jobId']);
         
 
                                       echo  "<div class='row'>
-                                               <h2 class='col-md-12' style='text-align:center;'>Place An Offer</h2>
+                                               <h2 class='col-md-12 col-xs-12' style='text-align:center;'>Place An Offer</h2>
                                              </div>
                                              <div class='row'>
-                                                <input type='radio' onclick = 'fullTimeBid()' style='margin-left:38%; margin-bottom:20px;' name='gender' value='0'> Full Time 
+                                                <input type='radio' onclick = 'fullTimeBid()' style='margin-left:30%; margin-bottom:20px;' name='gender' value='0'> Full Time 
                                                 &nbsp&nbsp&nbsp&nbsp&nbsp<input type='radio' checked='checked' onclick = 'partTimeBid()' name='gender' value='1'> Part Time 
                                              </div>
                                              <form action='' method = 'POST'>
                                                <fieldset>
                                                  <div class='clearfix'>
-                                                   <label for='offerPrice' class='col-md-2'> Price: </label>
-                                                   <input type='text' name = 'offerPrice' id='offerPrice' class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                   <label for='offerPrice' class='col-md-2 col-xs-3'> Price: </label>
+                                                   <input type='text' name = 'offerPrice' id='offerPrice' class='col-md-8 col-xs-8' placeholder='Enter Price' required autofocus>
                                                  </div>
                                                  <div class='clearfix'>
-                                                 <label for='comment' class='col-md-2'> Comment: </label>
-                                                   <input type='text' name = 'comment' class='col-md-8' placeholder='Comment' required autofocus>
+                                                 <label for='comment' class='col-md-2 col-xs-3'> Comment: </label>
+                                                   <input type='text' name = 'comment' class='col-md-8 col-xs-8' placeholder='Comment' required autofocus>
                                                  </div>
                                                  <script>
                                                     function fullTimeBid() {
@@ -62,8 +61,8 @@ $job = $jobController->GetJobsByID($_SESSION['jobId']);
                                                 </script>
                                                 
                                                 <div class='clearfix'>
-                                                  <label for='numberOfDays' class='col-md-2'> Number Of Days: </label>
-                                                  <select class='form-control'id='numberOfDays' name = 'numberOfDays' style='width:200px;'>
+                                                  <label for='numberOfDays' class='col-md-2  col-xs-3'> Number Of Days: </label>
+                                                  <select class='form-control'id='numberOfDays' name = 'numberOfDays' style='width:150px;'>
                                                       <option value=1>1</option>
                                                       <option value=2>2</option>
                                                       <option value=3>3</option>
@@ -77,12 +76,12 @@ $job = $jobController->GetJobsByID($_SESSION['jobId']);
                                                   </select>
                                                 </div>
                                                  <div class='clearfix'>
-                                                    <p class='col-md-12' style='color:green;text-align:center;font-size:13px;'> Select a date between: </p> 
-                                                    <p class='col-md-12' style='color:blue;font-weight:bold;text-align:center;font-size:13px;'><font style='color:green;'>Job Start Date: </font>".$startDate->format("d-m-Y")."  &nbsp &nbsp  -  &nbsp &nbsp  <font style='color:green;'>Job End Date: </font>".$dateFinished->format("d-m-Y")."</p>  
+                                                    <p class='col-md-12  col-xs-12' style='color:green;text-align:center;font-size:13px;'> Select a date between: </p> 
+                                                    <p class='col-md-12  col-xs-12' style='color:blue;font-weight:bold;text-align:center;font-size:11px;'><font style='color:green;'>Job Start Date: </font>".$startDate->format("d-m-Y")."  &nbsp &nbsp  -  &nbsp &nbsp  <font style='color:green;'>Job End Date: </font>".$dateFinished->format("d-m-Y")."</p>  
                                                  </div>
                                                  <div class='clearfix'>
-                                                 <label for='prefferedCommenceDate' class='col-md-2'> Preffered Commence Date: </label> 
-                                                   <input type='date' name = 'prefferedCommenceDate' class='col-md-8' placeholder='Preferred Commence Date' required autofocus>
+                                                 <label for='prefferedCommenceDate' class='col-md-2 col-xs-4'> Preffered Commence Date: </label> 
+                                                   <input type='date' name = 'prefferedCommenceDate' class='col-md-8 col-xs-8' placeholder='Preferred Commence Date' required autofocus>
                                                  </div>
                                                 
                                                  <script>
@@ -91,7 +90,7 @@ $job = $jobController->GetJobsByID($_SESSION['jobId']);
                                                     }
                                                 </script>
                                                 
-                                                <button class='btn primary col-md-2 col-md-offset-8' name = 'placeOfferPB' type='submit'>Submit</button>
+                                                <button class='btn primary col-xs-3 col-xs-offset-8 col-md-2 col-md-offset-8' name = 'placeOfferPB' type='submit'>Submit</button>
                                                </fieldset>
                                              </form>";
 

@@ -37,6 +37,86 @@ if($epr == 'view')
     $content = $jobController->ViewJobDetails($_SESSION['jobId']);
     $content .= $jobController->PlaceAnOfferModal();
     $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+}
+
+if($epr == 'viewJobAcceptedOffer')
+{
+    $errorMessage = "Offer Accepted :)";
+    
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+}
+
+if($epr == 'viewDeclineOffer')
+{
+    $errorMessage = "Offer Declined :(";
+    
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+}
+
+if($epr == 'viewJobCancellationOffer')
+{
+    $errorMessage = "Offer Cancellation Request Submitted -_-";
+    
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+}
+
+if($epr == 'renewedStandardAndview')
+{
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+    
+    $jobController->updateJobActiveStatus($_SESSION['jobId'], 1);
+    $jobController->updateJobAdType($_SESSION['jobId'], 0);
+    
+    // Set A New Date For The Job
+
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+    $jobController->updateJobDate($_SESSION['jobId'], $dateTime);
+}
+
+if($epr == 'renewedFeaturedAndview')
+{
+    $_SESSION['jobId'] = $_GET['jobid'];
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+    
+    $jobController->updateJobActiveStatus($_SESSION['jobId'], 1);
+    $jobController->updateJobAdType($_SESSION['jobId'], 1);
+    
+    // Set A New Date For The Job
+
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+    $jobController->updateJobDate($_SESSION['jobId'], $dateTime);
 }
 
 if($epr == 'viewAndUpgrade')
@@ -56,6 +136,8 @@ if($epr == 'viewAndUpgrade')
     $content = $jobController->ViewJobDetails($_SESSION['jobId']);
     $content .= $jobController->PlaceAnOfferModal();
     $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
 }
 
 if($epr == 'viewfromnotification')
@@ -76,10 +158,12 @@ if($userobjectForChecking->username != $_SESSION['username'])
 if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
-   $log ="home.php";
+   $log ="Home.php";
    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
    $content .= $jobController->PlaceAnOfferModal();
    $content .= $jobController->UpdateAnOfferModal();
+   $content .= $jobController->JobSubscriptionStatusModal();
+   $content .= $jobController->RenewJobSubscriptionModal();
 }
 
 $content .= $jobController->SendMessageModal($_SESSION['jobId']);
@@ -106,7 +190,23 @@ if($epr == 'offerUpdated')
 {
     $errorMessage="Thanks, Offer Updated!!";
 }
-    
+
+// Offer Accepted
+if($epr == 'offerAccepted')
+{
+    $userId = $_GET['userId'];
+    $tousername = $jobController->GetUserById($userId)->username;
+    header('Location: PlaceOffer.php?epr=offerAccepted&userId='.$userId.'&tousername='.$tousername);
+}
+
+// Offer Declined
+if($epr == 'declineOffer')
+{
+    $userId = $_GET['userId'];
+    $tousername = $jobController->GetUserById($userId)->username;
+    header('Location: PlaceOffer.php?epr=declineOffer&userId='.$userId.'&tousername='.$tousername);
+}
+
 //Code to place an offer
 //First Check to ensure all fields are not empty
 if (isset($_POST['placeOfferFB']) && !empty($_POST['offerPrice']) && !empty($_POST['comment'])) 
@@ -119,7 +219,7 @@ if (isset($_POST['placeOfferFB']) && !empty($_POST['offerPrice']) && !empty($_PO
         $userId = $_SESSION['id'];
 
         $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-        header('Location: placeOffer.php?epr=placedFB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&startDate='.$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
+        header('Location: PlaceOffer.php?epr=placedFB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&startDate='.$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
     }
 
 }
@@ -152,7 +252,7 @@ if (isset($_POST['placeOfferPB']) && !empty($_POST['offerPrice']) && !empty($_PO
         if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd->format("Y-m-d H:i:s")) && strtotime($prefferedCommenceDate) >= strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd->format("Y-m-d H:i:s"))))
         {
             $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-            header('Location: placeOffer.php?epr=placedPB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&numberOfDays='.$_POST['numberOfDays'].'&prefferedCommenceDate='.$prefferedCommenceDate);
+            header('Location: PlaceOffer.php?epr=placedPB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&numberOfDays='.$_POST['numberOfDays'].'&prefferedCommenceDate='.$prefferedCommenceDate);
         }else if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd->format("Y-m-d H:i:s")) && strtotime($prefferedCommenceDate) < strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd->format("Y-m-d H:i:s"))))
         {
             $errorMessage= 'Error: Preferred Commence Date is before the start date of the job';
@@ -163,7 +263,17 @@ if (isset($_POST['placeOfferPB']) && !empty($_POST['offerPrice']) && !empty($_PO
 
     }
 }
-    
+
+if (isset($_POST['subscribeButton']))
+{
+    if($_POST['subscType'] == 0)
+    {
+        header('Location: RenewJobAsStandardAd.php');
+    }else if($_POST['subscType'] == 1)
+    {
+        header('Location: RenewJobAsFeaturedAd.php');
+    }
+}
 
 //Code Full Time update an offer
 //First Check to ensure all fields are not empty

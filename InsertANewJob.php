@@ -68,10 +68,9 @@ if (isset($_POST['insertANewJob']) && !empty($_POST['name']) && !empty($_POST['d
         $errorMessage = "* Error!! Phone Numbers Must only be numbers.";
     }else
     {
-        // Insert new User to the Database
         //$jobController->InsertAJob($_SESSION['id']);
         $jobid = $jobController->GetLastpostedJobs()->jobid;
-        $userId = $jobController->GetLastpostedJobs()->id;
+        $userId = $_SESSION['id'];
         // Add a timeline event
         //header('Location: AddTimelineEvent.php?epr=add&jobid='.$jobid);
         

@@ -47,6 +47,13 @@ class PlacedOffersController {
         $placedOffersModel->updateSeen($seen, $jobid, $userId);
     }
     
+    //Update Bid Status
+    function updateBidStatus($status,$jobid,$userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->updateBidStatus($status, $jobid, $userId); 
+    }
+    
     // Get The Lowest Placed Offers Price in a specific job
     function GetLowestPlacedOffersByJobId($jobid)
     {
@@ -73,6 +80,27 @@ class PlacedOffersController {
     {
         $placedOffersModel = new PlacedOffersModel();
         $placedOffersModel->GetAllPlacedOffers();
+    }
+    
+    // Get All Accepted Placed Offers By UserID
+    function GetAllAcceptedPlacedOffersByUserID($UserID)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->GetAllAcceptedPlacedOffersByUserID($UserID);
+    }
+    
+    // Get All Placed Offers by other users I accepted
+    function GetAllPlacedOffersIAccepted($userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->GetAllPlacedOffersIAccepted($userId);
+    }
+    
+    // Get Users Placed Offers
+    function GetUsersPlacedOffer($jobid,$userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->GetUsersPlacedOffer($jobid, $userId);
     }
     
     //Delete an Offer

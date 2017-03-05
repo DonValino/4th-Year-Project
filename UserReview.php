@@ -24,7 +24,7 @@ $sidebar = "";
 if(isset($_SESSION['username']))
 {
    $loginStatus= "Home";
-   $log = "home.php";
+   $log = "Home.php";
 }else
 {
     header('Location: index.php');

@@ -28,9 +28,43 @@ if(isset($_SESSION['username']))
 $epr='';
 $title = "home";
 $content = $jobController->CreateSearchBar();
-$content .= $jobController->CreateHomeContent($_SESSION['id']);
 $content .= $jobController->CategoryModal();
+$content .= $jobController->CreateHomeContent($_SESSION['id']);
+
 $content .= $jobController->PriceModal();
+
+///////////////// Check For Notification And display it in badges in the header of the page ///////////////////
+
+$_SESSION['countBadge'] = 0;
+
+require_once 'Model/NotificationModel.php';
+$notificationController = new NotificationModel();
+
+require_once 'Model/RequestModel.php';
+$requestController = new RequestModel();
+
+require_once 'Model/MessagesModel.php';
+$messageController = new MessagesModel();
+
+$numOfNotification = $notificationController->CountNotificationByToUsername($_SESSION['username']);
+$numOfRequest = $requestController->CountRequestsByTargetUserId($_SESSION['id']);
+$numberOfMessages = $messageController->CountAllMyMessages($_SESSION['username']);
+
+if($numOfNotification != NULL)
+{
+    $_SESSION['countBadge'] = $numOfNotification;
+}
+
+if($numOfRequest != NULL)
+{
+    $_SESSION['countBadge'] = $_SESSION['countBadge'] + $numOfRequest;
+}
+
+if($numberOfMessages != NULL)
+{
+     $_SESSION['countBadge'] =  $_SESSION['countBadge'] + $numberOfMessages;
+}
+/////////////////                                                              ///////////////////
 
 
 $errorMessage = "";

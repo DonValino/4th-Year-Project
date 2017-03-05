@@ -27,18 +27,18 @@ if(!isset($_SESSION['username']))
                                                <h2 class='col-md-12' style='text-align:center;'>Place An Offer</h2>
                                              </div>
                                              <div class='row'>
-                                                <input type='radio' onclick = 'fullTimeBid()' checked='checked' style='margin-left:38%; margin-bottom:20px;' name='gender' value='0'> Full Time 
+                                                <input type='radio' onclick = 'fullTimeBid()' checked='checked' style='margin-left:30%; margin-bottom:20px;' name='gender' value='0'> Full Time 
                                                 &nbsp&nbsp&nbsp&nbsp&nbsp<input type='radio' onclick = 'partTimeBid()' name='gender' value='1'> Part Time 
                                              </div>
                                              <form action='' method = 'POST'>
                                                <fieldset>
                                                  <div class='clearfix'>
-                                                   <label for='offerPrice' class='col-md-2'> Price: </label>
-                                                   <input type='text' name = 'offerPrice' id='offerPrice' class='col-md-8' placeholder='Enter Price' required autofocus>
+                                                   <label for='offerPrice' class='col-md-2 col-sm-2 col-xs-3'> Price: </label>
+                                                   <input type='text' name = 'offerPrice' id='offerPrice' class='col-md-8 col-sm-8 col-xs-8' placeholder='Enter Price' required autofocus>
                                                  </div>
                                                  <div class='clearfix'>
-                                                 <label for='comment' class='col-md-2'> Comment: </label>
-                                                   <input type='text' name = 'comment' class='col-md-8' placeholder='Comment' required autofocus>
+                                                 <label for='comment' class='col-md-2 col-sm-2 col-xs-3'> Comment: </label>
+                                                   <input type='text' name = 'comment' class='col-md-8 col-sm-8 col-xs-8' placeholder='Comment' required autofocus>
                                                  </div>
                                                  <script>
                                                     function fullTimeBid() {
@@ -52,7 +52,7 @@ if(!isset($_SESSION['username']))
                                                     }
                                                 </script>
                                                 
-                                                <button class='btn primary col-md-2 col-md-offset-8' name = 'placeOfferFB' type='submit'>Submit</button>
+                                                <button class='btn primary col-xs-3 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'placeOfferFB' type='submit'>Submit</button>
                                                </fieldset>
                                              </form>";
 

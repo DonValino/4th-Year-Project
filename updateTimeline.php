@@ -52,8 +52,8 @@ if($epr=='view')
                                                          $qualificationModel = new QualificationModel();
                                                          $typeModel = new TypeModel();
                                                          
-                                                                                echo "<div class='row col-md-offset-8'>
-                                                                                        <select onchange='myFunction()' class='form-control col-md-8' id='userfollowing' name = 'userfollowing' style='width:200px;'>
+                                                                                echo "<div class='row col-md-offset-8 col-xs-offset-5'>
+                                                                                        <select onchange='myFunction()' class='form-control col-md-8' id='userfollowing' name = 'userfollowing' style='width:200px; margin-bottom:10px;'>
                                                                                         <option value='0'>All</option>";
                                                                                           foreach($searc as $row2)
                                                                                           { if($select == $row2->followinguserId)
@@ -96,8 +96,10 @@ if($epr=='view')
                                                                                 {
                                                                                     if($select == $row->followinguserId)
                                                                                     {
+                                                                                            $dateT = new DateTime($row1->dateposted);
+                                                                                            $dateposted = $dateT->format("H:i:s d/m/Y");
                                                                                         echo "<div class='timeline-item' id='gdsa'>"
-                                                                                                . "<div class='year'><div class='col-md-7'>$row1->dateposted</div> <span class='marker'><span class='dot'></span></span>
+                                                                                                . "<div class='year'><div class='col-md-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
                                                                                              </div>
                                                                                              <div class='info'>
                                                                                                  <div class='row'>
@@ -137,8 +139,10 @@ if($epr=='view')
                                                                                              </div></div>";
                                                                                     }else if($select == 0)
                                                                                     {
+                                                                                            $dateT = new DateTime($row1->dateposted);
+                                                                                            $dateposted = $dateT->format("H:i:s d/m/Y");
                                                                                         echo "<div class='timeline-item' id='gdsa'>"
-                                                                                                . "<div class='year'><div class='col-md-7'>$row1->dateposted</div> <span class='marker'><span class='dot'></span></span>
+                                                                                                . "<div class='year'><div class='col-md-7'>$dateposted</div> <span class='marker'><span class='dot'></span></span>
                                                                                              </div>
                                                                                              <div class='info'>
                                                                                                  <div class='row'>

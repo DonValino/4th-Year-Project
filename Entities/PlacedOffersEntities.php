@@ -23,9 +23,11 @@ class PlacedOffersEntities
   public $numberOfDays;
   public $prefferedCommenceDate;
   public $seen;
+  public $statusChangeDate;
+  public $bidStatus;
   
   // Contructor
-  function __construct($jobid, $userID, $comment, $placementDate, $offerPrice, $bidType, $numberOfDays, $prefferedCommenceDate, $seen) {
+  function __construct($jobid, $userID, $comment, $placementDate, $offerPrice, $bidType, $numberOfDays, $prefferedCommenceDate, $seen, $statusChangeDate, $bidStatus) {
       $this->jobid = $jobid;
       $this->userID = $userID;
       $this->comment = $comment;
@@ -35,9 +37,11 @@ class PlacedOffersEntities
       $this->numberOfDays = $numberOfDays;
       $this->prefferedCommenceDate = $prefferedCommenceDate;
       $this->seen = $seen;
+      $this->statusChangeDate = $statusChangeDate;
+      $this->bidStatus = $bidStatus;
   }
 
-    // Getters
+      // Getters
   function getJobid() {
       return $this->jobid;
   }
@@ -74,6 +78,13 @@ class PlacedOffersEntities
       return $this->seen;
   }
 
+  function getStatusChangeDate() {
+      return $this->statusChangeDate;
+  }
+
+  function getBidStatus() {
+      return $this->bidStatus;
+  }
   
   
   // Setters
@@ -111,6 +122,14 @@ class PlacedOffersEntities
   
   function setSeen($seen) {
       $this->seen = $seen;
+  }
+  
+  function setStatusChangeDate($statusChangeDate) {
+      $this->statusChangeDate = $statusChangeDate;
+  }
+
+  function setBidStatus($bidStatus) {
+      $this->bidStatus = $bidStatus;
   }
 
 }

@@ -26,39 +26,39 @@ class RegisterController {
         $phone = '';
         $result = " <div class='register-form'>
           <div class='row'>
-            <h2 class='col-md-12' style='text-align:center;'>Register A New Account</h2>
+            <h2 class='col-md-12 col-sm-12' style='text-align:center;'>Register A New Account</h2>
           </div>
           <div class='row'>
-            <p class='col-md-3'>Not yet registered?</p>
+            <p class='col-md-3 col-sm-3'>Not yet registered?</p>
           </div>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix'>
-                <label for='firstName' class='col-md-2'> First Name: </label>
-                <input type='text' name = 'firstName' id='firstName' value='$firstName' class='col-md-8' placeholder='First Name' required autofocus>
+                <label for='firstName' class='col-md-2 col-sm-2'> First Name: </label>
+                <input type='text' name = 'firstName' id='firstName' value='$firstName' class='col-md-8 col-sm-8' placeholder='First Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='lastName' class='col-md-2'> Last Name: </label>
-                <input type='text' name = 'lastName' value='$lastName' class='col-md-8' placeholder='Last Name' required autofocus>
+              <label for='lastName' class='col-md-2 col-sm-2'> Last Name: </label>
+                <input type='text' name = 'lastName' value='$lastName' class='col-md-8 col-sm-8' placeholder='Last Name' required autofocus>
               </div>
               <div class='clearfix'>
-              <label for='usernameRegister' class='col-md-2'> Username: </label>
-                    <input type='text' id='usernameRegister' class='col-md-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
+              <label for='usernameRegister' class='col-md-2 col-sm-2'> Username: </label>
+                    <input type='text' id='usernameRegister' class='col-md-8 col-sm-8' name = 'usernameRegister' value='$usernameRegister' placeholder='Username' required autofocus>
                     <?php echo error_for('usernameRegister') ?>
               </div>
               <div class='clearfix'>
-              <label for='password' class='col-md-2'> Password: </label>
-                <input type='password' class='col-md-8' name = 'password' value='$password' placeholder='Password' required>
+              <label for='password' class='col-md-2 col-sm-2'> Password: </label>
+                <input type='password' class='col-md-8 col-sm-8' name = 'password' value='$password' placeholder='Password' required>
               </div>
               <div class='clearfix'>
-              <label for='email' class='col-md-2'> Email: </label>
-                <input type='text' name = 'email' class='col-md-8' value='$email' placeholder='email' required>
+              <label for='email' class='col-md-2 col-sm-2'> Email: </label>
+                <input type='text' name = 'email' class='col-md-8 col-sm-8' value='$email' placeholder='email' required>
               </div>
               <div class='clearfix'>
-                <label for='phone' class='col-md-2'> Phone: </label>
-                <input type='text' name = 'phone' class='col-md-8' value='$phone' placeholder='phone' required>
+                <label for='phone' class='col-md-2 col-sm-2'> Phone: </label>
+                <input type='text' name = 'phone' class='col-md-8 col-sm-8' value='$phone' placeholder='phone' required>
               </div>
-              <button class='btn primary col-md-2 col-md-offset-8' name = 'register' type='submit'>Register</button>
+              <button class='btn primary col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'register' type='submit'>Register</button>
             </fieldset>
           </form>
         </div>";

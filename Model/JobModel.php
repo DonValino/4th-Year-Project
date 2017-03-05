@@ -23,7 +23,7 @@ class JobModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM jobs WHERE type=$type AND isActive=1") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE type=$type AND isActive=1");
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();
@@ -424,6 +424,26 @@ class JobModel {
             }
             
             return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    //Get Job By Category.
+    function CountJobsByCategory($typeId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId AND isActive=1 ORDER BY date DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            return $numrows;
         }else
         {
             return 0;
@@ -856,6 +876,26 @@ class JobModel {
         }
     }
     
+    // Count Jobs By between prices.
+    function CountJobsBetweenPrices($minPrice,$maxPrice)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE price BETWEEN $minPrice AND $maxPrice AND isActive=1 ORDER BY date DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        
+        if($numrows != 0)
+        {
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     
     //Insert a new user into the database
     function InsertANewJob($jobParameter)
@@ -1109,6 +1149,30 @@ class JobModel {
         }
         
         $sql = "UPDATE jobs SET adType='$adType' WHERE jobid=$jobid";
+
+        if (mysqli_query($connection, $sql)) {
+
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+        $connection->close();
+    }
+    
+    //Update a job Date
+    function updateJobDate($jobid,$date)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
+        $sql = "UPDATE jobs SET date='$date' WHERE jobid=$jobid";
 
         if (mysqli_query($connection, $sql)) {
 

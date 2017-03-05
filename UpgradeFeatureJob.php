@@ -61,12 +61,12 @@ $sidebar = "<div class='col-md-12'>
 				<div class='profile-usermenu'>
 					<ul class='nav'>
 						<li class='active'>
-							<a href='ViewJob.php'>
+							<a href='ViewJob.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-remove'></i>
 							Cancel </a>
 						</li>
 						<li>
-							<a href='#' target='_blank'>
+							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>

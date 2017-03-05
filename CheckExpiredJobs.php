@@ -30,7 +30,7 @@ if($userJobs != NULL)
     {
         $jobDate = $row->date;
          
-        if((time() - ((60 * 60 * 24) * 10) >= strtotime($jobDate)) && ($row->adtype == 0) && ($row->isActive == 1))
+        if((time() - ((60 * 60 * 24) * 30) >= strtotime($jobDate)) && ($row->adtype == 0) && ($row->isActive == 1))
         {
             $jobController->updateJobActiveStatus($row->jobid, 0);
 
@@ -46,9 +46,8 @@ if($userJobs != NULL)
            
         }
     }
-            // Go To Home Page
-            header('Location: Home.php');
 }
     
-
+            // Go To Home Page
+            header('Location: Home.php');
 

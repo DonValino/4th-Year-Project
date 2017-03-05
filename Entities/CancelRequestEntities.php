@@ -7,31 +7,33 @@
  */
 
 /**
- * Description of RequestEntities
+ * Description of CancelRequestEntities
  *
  * @author Jake Valino
  */
-class RequestEntities {
+class CancelRequestEntities {
   public $id;
   public $userId;
-  public $targetUserId;
-  public $typeId;
-  public $date;
+  public $tagerUserId;
+  public $jobId;
+  public $reason;
   public $status;
+  public $date;
   public $seen;
   
   // Constructor
-  function __construct($id, $userId, $targetUserId, $typeId, $date, $status, $seen) {
+  function __construct($id, $userId, $tagerUserId, $jobId, $reason, $status, $date, $seen) {
       $this->id = $id;
       $this->userId = $userId;
-      $this->targetUserId = $targetUserId;
-      $this->typeId = $typeId;
-      $this->date = $date;
+      $this->tagerUserId = $tagerUserId;
+      $this->jobId = $jobId;
+      $this->reason = $reason;
       $this->status = $status;
+      $this->date = $date;
       $this->seen = $seen;
   }
 
-    
+      
   // Getters
   function getId() {
       return $this->id;
@@ -41,27 +43,31 @@ class RequestEntities {
       return $this->userId;
   }
 
-  function getTargetUserId() {
-      return $this->targetUserId;
+  function getTagerUserId() {
+      return $this->tagerUserId;
   }
 
-  function getTypeId() {
-      return $this->typeId;
-  }
-  
-  function getDate() {
-      return $this->date;
+  function getJobId() {
+      return $this->jobId;
   }
 
   function getStatus() {
       return $this->status;
   }
   
+  function getReason() {
+      return $this->reason;
+  }
+  
+  function getDate() {
+      return $this->date;
+  }
+
   function getSeen() {
       return $this->seen;
   }
 
-  
+    
   // Setters
   function setId($id) {
       $this->id = $id;
@@ -71,20 +77,24 @@ class RequestEntities {
       $this->userId = $userId;
   }
 
-  function setTargetUserId($targetUserId) {
-      $this->targetUserId = $targetUserId;
+  function setTagerUserId($tagerUserId) {
+      $this->tagerUserId = $tagerUserId;
   }
 
-  function setTypeId($typeId) {
-      $this->typeId = $typeId;
-  }
-  
-  function setDate($date) {
-      $this->date = $date;
+  function setJobId($jobId) {
+      $this->jobId = $jobId;
   }
 
   function setStatus($status) {
       $this->status = $status;
+  }
+  
+  function setReason($reason) {
+      $this->reason = $reason;
+  }
+  
+  function setDate($date) {
+      $this->date = $date;
   }
   
   function setSeen($seen) {
