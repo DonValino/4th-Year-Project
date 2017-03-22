@@ -24,7 +24,10 @@ if(isset($_SESSION['username']))
    $userObject = $userController->CheckUser($loginStatus);
    $content = $userController->CreateUserUpdateForm($userObject->firstName, $userObject->lastName, $userObject->username, $userObject->password, $userObject->email, $userObject->phone);
    $content .= $userController->CreateResumeForm($_SESSION['id']);
+   $content .= $userController->CreatePayPalMeForm($_SESSION['id']);
    $content .= $userController->ProfilePictureModal();
+   $content .= $userController->AddANewPayPalMeAccountModal();
+   $content .= $userController->ChangePayPalMeAccountModal($_SESSION['id']);
    $emailOfUserLoggedIn = $userObject->email;
 }else
 {
@@ -63,6 +66,55 @@ if(isset($_GET["delete"]))
     session_start();
     session_destroy();
     header('Location: index.php');
+}
+
+//Code to Add PayPalMe Account
+//First Check to ensure all fields are not empty
+if (isset($_POST['addPayMeURL']) && !empty($_POST['payPalMeUrl'])) 
+{
+    require_once 'Model/PayPalMeModel.php';
+    $payPalMeModel = new PayPalMeModel();
+    
+    // Check if there is already an account configured for this user
+    $account = $payPalMeModel->GetPayPalMeAccountByUserId($_SESSION['id']);
+    
+    if(!is_numeric($_POST['payPalMeUrl']) && $account == NULL)
+    {
+        $payPalMeModel->InsertANewPayPalMeAccount($_SESSION['id'], $_POST['payPalMeUrl']);
+        header("Location: AccountSettings.php?epr=payPalMeConfigured");
+    }else
+    {
+        $errorMessage="Invalid URL: Must not be numeric.";
+    }
+
+}
+
+if($epr == "payPalMeConfigured")
+{
+    $errorMessage="<p style='font-size:18px;color:green'>PayPalMe Account Sucessfully Configured !!</p>";
+}
+
+//Code to Change PayPalMe Account
+//First Check to ensure all fields are not empty
+if (isset($_POST['changePayMeURL']) && !empty($_POST['changePayPalMeUrl'])) 
+{
+    require_once 'Model/PayPalMeModel.php';
+    $payPalMeModel = new PayPalMeModel();
+    
+    if(!is_numeric($_POST['changePayPalMeUrl']))
+    {
+        $payPalMeModel->updateUserPayPalMeAccount($_POST['changePayPalMeUrl'], $_SESSION['id']);
+        header("Location: AccountSettings.php?epr=payPalMeReconfigured");
+    }else
+    {
+        $errorMessage="Invalid URL: Must not be numeric.";
+    }
+
+}
+
+if($epr == "payPalMeReconfigured")
+{
+    $errorMessage="<p style='font-size:18px;color:green'>PayPalMe Account Sucessfully Changed !!</p>";
 }
 
 //Code to save User

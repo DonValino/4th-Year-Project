@@ -76,8 +76,8 @@ if($epr=='denied')
     $userModel = new UserModel();
     $placedModel = new PlacedOffersModel();
     
-    $tousername = $userModel->GetUserById($userIdd)->username;
-    
+    $_SESSION['tousername'] = $tousername = $userModel->GetUserById($userIdd)->username;
+    $_SESSION['tagetuserId'] = $userIdd;
     $cancelRequestController->updateCancelSeen(1, $userIdd, $_SESSION['id'], $jobIdd);
     $cancelRequestController->updateCancelRequestStatus(0, $userIdd, $_SESSION['id'], $jobIdd);
     
@@ -86,7 +86,25 @@ if($epr=='denied')
 
 if($epr=='NotificationSentDenied')
 {
-    $errorMessage = "Cancellation Request Denied.";
+    $content = $cancelRequestController->CancelRequestInfoContent();
+    $content.= $cancelRequestController->SendMessageModal($_SESSION['tagetuserId']);
+    $errorMessage = "<p style='color:blue'>You Have Denied <strong style='color:green;'>".$_SESSION['tousername']."'s</strong> Request To Cancel Your Offer.</p><p style='color:blue'> Send Him A Message To State The Reason.</p>"
+            . "<a href='#' data-toggle='modal' class='btn btn-success btn-sm' data-target='#sendMessageModal' onclick='$(#sendMessageModal).modal({backdrop: static});'>
+                    Message </a>";
+}
+
+if (isset($_POST['sendMessage']) && !empty($_POST['messages'])) 
+{
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        require_once 'Model/MessagesModel.php';
+        $MessagesModel = new MessagesModel();
+        // Store the message in the database
+        $MessagesModel->SendAMessage($_SESSION['username'], $_SESSION['SendUsername'], $_POST['messages'], $dateTime);
+        
+        $errorMessage = "Message Sent :)";
+
 }
 
  

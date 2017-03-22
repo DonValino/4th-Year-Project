@@ -47,20 +47,20 @@ function checkTime(i) {
         <div class="container-fluid">
             <div id="bannerAndSearchBar" class="row">
                 <a href="Home.php"><img src="Images/jobsbanner.jpg" class="col-md-1 col-sm-1 col-xs-1" style="width: 145px;"/></a>
-                <div id="date" class="col-xs-1 col-md-1 col-md-offset-4 col-sm-2 col-sm-offset-3" style="width: 145px; margin-right: 10px; height:37px; font-family: Arial; font-size: 20px; border :2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>
+                <!--<div id="date" class="col-xs-1 col-md-1 col-md-offset-4 col-sm-2 col-sm-offset-3" style="width: 145px; margin-right: 10px; height:37px; font-family: Arial; font-size: 20px; border :2px solid black; background-color: white; border-radius: 5px; text-align:center; color:blue;"> </div>-->
               <?php 
               if(isset($_SESSION['countBadge']))
               {
                 if(!$_SESSION['countBadge'] == 0)
                 {?>
-                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-4 col-sm-2 col-sm-offset-2 col-xs-3"><?php echo $loginStatus; ?>&nbsp;<span class='badge'><?php echo $_SESSION['countBadge'] ?></span></a>
+                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-9 col-sm-2 col-sm-offset-7 col-xs-offset-2 col-xs-4" style="float: right; margin-right: 20px;"><?php echo $loginStatus; ?>&nbsp;<span class='badge'><?php echo $_SESSION['countBadge'] ?></span></a>
        <?php    }else
                 {?>
-                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-4 col-sm-2 col-sm-offset-2 col-xs-3"><?php echo $loginStatus; ?></a>
+                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-9 col-sm-2 col-sm-offset-7 col-xs-offset-2 col-xs-4" style="float: right; margin-right: 20px;"><?php echo $loginStatus; ?></a>
         <?php   }
               }else
               {?>
-                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-4 col-sm-2 col-sm-offset-2 col-xs-3"><?php echo $loginStatus; ?></a>
+                    <a href="<?php echo $log; ?>" class="btn btn-info col-md-1 col-md-offset-9 col-sm-2 col-sm-offset-7 col-xs-offset-2 col-xs-4" style="float: right; margin-right: 20px;"><?php echo $loginStatus; ?></a>
         <?php }?>
         
              

@@ -50,7 +50,7 @@ if($epr == 'price')
     $id =$_GET['id'];
     $_SESSION['jobId'] = $id;
     $typeId = $_GET['typeId'];
-    
+
     //Today's date
     $date = new DateTime();
     $dateTime = $date->format('d-m-Y H:i:s');

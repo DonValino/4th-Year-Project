@@ -46,9 +46,13 @@ $requestController = new RequestModel();
 require_once 'Model/MessagesModel.php';
 $messageController = new MessagesModel();
 
+require_once 'Model/CancelRequestModel.php';
+$cancelRequestModel = new CancelRequestModel();
+
 $numOfNotification = $notificationController->CountNotificationByToUsername($_SESSION['username']);
 $numOfRequest = $requestController->CountRequestsByTargetUserId($_SESSION['id']);
 $numberOfMessages = $messageController->CountAllMyMessages($_SESSION['username']);
+$numberOfOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
 
 if($numOfNotification != NULL)
 {
@@ -63,6 +67,11 @@ if($numOfRequest != NULL)
 if($numberOfMessages != NULL)
 {
      $_SESSION['countBadge'] =  $_SESSION['countBadge'] + $numberOfMessages;
+}
+
+if($numberOfOfferCancellationRequest != NULL)
+{
+     $_SESSION['countBadge'] =  $_SESSION['countBadge'] + $numberOfOfferCancellationRequest;
 }
 /////////////////                                                              ///////////////////
 

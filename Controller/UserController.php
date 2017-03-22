@@ -47,7 +47,18 @@ class UserController {
         require 'Model/RequestModel.php';
         $requestModel = new RequestModel();
         $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $unseenPaymentConfirmation = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
         
+        if($unseenPaymentConfirmation != NULL)
+        {
+            $myOfferCancellationRequest = $myOfferCancellationRequest + $unseenPaymentConfirmation;
+        }
+
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -161,11 +172,19 @@ class UserController {
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
-						<li>
-							<a href='JobsOverview.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-ok'></i>
-							Jobs </a>
-						</li>
+						<li>";
+                                                    if($myOfferCancellationRequest != NULL)
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                    }else
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs </a>";
+                                                    }
+						$result.="</li>
 						<li>
 							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
@@ -210,6 +229,19 @@ class UserController {
         require 'Model/RequestModel.php';
         $requestModel = new RequestModel();
         $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $unseenPaymentConfirmation = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
+        
+        if($unseenPaymentConfirmation != NULL)
+        {
+            $myOfferCancellationRequest = $myOfferCancellationRequest + $unseenPaymentConfirmation;
+        }
         
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
@@ -324,11 +356,19 @@ class UserController {
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
-						<li>
-							<a href='JobsOverview.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-ok'></i>
-							Jobs </a>
-						</li>
+						<li>";
+                                                    if($myOfferCancellationRequest != NULL)
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                    }else
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs </a>";
+                                                    }
+						$result.="</li>
 						<li class='active'>
 							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
@@ -363,6 +403,20 @@ class UserController {
     {
         $userModel = new UserModel();
         $user = $userModel->CheckUser($_SESSION['username']);
+        
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $unseenPaymentConfirmation = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
+        
+        if($unseenPaymentConfirmation != NULL)
+        {
+            $myOfferCancellationRequest = $myOfferCancellationRequest + $unseenPaymentConfirmation;
+        }
+        
         $result = "<div class='col-md-12 col-sm-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -401,11 +455,19 @@ class UserController {
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
-						<li>
-							<a href='JobsOverview.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-ok'></i>
-							Jobs </a>
-						</li>
+						<li>";
+                                                    if($myOfferCancellationRequest != NULL)
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                    }else
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs </a>";
+                                                    }
+						$result.="</li>
 						<li>
 							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
@@ -443,7 +505,7 @@ class UserController {
         $userName = $userModel->GetUserById($id)->username;
         $_SESSION['SendUsername']=$userName;
                 $result = "
-                    <div class='modal fade col-xs-11' id='sendMessageModal' role='dialog'>
+                    <div class='modal fade col-md-12 col-xs-11' id='sendMessageModal' role='dialog'>
 			<div class='modal-dialog'>
 			
 			  <!-- Modal content-->
@@ -636,6 +698,57 @@ class UserController {
                                                     }
 
 						$result.="</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                . "</div>";
+        return $result;
+    }
+    
+    //Code To Create PayPalMe Form
+    function CreatePayPalMeForm($id)
+    {
+        $userModel = new UserModel();
+        $user = $userModel->GetUserById($id);
+        
+        require_once 'Model/PayPalMeModel.php';
+        
+        $payPalMeModel = new PayPalMeModel();
+        // Check If User Has A PayPal Account
+        $payPal = $payPalMeModel->GetPayPalMeAccountByUserId($_SESSION['id']);
+        $result = "<div class=Crow' style='margin-top:15px;'>"
+                . "<div class='panel-group col-md-6 col-md-offset-3'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapsePayPalMeAccount' class='glyphicon glyphicon-hand-up'><strong>Configure PayPalMe Account</strong></a>
+					</div>
+					<div id='collapsePayPalMeAccount' class='panel-collapse collapse in'>
+						<div class='panel-body'>";
+                                                    if($payPal != NULL)
+                                                    {
+                                                        // Already Has An Account Configured. Can Chenge It.
+                                                        $result .='<div class="row">
+                                                                      <a href="#" data-toggle="modal" id="changePayPalMeButton" class="btn btn-info col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#changePayPalMeAccountModal">
+                                                                      <i class="glyphicon glyphicon-euro"></i>
+                                                                      Change PayPalMe Account </a>
+                                                                   </div>
+                                                                   <div class="row">
+                                                                        <p style="color:blue;font-size:16px;text-align:center;margin-top:10px;">PayPalMe Account:<p>
+                                                                   </div>
+                                                                   <div class="row">
+                                                                        <div class="alert alert-info">
+                                                                            <p style="font-size:16px;text-align:center;"><strong> </strong><a href="https://'.$payPal->payPalMeUrl.'">'.$payPal->payPalMeUrl.'</a></p>
+                                                                        </div> 
+                                                                   </div>'; 
+                                                    }else
+                                                    {
+                                                        $result .='<div class="row">
+                                                                      <a href="#" data-toggle="modal" id="addPayPalMeButton" class="btn btn-info col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#AddPayPalMeModal">
+                                                                      <i class="glyphicon glyphicon-euro"></i>
+                                                                      Add PayPalMe Account </a>
+                                                                   </div>';
+                                                    }
+				     $result.="</div>"
 					."</div>"
 				."</div>"
 			."</div>"
@@ -844,11 +957,20 @@ class UserController {
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"
                                                                             . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td>"
-                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Deactivate</a>&nbsp|"
-                                                                            . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
-                                                                            . "</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>";
+                                                                            $jobStartDate = $row->startDate;
+                                                                            if(!(time() >= strtotime($jobStartDate)))
+                                                                            {
+                                                                                $result.= "<td>"
+                                                                                . "     <a href='#'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>";
+                                                                            }else
+                                                                            {
+                                                                                $result.= "<td>"
+                                                                                . "     <a href='#'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='#' data-toggle='modal' data-target='#jobAlreadyStartedModal'>Update</a>";
+                                                                            }
+                                                                            $result.= "</td>"
                                                                             . "</tr>";
                                                                 }
                                                             }
@@ -1046,6 +1168,112 @@ class UserController {
         return $result;
     }
     
+   // Modal To State That The Job Has Already Started
+   function JobAlreadyStartedModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='jobAlreadyStartedModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>WooPS!!!!</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-info' style='text-align:center;'>
+                                      <strong>Sorry,</strong><p style='font-size:13px;'> jobs cannot be updated once it has passed the start date :)</p>
+                                    </div>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // Modal To Add A New PayPalMe Account
+   function AddANewPayPalMeAccountModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='AddPayPalMeModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Add A New PayPalMe Account</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-warning'>
+                                      <p style='font-size:14px;text-align:center;'><strong>T & C</strong> <p style='font-size:14px;text-align:center;'>* It is <strong>your responsibility</strong> that you paste the <strong>correct URL</strong> to your PayPalMe Account.</p> 
+                                      <p style='font-size:14px;text-align:center;'>* Misdirection to another PayPalMe account resulting in incorrect transition of funds is not covered by this website.</p>
+                                      <p style='font-size:14px;text-align:center;'>* The <strong>sender is not liable</strong> due to misdirection of funds to an inccorect account</p>
+                                    </div>
+                                    <form action='' method = 'POST'>
+                                      <fieldset>
+                                        <div class='clearfix'>
+                                          <label for='payPalMeUrl' class='col-md-3 col-sm-3 col-xs-3'> PayPalMe Url: </label>
+                                          <input type='text' name = 'payPalMeUrl' id='payPalMeUrl' class='col-md-8 col-sm-8 col-xs-8' placeholder='Paste PayPalMe Url' required autofocus>
+                                        </div>
+
+                                       <button class='btn primary col-xs-3 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'addPayMeURL' type='submit'>Submit</button>
+                                      </fieldset>
+                                    </form>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // Modal To Change User's PayPalMe Account
+   function ChangePayPalMeAccountModal($id)
+    {
+        require_once 'Model/PayPalMeModel.php';
+        
+        $payPalMeModel = new PayPalMeModel();
+        $payPal= $payPalMeModel->GetPayPalMeAccountByUserId($id);
+        $payPalUrl = "";
+        if($payPal != NULL)
+        {
+            $payPalUrl = $payPal->payPalMeUrl;
+        }
+        
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='changePayPalMeAccountModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Add A New PayPalMe Account</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-warning'>
+                                      <p style='font-size:14px;text-align:center;'><strong>T & C</strong> <p style='font-size:14px;text-align:center;'>* It is <strong>your responsibility</strong> that you paste the <strong>correct URL</strong> to your PayPalMe Account.</p> 
+                                      <p style='font-size:14px;text-align:center;'>* Misdirection to another PayPalMe account resulting in incorrect transition of funds is not covered by this website.</p>
+                                      <p style='font-size:14px;text-align:center;'>* The <strong>sender is not liable</strong> due to misdirection of funds to an inccorect account</p>
+                                    </div>
+                                    <form action='' method = 'POST'>
+                                      <fieldset>
+                                        <div class='clearfix'>
+                                          <label for='changePayPalMeUrl' class='col-md-3 col-sm-3 col-xs-3'> PayPalMe Url: </label>
+                                          <input type='text' name = 'changePayPalMeUrl' value='$payPalUrl' id='changePayPalMeUrl' class='col-md-8 col-sm-8 col-xs-8' placeholder='Paste PayPalMe Url' required autofocus>
+                                        </div>
+
+                                       <button class='btn primary col-xs-3 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'changePayMeURL' type='submit'>Submit</button>
+                                      </fieldset>
+                                    </form>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
     // Get User By Id
     function GetUsers()
     {
@@ -1056,8 +1284,14 @@ class UserController {
     // View to display user profile
     function ViewUserProfile($id)
     {
-        require ("Model/UserReviewModel.php");
+        require_once ("Model/UserReviewModel.php");
         $userModel = new UserModel();
+        
+        require_once ("Model/PayPalMeModel.php");
+        $payPalMeModel = new PayPalMeModel();
+        
+        // Check If User Has A PayPal Account
+        $payPal = $payPalMeModel->GetPayPalMeAccountByUserId($id);
         
         $user = $userModel->GetUserById($id);
         
@@ -1265,12 +1499,27 @@ class UserController {
                            . "<div class='panel-group col-md-6'>
                                 <div class='panel panel-default'>
                                             <div class='panel-heading' style='text-align:center;'>
-                                                <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>Experience</strong></a>
+                                                <a data-toggle='collapse' data-parent='#accordion' href='#collapsePayPalAccount' class='glyphicon glyphicon-hand-up'><strong>PayPalMe Account</strong></a>
                                             </div>
-                                            <div id='collapseuserrating' class='panel-collapse collapse in'>
-                                                    <div class='panel-body'>"
-
-                                                    ."</div>"
+                                            <div id='collapsePayPalAccount' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>";
+                                                    if($payPal != NULL)
+                                                    {
+                                                    // Already Has An Account Configured. Can Chenge It.
+                                                    $result .='
+                                                                       <div class="row">
+                                                                                    <p style="color:blue;font-size:16px;text-align:center;margin-top:10px;">PayPalMe Account:<p>
+                                                                       </div>
+                                                                       <div class="row">
+                                                                                    <div class="alert alert-info">
+                                                                                            <p style="font-size:16px;text-align:center;"><strong></strong><a href="https://'.$payPal->payPalMeUrl.'">'.$payPal->payPalMeUrl.'</a></p>
+                                                                                    </div> 
+                                                                       </div>'; 
+                                                    }else
+                                                    {
+                                                        $result .='<p style="font-size:16px;color:green;text-align:center;"> This user has not yet configured their PayPalMe Account</p>';
+                                                    }
+                                                    $result.="</div>"
                                             ."</div>"
                                     ."</div>"
                             ."</div>"

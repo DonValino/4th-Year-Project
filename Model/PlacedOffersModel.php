@@ -167,6 +167,25 @@ class PlacedOffersModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid AND bidStatus=1") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All Placed In User PrO ffers in a specific job
+    function CountViewUserJobNoPlacedOffersByJobId($jobid)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
         $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
@@ -211,6 +230,43 @@ class PlacedOffersModel {
             }
             
             return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All Placed Offers By jobId
+    function GetAllPlacedOffersByJobID($jobId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobId") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobId'];
+                $dbUserID= $row['userID'];
+                $dbComment= $row['comment'];
+                $dbPlacementDate = $row['placementDate'];
+                $dbOfferPrice = $row['offerPrice'];
+                $dbBidType= $row['bidType'];
+                $dbNumberOfDays= $row['numberOfDays'];
+                $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
+                $dbStatusChangeDate = $row['statusChangeDate'];
+                $dbBidStatus = $row['bidStatus'];
+                
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen,$dbStatusChangeDate,$dbBidStatus);
+            }
+            
+            return $placedOffersEntities;
         }else
         {
             return 0;
@@ -363,6 +419,42 @@ class PlacedOffersModel {
             }
             
             return 1;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All User Placed Offers in a specific job by a specific person and return a boolean value
+    function GetUserlacedOffersByJobIdAndUserId($jobid,$userId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM placedoffers WHERE jobId=$jobid AND userID=$userId") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobId'];
+                $dbUserID= $row['userID'];
+                $dbComment= $row['comment'];
+                $dbPlacementDate = $row['placementDate'];
+                $dbOfferPrice = $row['offerPrice'];
+                $dbBidType= $row['bidType'];
+                $dbNumberOfDays= $row['numberOfDays'];
+                $dbPrefferedCommenceDate = $row['prefferedCommenceDate'];
+                $dbSeen = $row['seen'];
+                $dbStatusChangeDate = $row['statusChangeDate'];
+                $dbBidStatus = $row['bidStatus'];
+                
+                $placedOffersEntities = new PlacedOffersEntities($dbJobid,$dbUserID,$dbComment,$dbPlacementDate,$dbOfferPrice,$dbBidType,$dbNumberOfDays,$dbPrefferedCommenceDate,$dbSeen,$dbStatusChangeDate,$dbBidStatus);
+            }
+            
+            return $placedOffersEntities;
         }else
         {
             return 0;

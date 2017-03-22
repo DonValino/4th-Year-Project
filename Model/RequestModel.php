@@ -115,7 +115,7 @@ class RequestModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM requesttable where targetUserId=$targetUserId ORDER BY date") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM requesttable where targetUserId=$targetUserId ORDER BY date DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $requestArray = array();

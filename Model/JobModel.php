@@ -108,7 +108,7 @@ class JobModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM jobs WHERE id=$id ORDER BY date DESC") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE id=$id and isActive = 1 ORDER BY date DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();
@@ -395,7 +395,7 @@ class JobModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId AND isActive=1 ORDER BY date DESC") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId AND isActive=1 ORDER BY adType DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();

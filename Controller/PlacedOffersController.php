@@ -103,6 +103,27 @@ class PlacedOffersController {
         $placedOffersModel->GetUsersPlacedOffer($jobid, $userId);
     }
     
+    // Get All User Placed Offers in a specific job by a specific person and return a boolean value
+    function GetUserlacedOffersByJobIdAndUserId($jobid,$userId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        $placedOffersModel->GetUserlacedOffersByJobIdAndUserId($jobid, $userId);
+    }
+    
+    // Get All Placed Offers By jobId
+    function GetAllPlacedOffersByJobID($jobId)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        return $placedOffersModel->GetAllPlacedOffersByJobID($jobId);
+    }
+    
+    // Get All Placed In User Profile Offers in a specific job
+    function CountViewUserJobNoPlacedOffersByJobId($jobid)
+    {
+        $placedOffersModel = new PlacedOffersModel();
+        return $placedOffersModel->CountViewUserJobNoPlacedOffersByJobId($jobid);
+    }
+    
     //Delete an Offer
     function deleteAnOffer($jobid,$userId)
     {

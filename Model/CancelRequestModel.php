@@ -48,7 +48,7 @@ class CancelRequestModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM cancelrequest WHERE tagerUserId='$tagerUserId'") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM cancelrequest WHERE tagerUserId='$tagerUserId' ORDER BY date DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $cancelRequestArray = array();
@@ -71,6 +71,25 @@ class CancelRequestModel {
             }
             
             return $cancelRequestArray;
+        }else
+        {
+            return 0;
+        }  
+    }
+    
+    // Count Cancel Request by Target User Id
+    function CountCancelRequestByTargetUserId($tagerUserId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM cancelrequest WHERE tagerUserId='$tagerUserId' AND seen = 0") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {
+            return $numrows;
         }else
         {
             return 0;

@@ -79,7 +79,7 @@ class NotificationController {
 					</div>
 					<div id="collapseMyNotification" class="panel-collapse collapse in">
 						<div class="panel-body">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive scrollit" style="height:450px;">
                                                         <table class="sortable table" id="myJobTable">
                                                             <tr>
                                                                 <th>Name</th>
@@ -169,6 +169,19 @@ class NotificationController {
         require 'Model/RequestModel.php';
         $requestModel = new RequestModel();
         $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $unseenPaymentConfirmation = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
+        
+        if($unseenPaymentConfirmation != NULL)
+        {
+            $myOfferCancellationRequest = $myOfferCancellationRequest + $unseenPaymentConfirmation;
+        }
         
         $result = "<div class='col-md-12'>
 			<div class='profile-sidebar'>
@@ -283,11 +296,19 @@ class NotificationController {
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
-						<li>
-							<a href='JobsOverview.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-ok'></i>
-							Jobs </a>
-						</li>
+						<li>";
+                                                    if($myOfferCancellationRequest != NULL)
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                    }else
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs </a>";
+                                                    }
+						$result.="</li>
 						<li>
 							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>

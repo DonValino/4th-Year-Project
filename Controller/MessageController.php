@@ -488,6 +488,18 @@ class MessageController {
         $requestModel = new RequestModel();
         $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
         
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $unseenPaymentConfirmation = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
+        
+        if($unseenPaymentConfirmation != NULL)
+        {
+            $myOfferCancellationRequest = $myOfferCancellationRequest + $unseenPaymentConfirmation;
+        }
         $result = "
             <div class='headerSideBar'><span>Collapse</span>
 
@@ -606,11 +618,19 @@ class MessageController {
                                                                 <i class='glyphicon glyphicon-user'></i>
                                                                 Account Settings </a>
                                                         </li>
-                                                        <li>
-                                                                <a href='JobsOverview.php' style='text-align:center;'>
-                                                                <i class='glyphicon glyphicon-ok'></i>
-                                                                Jobs </a>
-                                                        </li>
+                                                        <li>";
+                                                            if($myOfferCancellationRequest != NULL)
+                                                            {
+                                                                $result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                            <i class='glyphicon glyphicon-ok'></i>
+                                                                            Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                            }else
+                                                            {
+                                                                $result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                            <i class='glyphicon glyphicon-ok'></i>
+                                                                            Jobs </a>";
+                                                            }
+                                              $result.="</li>
                                                         <li>
                                                                 <a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
                                                                 <i class='glyphicon glyphicon-comment'></i>

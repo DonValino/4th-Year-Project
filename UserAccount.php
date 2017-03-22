@@ -41,7 +41,7 @@ if($epr == 'requestseen')
 }
 $sidebar = $userController->CreateUserProfileSidebar();
 $content = $userController->CreateOverviewContent($_SESSION['id']);
- 
+ $content .= $userController->JobAlreadyStartedModal();
  include 'Template.php'
 
 ?>

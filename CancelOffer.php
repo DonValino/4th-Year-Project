@@ -30,7 +30,7 @@ $title = "home";
 $content = $cancelRequestController->CancelRequestForm();
 
 $errorMessage = "";
-$sidebar = $cancelRequestController->CancelRequestSideBar();
+$sidebar = $cancelRequestController->CancelRequestSideBarForm();
 
 $userIdd = 0;
 $jobIdd = 0;

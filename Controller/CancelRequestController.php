@@ -57,6 +57,72 @@ class CancelRequestController {
         $cancelRequestModel->updateCancelSeen($seen, $userId, $targetUserId, $jobId);
     }
     
+    // Count Cancel Request by Target User Id
+    function CountCancelRequestByTargetUserId($tagerUserId)
+    {
+        $cancelRequestModel = new CancelRequestModel();
+        $cancelRequestModel->CountCancelRequestByTargetUserId($tagerUserId);
+    }
+    
+    // Modal To Send A New Messages
+    function SendMessageModal($id)
+    {
+        $userModel = new UserModel();
+        
+        $userName = $userModel->GetUserById($id)->username;
+        $_SESSION['SendUsername']=$userName;
+                $result = "
+                    <div class='modal fade col-md-12 col-xs-11' id='sendMessageModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Send User a Message</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <form action='' method = 'POST'>
+                                                    <div class='msg-container'>
+                                                        <div class='msg-area' id='msg-area'>";
+                                                            $result.="<div class='msgc' style='margin-bottom: 30px;'> 
+                                                                    <div class='msg msgfrom'> Send A New Message :) </div> 
+                                                                    <div class='msgarr msgarrfrom'></div>
+                                                                    <div class='msgsentby msgsentbyfrom'>Type your message in the message box and click send.</div> 
+                                                                    </div>";
+
+                                                            $result.="<div class='msgc'> 
+                                                                      <div class='msg'> <a href='Messages.php?epr=view&fromusername=".$userName."'> View Previous Conversation </a> </div>
+                                                                      <div class='msgarr'></div>
+                                                                      <div class='msgsentby'>View your previous conversation between this user</div>
+                                                                      </div>";
+                                             $result.="</div>
+                                                        
+                                                          <fieldset>
+                                                          
+                                                            <div class='clearfix'>
+                                                            <label for='messages' class='col-md-2 col-sm-2 col-xs-3'> Message: </label>
+                                                              <textarea class='col-md-8 col-sm-8 col-xs-8' rows='5' id='messages' name = 'messages' placeholder='Message' required autofocus></textarea>
+                                                            </div>
+
+                                                            <div class='row'>
+                                                            <button class='btn primary col-sm-2 col-sm-offset-9 col-md-2 col-md-offset-9' Style='margin-left:185px;' name = 'sendMessage' type='submit'>Send</button>
+                                                            </div>
+                                                          </fieldset>
+                                    </form>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
    // Request Content
     function CancelRequestInfoContent()
     {
@@ -78,7 +144,7 @@ class CancelRequestController {
 					</div>
 					<div id="collapseMyNotification" class="panel-collapse collapse in">
 						<div class="panel-body">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive scrollitY" style="height:450px;">
                                                         <table class="sortable table" id="myJobTable">
                                                             <tr>
                                                                 <th>Name</th>
@@ -127,7 +193,7 @@ class CancelRequestController {
                                                                                                  <td  style="color:blue;">'.$row->reason.'</td>  
                                                                                                  <td  style="color:blue;">'; $result.= $dateposted; $result.='</td>
                                                                                                  <td>
-                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>&nbsp|
+                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a> |
                                                                                                       <a class="btn btn-danger" href="CancelOfferRequest.php?epr=denied&userId='.$row->userId.'&jobId='.$row->jobId.'">Decline</a>
                                                                                                  </td>
                                                                                          </tr>';
@@ -165,7 +231,7 @@ class CancelRequestController {
                                                                                                 <td bgcolor="#ccd7ea" style="color:blue;">'.$row->reason.'</td>
                                                                                                 <td bgcolor="#ccd7ea"  style="color:blue;">'; $result.= $dateposted;  $result.='</td>
                                                                                                 <td bgcolor="#ccd7ea">
-                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>&nbsp|
+                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a> |
                                                                                                       <a class="btn btn-danger" href="CancelOfferRequest.php?epr=denied&userId='.$row->userId.'&jobId='.$row->jobId.'">Decline</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -211,7 +277,7 @@ class CancelRequestController {
                                                                                             <td style="color:blue;">'.$row->reason.'</td>
                                                                                             <td  style="color:blue;">'; $result.= $dateposted; $result.='</td>
                                                                                                 <td>
-                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>&nbsp|
+                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>|
                                                                                                       <a class="btn btn-danger" href="CancelOfferRequest.php?epr=denied&userId='.$row->userId.'&jobId='.$row->jobId.'">Decline</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -253,7 +319,7 @@ class CancelRequestController {
                                                                                             <td style="color:blue;">'.$row->reason.'</td>
                                                                                             <td style="color:blue;">'; $result.= $dateposted; $result.='</td>
                                                                                                 <td>
-                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>&nbsp|
+                                                                                                      <a class="btn btn-info" href="CancelOfferRequest.php?epr=accept&userId='.$row->userId.'&jobId='.$row->jobId.'">Accept</a>|
                                                                                                       <a class="btn btn-danger" href="CancelOfferRequest.php?epr=denied&userId='.$row->userId.'&jobId='.$row->jobId.'">Decline</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -313,7 +379,7 @@ class CancelRequestController {
        return $re;
     }
     
-    function  CancelRequestSideBar()
+    function  CancelRequestSideBarForm()
     {
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
@@ -383,6 +449,168 @@ class CancelRequestController {
                 . "     <a href='Report.php' class='glyphicon glyphicon-exclamation-sign col-xs-12 col-md-12 col-sm-12' style='text-align:center;'>Report</a>"
                 . "</div>";
        
+                
+        return $result;
+    }
+    
+    function  CancelRequestSideBar()
+    {
+        $userModel = new UserModel();
+        $user = $userModel->CheckUser($_SESSION['username']);
+        require_once 'Model/NotificationModel.php';
+        $notificationModel = new NotificationModel();
+        $userNotification = $notificationModel->CountNotificationByToUsername($_SESSION['username']);
+        
+        require_once 'Model/MessagesModel.php';
+	$messagesModel = new MessagesModel();
+	$myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        require_once 'Model/RequestModel.php';
+        $requestModel = new RequestModel();
+        $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
+        
+        $result = "<div class='col-md-12 col-sm-12'>
+			<div class='profile-sidebar'>
+				<!-- SIDEBAR USERPIC -->
+				<div class='profile-userpic'>
+					<img src='$user->photo' class='img-responsive' alt=''>
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class='profile-usertitle'>
+					<div class='profile-usertitle-name'>
+						$_SESSION[username]
+					</div>
+					<div class='profile-usertitle-job'>
+						Developer
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class='nav-button-sidebar'>";
+                                   try
+                                   {
+                                        if($userNotification != null && $myMessages != null && $myRequest != null)
+                                        {
+
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";
+                                        }else if($userNotification != null && $myMessages != null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest != null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request &nbsp<span class='badge'>$myRequest</span></a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages != null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox &nbsp<span class='badge'>$myMessages</span></a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>"
+                                                . "</div>";  
+                                        }else if($userNotification != null && $myMessages == null && $myRequest == null)
+                                        {
+                                                $result.="<div class='row' style='padding-bottom:4px;'>
+                                                        <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    </div>"
+                                                        . "<a href='Messages.php' style='margin-bottom:5px;' class='btn btn-success btn-sm' role='button'>Inbox</a>&nbsp
+                                                    <div class='row'>
+                                                <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification &nbsp<span class='badge'>$userNotification</span></a>"
+                                                . "</div>";  
+                                        }else if($userNotification == null && $myMessages == null && $myRequest == null)
+                                        {
+                                                $result.="<a href='Messages.php' class='btn btn-success btn-sm' role='button'>Inbox</a>
+                                                    <div class='row' style='margin-top:10px;'>
+                                                    <a href='Request.php' class='btn btn-warning btn-sm' role='button'>Request</a>
+                                                    <a href='Notification.php' class='btn btn-danger btn-sm' role='button'>Notification</a>
+                                                    </div>
+                                                "; 
+                                        }
+                                    }catch(Exception $x)
+                                    {
+                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                    }
+				$result.="</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class='profile-usermenu'>
+					<ul class='nav'>
+						<li>
+							<a href='UserAccount.php' style='text-align:center;'>
+							<i class='glyphicon glyphicon-home'></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href='AccountSettings.php' style='text-align:center;'>
+							<i class='glyphicon glyphicon-user'></i>
+							Account Settings </a>
+						</li>
+						<li class='active'>
+							<a href='JobsOverview.php' style='text-align:center;'>
+							<i class='glyphicon glyphicon-ok'></i>
+							Jobs </a>
+						</li>
+						<li>
+							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
+							<i class='glyphicon glyphicon-comment'></i>
+							My Review </a>
+						</li>
+						<li>
+							<a href='Following.php' style='text-align:center;'>
+							<i class='glyphicon glyphicon-star-empty'></i>
+							Followers </a>
+						</li>
+                                                <li>
+							<a href='Logout.php' style='text-align:center;'>
+							<i class='glyphicon glyphicon-log-out'></i>
+							Logout </a>
+						</li>
+						<li>
+							<a href='#' target='_blank' style='text-align:center;'>
+							<i class='glyphicon glyphicon-flag'></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>";
                 
         return $result;
     }

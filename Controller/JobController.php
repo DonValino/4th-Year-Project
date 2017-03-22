@@ -28,6 +28,7 @@
     if (ask) {
         document.location.href = "CancelOffer.php?epr=cancelOffer&userId=" + userID + "&jobId=" + jobId;
     }
+
 }
 </script>
 <?php
@@ -860,7 +861,7 @@ class JobController {
 							Overview </a>
 						</li>
 						<li class='active'>
-							<a href='JobPosted.php' style='text-align:center;'>
+							<a href='#' style='text-align:center;'>
 							<i class='glyphicon glyphicon-list'></i>
 							Jobs Posted </a>
 						</li>
@@ -892,7 +893,7 @@ class JobController {
     {
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon-hand-up'><strong>Overview:</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
 					</div>
 					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
 						<div class='panel-body'>"
@@ -953,10 +954,10 @@ class JobController {
                                                     </div>"
 						."</div>"
 					."</div>"
-                            ."</div>"
-                . "<div class='row'>"
-                . "     <a href='Report.php' class='glyphicon glyphicon-exclamation-sign col-xs-12 col-md-12 col-sm-12' style='text-align:center;'>Report</a>"
-                . "</div>";
+                            ."</div>";
+               // . "<div class='row'>"
+               // . "     <a href='Report.php' class='glyphicon glyphicon-exclamation-sign col-xs-12 col-md-12 col-sm-12' style='text-align:center;'>Report</a>"
+              //  . "</div>";
        
                 
         return $result;
@@ -1032,9 +1033,9 @@ class JobController {
     {
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
-					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon-hand-up'><strong>Overview:</strong></a>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyJobsSidebar' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
 					</div>
-					<div id='collapseadvertisedjobs' class='panel-collapse collapse in'>
+					<div id='collapseMyJobsSidebar' class='panel-collapse collapse'>
 						<div class='panel-body'>"
                                     ."<div class='col-md-12'>
                                                             <div class='profile-sidebar'>
@@ -1062,8 +1063,8 @@ class JobController {
                                                                                             Price </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='JobsOverview.php' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-usd'></i>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='gglyphicon glyphicon-pencil'></i>
                                                                                             My Jobs </a>
                                                                                     </li>
                                                                                     <li>
@@ -1144,37 +1145,42 @@ class JobController {
                                                                 $dateposted = $dateT->format("d/m/Y");
                                                                 
                                                                 $timeposted = $dateT->format("H:i");
-                                                                $result.="<div class='row'>
-                                                                    <section class='col-xs-12 col-sm-6 col-md-12'>
-                                                                                <article class='search-result row'>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-3'>
-                                                                                                <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/AcceptedCards.png' alt='$row->name' /></a>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-2'>
-                                                                                                <ul class='meta-search'>";
-                                                                                                $var = $row->date;
-                                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
-                                                                                                {
-                                                                                                    $result.="<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                              <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                              <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
-                                                                                                }else
-                                                                                                {
-                                                                                                    $result.="<li style='color:red'><strong>New</strong></li>"
-                                                                                                            . "<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                              <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                              <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
-                                                                                                }
-                                                                                                $result.="</ul>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
-                                                                                                <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                <p>$row->description</p>						
-                                                                                        </div>
-                                                                                        <span class='clearfix borda'></span>
-                                                                                </article>	
-                                                                    </section>
-                                                                </div>";
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/AcceptedCards.png' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>";
+                                                                                                    $var = $row->date;
+                                                                                                    if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                                    {
+                                                                                                        $result.="<li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>"
+                                                                                                                . "<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
+                                                                                                    }else
+                                                                                                    {
+                                                                                                        $result.="<li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>"
+                                                                                                                . "<li style='color:red'><strong>New</strong></li>"
+                                                                                                                . "<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
+                                                                                                    }
+                                                                                                    $result.="</ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
                                                             }
                                                         }
                                                     }catch(Exception $x)
@@ -1182,6 +1188,57 @@ class JobController {
                                                         echo 'Caught exception: ',  $x->getMessage(), "\n";
                                                     }
                                                     
+                                                    
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
+                                                            {       
+                                                                $dateT = new DateTime($row->date);
+                                                                $dateposted = $dateT->format("d/m/Y");
+                                                                
+                                                                $timeposted = $dateT->format("H:i");
+                                                                if($row->adtype == 0)
+                                                                {
+                                                                    $result.="<div class='row'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/AcceptedCards.png' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>";
+                                                                                                    $var = $row->date;
+                                                                                                    if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                                    {
+                                                                                                        $result.="<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
+                                                                                                    }else
+                                                                                                    {
+                                                                                                        $result.="<li style='color:red'><strong>New</strong></li>"
+                                                                                                                . "<li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                                  <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>";
+                                                                                                    }
+                                                                                                    $result.="</ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }      
 						$result.="</div>"
 					."</div>"
 				."</div>"
@@ -1244,6 +1301,50 @@ class JobController {
                                                         </hgroup>"; 
                                                     }
                                                    $result.=" </div>";
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
+                                                            {       
+                                                                $dateT = new DateTime($row->date);
+                                                                $dateposted = $dateT->format("d/m/Y");
+                                                                
+                                                                $timeposted = $dateT->format("H:i");
+                                                                
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$qualificationName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }
+                                                   
+                                                   
                                                     try
                                                     {
                                                         if($search != null)
@@ -1372,28 +1473,75 @@ class JobController {
                                                                 $timeposted = $dateT->format("H:i");
                                                                 
                                                                 $typeName = $typeModel->GetTypeByID($row->type)->name;
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }
+                                                   
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
+                                                            {       
+                                                                $dateT = new DateTime($row->date);
+                                                                $dateposted = $dateT->format("d/m/Y");
                                                                 
-                                                                $result.="<div class='row'>
-                                                                    <section class='col-xs-12 col-sm-6 col-md-12'>
-                                                                                <article class='search-result row'>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-3'>
-                                                                                                <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-2'>
-                                                                                                <ul class='meta-search'>
-                                                                                                        <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
-                                                                                                </ul>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
-                                                                                                <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                <p>$row->description</p>						
-                                                                                        </div>
-                                                                                        <span class='clearfix borda'></span>
-                                                                                </article>	
-                                                                    </section>
-                                                                </div>";
+                                                                $timeposted = $dateT->format("H:i");
+                                                                
+                                                                $typeName = $typeModel->GetTypeByID($row->type)->name;
+                                                                
+                                                                if($row->adtype == 0)
+                                                                {
+                                                                    $result.="<div class='row'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
                                                             }
                                                         }
                                                     }catch(Exception $x)
@@ -1474,32 +1622,79 @@ class JobController {
                                                         if($search != null)
                                                         {
                                                             foreach($search as $row)
+                                                            {      
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $dateT = new DateTime($row->date);
+                                                                    $dateposted = $dateT->format("d/m/Y");
+
+                                                                    $timeposted = $dateT->format("H:i");
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$name</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }
+                                                   
+                                                   
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
                                                             {       
                                                                 $dateT = new DateTime($row->date);
                                                                 $dateposted = $dateT->format("d/m/Y");
                                                                 
                                                                 $timeposted = $dateT->format("H:i");
-                                                                $result.="<div class='row'>
-                                                                    <section class='col-xs-12 col-sm-6 col-md-12'>
-                                                                                <article class='search-result row'>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-3'>
-                                                                                                <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-2'>
-                                                                                                <ul class='meta-search'>
-                                                                                                        <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-tags'></i> <span>$name</span></li>
-                                                                                                </ul>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
-                                                                                                <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                <p>$row->description</p>						
-                                                                                        </div>
-                                                                                        <span class='clearfix borda'></span>
-                                                                                </article>	
-                                                                    </section>
-                                                                </div>";
+                                                                
+                                                                if($row->adtype == 0)
+                                                                {
+                                                                    $result.="<div class='row'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$name</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
                                                             }
                                                         }
                                                     }catch(Exception $x)
@@ -1582,27 +1777,31 @@ class JobController {
                                                                 
                                                                 $typeName = $typeModel->GetTypeByID($row->type)->name;
                                                                 
-                                                                $result.="<div class='row'>
-                                                                    <section class='col-xs-12 col-sm-6 col-md-12'>
-                                                                                <article class='search-result row'>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-3'>
-                                                                                                <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-2'>
-                                                                                                <ul class='meta-search'>
-                                                                                                        <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
-                                                                                                </ul>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
-                                                                                                <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                <p>$row->description</p>						
-                                                                                        </div>
-                                                                                        <span class='clearfix borda'></span>
-                                                                                </article>	
-                                                                    </section>
-                                                                </div>";
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
                                                             }
                                                         }
                                                     }catch(Exception $x)
@@ -1610,6 +1809,49 @@ class JobController {
                                                         echo 'Caught exception: ',  $x->getMessage(), "\n";
                                                     }
                                                     
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
+                                                            {       
+                                                                $dateT = new DateTime($row->date);
+                                                                $dateposted = $dateT->format("d/m/Y");
+                                                                
+                                                                $timeposted = $dateT->format("H:i");
+                                                                
+                                                                $typeName = $typeModel->GetTypeByID($row->type)->name;
+                                                                
+                                                                if($row->adtype == 0)
+                                                                {
+                                                                    $result.="<div class='row'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }
 						$result.="</div>
 						</div>"
 					."</div>"
@@ -1684,27 +1926,76 @@ class JobController {
                                                                 $timeposted = $dateT->format("H:i");
                                                                 
                                                                 $typeName = $typeModel->GetTypeByID($row->type)->name;
-                                                                $result.="<div class='row'>
-                                                                    <section class='col-xs-12 col-sm-6 col-md-12'>
-                                                                                <article class='search-result row'>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-3'>
-                                                                                                <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-2'>
-                                                                                                <ul class='meta-search'>
-                                                                                                        <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
-                                                                                                        <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
-                                                                                                </ul>
-                                                                                        </div>
-                                                                                        <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
-                                                                                                <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                <p>$row->description</p>						
-                                                                                        </div>
-                                                                                        <span class='clearfix borda'></span>
-                                                                                </article>	
-                                                                    </section>
-                                                                </div>";
+                                                                
+                                                                if($row->adtype == 1)
+                                                                {
+                                                                    $result.="<div class='row' style='margin-top:10px;margin-bottom:10px;'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row' style='background-color: #FFFCBB;'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-ok'></i> <span style='color:grey;'><strong>Sponsored</strong></span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
+                                                            }
+                                                        }
+                                                    }catch(Exception $x)
+                                                    {
+                                                        echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                    }                                                
+                                                   
+                                                    try
+                                                    {
+                                                        if($search != null)
+                                                        {
+                                                            foreach($search as $row)
+                                                            {       
+                                                                $dateT = new DateTime($row->date);
+                                                                $dateposted = $dateT->format("d/m/Y");
+                                                                
+                                                                $timeposted = $dateT->format("H:i");
+                                                                
+                                                                $typeName = $typeModel->GetTypeByID($row->type)->name;
+                                                                
+                                                                if($row->adtype == 0)
+                                                                {
+                                                                    $result.="<div class='row'>
+                                                                        <section class='col-xs-12 col-sm-6 col-md-12'>
+                                                                                    <article class='search-result row'>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-3'>
+                                                                                                    <a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title='$row->name' class='thumbnail'><img src='Images/jobsbanner.jpg' alt='$row->name' /></a>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-2'>
+                                                                                                    <ul class='meta-search'>
+                                                                                                            <li><i class='glyphicon glyphicon-calendar'></i> <span>$dateposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-time'></i> <span>$timeposted</span></li>
+                                                                                                            <li><i class='glyphicon glyphicon-tags'></i> <span>$typeName</span></li>
+                                                                                                    </ul>
+                                                                                            </div>
+                                                                                            <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
+                                                                                                    <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
+                                                                                                    <p>$row->description</p>						
+                                                                                            </div>
+                                                                                            <span class='clearfix borda'></span>
+                                                                                    </article>	
+                                                                        </section>
+                                                                    </div>";
+                                                                }
                                                             }
                                                         }
                                                     }catch(Exception $x)
@@ -2308,6 +2599,9 @@ class JobController {
         $requestModel = new RequestModel();
         $myRequest = $requestModel->CountRequestsByTargetUserId($_SESSION['id']);
         
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
         $result = "<div class='col-md-12 col-sm-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR USERPIC -->
@@ -2421,11 +2715,19 @@ class JobController {
 							<i class='glyphicon glyphicon-user'></i>
 							Account Settings </a>
 						</li>
-						<li class='active'>
-							<a href='JobsOverview.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-ok'></i>
-							Jobs </a>
-						</li>
+						<li class='active'>";
+                                                    if($myOfferCancellationRequest != NULL)
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs &nbsp<span class='badge'>$myOfferCancellationRequest</span></a>";
+                                                    }else
+                                                    {
+							$result.="<a href='JobsOverview.php' style='text-align:center;'>
+                                                                    <i class='glyphicon glyphicon-ok'></i>
+                                                                    Jobs </a>";
+                                                    }
+						$result.="</li>
 						<li>
 							<a href='UserReview.php?epr=review&id=".$_SESSION['id']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-comment'></i>
@@ -2458,6 +2760,14 @@ class JobController {
     //Code To Create Overview of jobs
     function CreateJobOverview()
     {
+        require_once 'Model/CancelRequestModel.php';
+        $cancelRequestModel = new CancelRequestModel();
+        $myOfferCancellationRequest = $cancelRequestModel->CountCancelRequestByTargetUserId($_SESSION['id']);
+        
+        require_once 'Model/PaymentModel.php';
+        $paymentModel = new PaymentModel();
+        $payment = $paymentModel->CountPaymentByTargetUserId($_SESSION['id']);
+        
         $result = "<H4 Style='text-align:center'>Job Overview Page: </H4>"
                   . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
@@ -2470,13 +2780,41 @@ class JobController {
                                                         <a href='InsertANewJob.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                     <i class='glyphicon glyphicon-upload'></i>
                                                             Upload A New Job </a>
-                                                       </div>
-                                                    <div class='row'>
+                                                       </div>";
+                                                if($payment != NULL)
+                                                {
+                                                    $result.="<div class='row'>
+                                                        <a href='PaymentConfirmation.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-euro'></i>
+                                                            Payment Confirmation &nbsp<span class='badge'>$payment</span> </a>
+                                                    </div>";
+                                                }else
+                                                {
+                                                    $result.="<div class='row'>
+                                                        <a href='PaymentConfirmation.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-euro'></i>
+                                                            Payment Confirmation </a>
+                                                    </div>";
+                                                }
+                                                
+                                                if($myOfferCancellationRequest != NULL)
+                                                {
+                                                    $result.="<div class='row'>
+                                                        <a href='CancelOfferRequest.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-time'></i>
+                                                            Offer Cancellation Request &nbsp<span class='badge'>$myOfferCancellationRequest</span> </a>
+                                                    </div>";
+                                                        
+                                                }else
+                                                {
+                                                    $result.="<div class='row'>
                                                         <a href='CancelOfferRequest.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                     <i class='glyphicon glyphicon-time'></i>
                                                             Offer Cancellation Request </a>
-                                                    </div>"
-						."</div>"
+                                                    </div>";
+                                                }
+                                                
+						$result.="</div>"
 					."</div>"
                             ."</div>"
                    ."</div>"
@@ -2508,7 +2846,7 @@ class JobController {
    // Modal To Enable The User To Place An Offer
    function PlaceAnOfferModal()
     {
-                $result = "<div class='modal fade col-xs-11' id='placeAnOfferModal' role='dialog'>
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='placeAnOfferModal' role='dialog'>
 			<div class='modal-dialog'>
 			
 			  <!-- Modal content-->
@@ -2551,6 +2889,162 @@ class JobController {
                                                 </script>
                                                 
                                                 <button class='btn primary col-xs-3 col-xs-offset-8 col-sm-2 col-sm-offset-8 col-md-2 col-md-offset-8' name = 'placeOffer' type='submit'>Submit</button>
+                                               </fieldset>
+                                             </form>
+                                   </div>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // Modal To State That The Job Has Already Started
+   function JobAlreadyStartedModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='jobAlreadyStartedModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>WooPS!!!!</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-info' style='text-align:center;'>
+                                      <strong>Sorry,</strong><p style='font-size:13px;'> jobs cannot be updated once it has passed the start date :)</p>
+                                    </div>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+   // Modal To View All Workers Attendance
+   function ViewAllWorkerAttendanceModal()
+    {
+       
+        require_once 'Controller/SignInController.php';
+        $signInController = new SignInController();
+        
+        // List Of Signed In Workers Today
+        $listOfSignedInWorkers = $signInController->GetAllSignInRecordsByJobId($_SESSION['jobId']);
+        
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='viewAllWorkerAttendanceModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>User Attendance</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-info' style='text-align:center;'>
+                                      <strong>User Attendance</strong>
+                                    </div>
+                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+                                            <input type='text' id='allWorkersAttendanceInput' class='col-md-4' onkeyup='allWorkersAttendanceFunction()' placeholder='Filter' title='Type in a worker name' style='display: block; margin: auto;'>
+                                    </div>";
+                                                         try
+                                                          {
+                                                             if($listOfSignedInWorkers != NULL)
+                                                             {
+                                                            $result.='
+                                                                        <div class="table-responsive scrollitY" id="allWorkersAttendanceTable">
+                                                                            <table class="table sortable">
+                                                                             <tr>
+                                                                                 <th style="text-align:center;">User</th>
+                                                                                 <th style="text-align:center;">Arrived</th>
+                                                                            </tr>';
+                                                                                  $userModel = new UserModel();
+                                                                                    foreach($listOfSignedInWorkers as $row)
+                                                                                    {
+                                                                                            $user = $userModel->GetUserById($row->userId);
+                                                                                            $nameOfUser = $user->firstName.' '.$user->lastName;
+                                                                                            $dateT = new DateTime($row->date);
+                                                                                            $dateposted = $dateT->format("H:i:s");
+                                                                                            $result.= '<tr>'
+                                                                                                    . '<td align="center"><a href="ViewUserProfile.php?epr=view&id='.$row->userId.'">'.$nameOfUser.'</a></td>'
+                                                                                                    . '<td align="center"><a href="#">'.$dateposted.'</a></td>';       
+                                                                                            $result.='</tr>';
+
+                                                                                    }
+
+                                                                        $result.= '</table>'
+                                                                                . '</div>';
+                                                             }
+                                                          }catch(Exception $x)
+                                                          {
+                                                              echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                          }
+                     $result.="</div>
+			  </div>
+			  
+			</div>
+	  </div>
+<script>
+function allWorkersAttendanceFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById('allWorkersAttendanceInput');
+  filter = input.value.toUpperCase();
+  table = document.getElementById('allWorkersAttendanceTable');
+  tr = table.getElementsByTagName('tr');
+  for (i = 0; i < tr.length; i++) {
+	td = tr[i].getElementsByTagName('td')[0];
+	if (td) {
+	  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+		tr[i].style.display = '';
+	  } else {
+		tr[i].style.display = 'none';
+	  }
+	}       
+  }
+}
+</script>";
+        return $result;
+    }
+    
+   // Modal To Sign In A Worker
+   function SignInWorkerModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='signInWorkerModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Worker Sign In</h4>
+				</div>
+				<div class='modal-body'>
+                                <div class='row'>
+                                    <div id='register' class='register-form'>
+                                             <div class='row'>
+                                               <h2 class='col-md-12 col-sm-12' style='text-align:center;'>Sign In</h2>
+                                             </div>
+                                             <form action='' method = 'POST'>
+                                               <fieldset>
+                                               
+                                                <div class='clearfix row'>
+                                                  <input type='text' class='col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1' name='username' placeholder='Username' required autofocus>
+                                                </div>
+                                                <div class='clearfix row'>
+                                                  <input type='password' class='col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-8 col-xs-offset-1' name='password' placeholder='Password' required>
+                                                </div>
+                                                
+                                                <div class='row'>
+                                                    <button class='btn primary col-md-2 col-sm-2 col-xs-3 col-md-offset-7 col-sm-offset-7  col-xs-offset-6' type='submit' name = 'login'>Sign in</button>
+                                                </div>
+                                                
                                                </fieldset>
                                              </form>
                                    </div>
@@ -2886,17 +3380,156 @@ class JobController {
         
         $countyModel = new CountyModel();
         $county =$countyModel->GetCountyById($jobController->county)->county;
+        
+        require_once 'Controller/SignInController.php';
+        $signInController = new SignInController();
+        
+        // List Of Signed In Workers Today
+        $listOfSignedInWorkers = $signInController->GetAllSignInRecordsByJobId($_SESSION['jobId']);
+        $jobStartDate = $jobController->startDate;
         $result = '<div class="row col-md-12 text-center" style="padding-bottom:20px;">';
                         if(($jobController->id == $_SESSION['id']) && ($jobController->adtype == 1) && ($jobController->isActive == 1))
                         {
-                            $result .='<a href="#" data-toggle="modal" id="featureInfoButton" class="btn btn-info col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#jobSubscriptionStatusModal">
-                            <i class="glyphicon glyphicon-star-empty"></i>
-                            Featured Job </a>';
+                            $result .='
+                                      <div class="row">
+                                        <a href="#" data-toggle="modal" id="featureInfoButton" class="btn btn-info col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#jobSubscriptionStatusModal">
+                                        <i class="glyphicon glyphicon-star-empty"></i>
+                                        Featured Job </a>
+                                      </div>';
+                                      
+                                      if((time() >= strtotime($jobStartDate)))
+                                      {
+                                                $result.='<div class="row" style="margin-top:10px;">
+                                                      <a href="#" data-toggle="modal" id="signInWorkerUserButton" class="btn btn-primary col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" data-target="#signInWorkerModal">
+                                                  <i class="glyphicon glyphicon-user"></i>
+                                                  Sign In Worker </a>
+                                                 </div>';
+                                      }
+
+                                               $result.='<div class="row" style="margin-top:10px;">
+                                                      <div class="col-md-6 col-md-offset-3" style="background-color: white;" id="workersToday">';
+                                                          try
+                                                          {
+                                                             if($listOfSignedInWorkers != NULL)
+                                                             {
+                                                                  $result.='<div class="panel-group col-md-12" style="margin-top:20px;">
+                                                                        <div class="panel panel-default ">
+                                                                                      <div class="panel-heading" style="text-align:center;">
+                                                                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseListWorkersToday" class="glyphicon glyphicon-hand-up"><strong>Today'."'s".' Workers</strong></a>
+                                                                                      </div>
+                                                                                      <div id="collapseListWorkersToday" class="panel-collapse collapse in">
+                                                                                             <div class="alert alert-info">
+                                                                                                <a href="#" data-toggle="modal" data-target="#viewAllWorkerAttendanceModal">View All Attendance.</a>
+                                                                                              </div>
+                                                                                              <div class="panel-body">
+                                                                                                  <div style="overflow-x:hidden;overflow-y:auto;height:140px;">
+                                                                                                      <table class="table sortable">
+                                                                                                       <tr>
+                                                                                                           <th style="text-align:center;">User</th>
+                                                                                                           <th style="text-align:center;">Arrived</th>
+                                                                                                      </tr>';
+
+                                                                                                              foreach($listOfSignedInWorkers as $row)
+                                                                                                              {
+                                                                                                                  $lastSignInDate = $row->date;
+                                                                                                                  if((time() - ((60 * 60 * 24) * 1) < strtotime($lastSignInDate)))
+                                                                                                                  {
+                                                                                                                      $user = $userModel->GetUserById($row->userId);
+                                                                                                                      $nameOfUser = $user->firstName.' '.$user->lastName;
+                                                                                                                      $dateT = new DateTime($row->date);
+                                                                                                                      $dateposted = $dateT->format("H:i:s");
+                                                                                                                      $result.= '<tr>'
+                                                                                                                              . '<td align="center"><a href="ViewUserProfile.php?epr=view&id='.$row->userId.'">'.$nameOfUser.'</a></td>'
+                                                                                                                              . '<td align="center"><a href="#">'.$dateposted.'</a></td>';       
+                                                                                                                      $result.='</tr>';
+                                                                                                                  }
+                                                                                                              }
+
+                                                                                                  $result.= '</table>'
+                                                                                                          . '</div>'
+                                                                                              .'</div>'
+                                                                                      .'</div>'
+                                                                              .'</div>'
+                                                                      .'</div>';
+                                                             }
+                                                          }catch(Exception $x)
+                                                          {
+                                                              echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                          }
+                                            $result.='</div>'
+                                             . '</div>';
+                                      
+                        
                         }else if(($jobController->id == $_SESSION['id']) && ($jobController->adtype == 0) && ($jobController->isActive == 1))
                         {
-                            $result .='<a href="UpgradeFeatureJob.php" id="featureAJobButton" class="btn btn-info col-xs-9 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
-                            <i class="glyphicon glyphicon glyphicon-plus"></i>
-                            Upgrade This Job To Be Featured </a>';
+                            $result .='<div class="row">
+                                            <a href="UpgradeFeatureJob.php" id="featureAJobButton" class="btn btn-info col-xs-9 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
+                                                <i class="glyphicon glyphicon glyphicon-plus"></i>
+                                            Upgrade This Job To Be Featured </a>
+                                       </div>';
+                                      $jobStartDate = $jobController->startDate;
+                                      
+                                      if((time() >= strtotime($jobStartDate)))
+                                      {
+                                                $result.='<div class="row" style="margin-top:10px;">
+                                                      <a href="#" data-toggle="modal" id="signInWorkerUserButton" class="btn btn-primary col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" data-target="#signInWorkerModal">
+                                                  <i class="glyphicon glyphicon-user"></i>
+                                                  Sign In Worker </a>
+                                                 </div>';
+                                      }
+
+                                               $result.='<div class="row" style="margin-top:10px;">
+                                                      <div class="col-md-6 col-md-offset-3" style="background-color: white;" id="workersToday">';
+                                                          try
+                                                          {
+                                                             if($listOfSignedInWorkers != NULL)
+                                                             {
+                                                                  $result.='<div class="panel-group col-md-12" style="margin-top:20px;">
+                                                                        <div class="panel panel-default"> 
+                                                                                      <div class="panel-heading" style="text-align:center;">
+                                                                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseListWorkersToday" class="glyphicon glyphicon-hand-up"><strong>Today'."'s".' Workers</strong></a>
+                                                                                      </div>
+                                                                                      <div id="collapseListWorkersToday" class="panel-collapse collapse in">
+                                                                                              <div class="alert alert-info">
+                                                                                                <a href="#" data-toggle="modal" data-target="#viewAllWorkerAttendanceModal">View All Attendance.</a>
+                                                                                              </div>
+                                                                                              <div class="panel-body">
+                                                                                                  <div style="overflow-x:hidden;overflow-y:auto;height:140px;">
+                                                                                                      <table class="table sortable">
+                                                                                                       <tr>
+                                                                                                           <th style="text-align:center;">User</th>
+                                                                                                           <th style="text-align:center;">Arrived</th>
+                                                                                                      </tr>';
+
+                                                                                                              foreach($listOfSignedInWorkers as $row)
+                                                                                                              {
+                                                                                                                  $lastSignInDate = $row->date;
+                                                                                                                  if((time() - ((60 * 60 * 24) * 1) < strtotime($lastSignInDate)))
+                                                                                                                  {
+                                                                                                                      $user = $userModel->GetUserById($row->userId);
+                                                                                                                      $nameOfUser = $user->firstName.' '.$user->lastName;
+                                                                                                                      $dateT = new DateTime($row->date);
+                                                                                                                      $dateposted = $dateT->format("H:i:s");
+                                                                                                                      $result.= '<tr>'
+                                                                                                                              . '<td align="center"><a href="ViewUserProfile.php?epr=view&id='.$row->userId.'">'.$nameOfUser.'</a></td>'
+                                                                                                                              . '<td align="center"><a href="#">'.$dateposted.'</a></td>';       
+                                                                                                                      $result.='</tr>';
+                                                                                                                  }
+                                                                                                              }
+
+                                                                                                  $result.= '</table>'
+                                                                                                          . '</div>'
+                                                                                              .'</div>'
+                                                                                      .'</div>'
+                                                                              .'</div>'
+                                                                      .'</div>';
+                                                             }
+                                                          }catch(Exception $x)
+                                                          {
+                                                              echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                          }
+                                            $result.='</div>'
+                                                . '</div>';
                         }else if(($jobController->id == $_SESSION['id']) && ($jobController->isActive == 0))
                         {
                             $result .='<a href="#" data-toggle="modal" id="renewJobSubscriptionButton" class="btn btn-warning col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#renewJobSubscriptionModal">
@@ -2906,9 +3539,29 @@ class JobController {
                         
                         if ($offer_placed == 0 && ($jobController->id != $_SESSION['id']))
                         {
-                           $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
-                            <i class="glyphicon glyphicon-book"></i>
-                            Place An Offer </a>';
+                            if($placedOffersModel->CountNoPlacedOffersByJobId($_SESSION['jobId']) != 0)
+                            {
+                                if($placedOffersModel->CountNoPlacedOffersByJobId($_SESSION['jobId']) < $jobController->numberOfPeopleRequired)
+                                {
+                                    $result .='
+                                        <a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
+                                     <i class="glyphicon glyphicon-book"></i>
+                                     Place An Offer </a>';
+                                }else
+                                {
+                                    // Position - Number Of People Required has been filled
+                                    $result.='<div class="alert alert-info">
+                                                This Position Has Been Filled :)
+                                              </div>';
+                                }
+                            }else
+                            {
+                                // No Offer Has Been Placed Yet
+                                    $result .='
+                                        <a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#placeAnOfferModal">
+                                     <i class="glyphicon glyphicon-book"></i>
+                                     Place An Offer </a>';
+                            }
                         }else if($offer_placed == 1 && ($jobController->id != $_SESSION['id']) && $placedOffersModel->GetUsersPlacedOffer($jobController->jobid, $_SESSION['id'])->bidStatus == 0)
                         {
                             $result .='<a href="#" data-toggle="modal" id="placeAnOfferButton" class="btn btn-success col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3" data-target="#updateAnOfferModal">
@@ -3158,7 +3811,7 @@ class JobController {
                                                             . "<tr>"
                                                             . "     <th style='text-align:center'>Name</th>"
                                                             . "     <th style='text-align:center'>Comment</th>"
-                                                            . "     <th style='text-align:center'>Date</th>"
+                                                            . "     <th style='text-align:center'>Date Posted</th>"
                                                             . "     <th style='text-align:center'>Price</th>"
                                                             . "     <th style='text-align:center'>Action: </th>"
                                                             . "</tr>";
@@ -3230,26 +3883,107 @@ class JobController {
                                                                                     . "</tr>";
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 1)
                                                                         {
+                                                                            $time = strtotime($jobStartDate);
+                                                                            $jobEndDate = new DateTime(date('Y-m-d',$time));
+                                                                            $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
                                                                             $result.= "<tr>"
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
-                                                                                    ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
-                                                                                    . "</td>"
-                                                                                    . "</tr>";
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>";
+                                                                                    if(!(time() >= strtotime($jobStartDate)))
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>";
+                                                                                    }else if((time() >= strtotime($jobEndDate->format("Y-m-d H:i:s"))))
+                                                                                    {
+                                                                                        require_once 'Model/PaymentModel.php';
+                                                                                        
+                                                                                        $paymentModel = new PaymentModel();
+                                                                                        $paymentConfirmed = $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($_SESSION['id'], $row->userID, $_SESSION['jobId']);
+                                                                                        if($paymentConfirmed != NULL)
+                                                                                        {
+                                                                                            if($paymentConfirmed->status == 2)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."Paid"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }else if($paymentConfirmed->status == 1)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }
+                                                                                        }else
+                                                                                        {
+                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                    ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                            . "</td>"
+                                                                                            . "</tr>"; 
+                                                                                        }
+
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>"; 
+                                                                                    }
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 1)
                                                                         {
+                                                                            $time = strtotime($jobStartDate);
+                                                                            $jobEndDate = new DateTime(date('Y-m-d',$time));
+                                                                            $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
+                                                                           
                                                                             $result.= "<tr>"
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
-                                                                                    ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.")'>Cancel</a>"
-                                                                                    . "</td>"
-                                                                                    . "</tr>";
+                                                                                    . "<td bgcolor='lightgreen' align='center'>";
+                                                                                    if(!(time() >= strtotime($jobStartDate)))
+                                                                                    {
+                                                                                        $result.= 
+                                                                                        "      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>";
+                                                                                    }else if((time() >= strtotime($jobEndDate->format("Y-m-d H:i:s"))))
+                                                                                    {
+                                                                                        require_once 'Model/PaymentModel.php';
+                                                                                        
+                                                                                        $paymentModel = new PaymentModel();
+                                                                                        $paymentConfirmed = $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($_SESSION['id'], $row->userID, $_SESSION['jobId']);
+                                                                                        if($paymentConfirmed != NULL)
+                                                                                        {
+                                                                                            if($paymentConfirmed->status == 2)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."Paid"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }else if($paymentConfirmed->status == 1)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }
+                                                                                        }else
+                                                                                        {
+                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                    ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                            . "</td>"
+                                                                                            . "</tr>"; 
+                                                                                        }
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.= 
+                                                                                         "</td>"
+                                                                                        . "</tr>"; 
+                                                                                    }
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
@@ -3308,7 +4042,8 @@ class JobController {
                                                             . "<tr>"
                                                             . "     <th style='text-align:center'>Name</th>"
                                                             . "     <th style='text-align:center'>Comment</th>"
-                                                            . "     <th style='text-align:center'>Date</th>"
+                                                            . "     <th style='text-align:center'>Date Posted</th>"
+                                                            . "     <th style='text-align:center'>Preffered Start Date</th>"
                                                             . "     <th style='text-align:center'>Price</th>"
                                                             . "     <th style='text-align:center'>No. Days</th>"    
                                                             . "     <th style='text-align:center'>Action: </th>"
@@ -3327,6 +4062,7 @@ class JobController {
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>"
@@ -3339,6 +4075,7 @@ class JobController {
                                                                                     . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                     . "<td align='center'>$row->comment</td>"
                                                                                     . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td align='center'>$row->offerPrice</td>"
                                                                                     . "<td align='center'>$row->numberOfDays</td>"
                                                                                     . "<td align='center'>"
@@ -3351,6 +4088,7 @@ class JobController {
                                                                                     . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>"
@@ -3363,6 +4101,7 @@ class JobController {
                                                                                     . "<td bgcolor='#ccd7ea' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='#ccd7ea' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='#ccd7ea' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='#ccd7ea' align='center'>$row->offerPrice</td>"
                                                                                     . "<td bgcolor='#ccd7ea' align='center'>$row->numberOfDays</td>"
                                                                                     . "<td bgcolor='#ccd7ea' align='center'>"
@@ -3376,6 +4115,7 @@ class JobController {
                                                                                     . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
                                                                                     . "<td align='center'>$row->comment</td>"
                                                                                     . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td align='center'>$row->offerPrice</td>"
                                                                                     . "<td align='center'>$row->numberOfDays</td>"
                                                                                     . "<td align='center'>"
@@ -3389,30 +4129,115 @@ class JobController {
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
-                                                                                    ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
-                                                                                    . "</td>"
-                                                                                    . "</tr>"; 
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>";
+                                                                            
+                                                                                    $time = strtotime($jobStartDate);
+                                                                                    $jobEndDate = new DateTime(date('Y-m-d',$time));
+                                                                                    $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
+                                                                                    
+                                                                                    if(!(time() >= strtotime($jobStartDate)))
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>";
+                                                                                    }else if((time() >= strtotime($jobEndDate->format("Y-m-d H:i:s"))))
+                                                                                    {
+                                                                                        require_once 'Model/PaymentModel.php';
+                                                                                        
+                                                                                        $paymentModel = new PaymentModel();
+                                                                                        $paymentConfirmed = $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($_SESSION['id'], $row->userID, $_SESSION['jobId']);
+                                                                                        if($paymentConfirmed != NULL)
+                                                                                        {
+                                                                                            if($paymentConfirmed->status == 2)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."Paid"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }else if($paymentConfirmed->status == 1)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }
+                                                                                        }else
+                                                                                        {
+                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                    ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                            . "</td>"
+                                                                                            . "</tr>"; 
+                                                                                        }
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>"; 
+                                                                                    }
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 1)
                                                                         {
                                                                             $result.= "<tr>"
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
-                                                                                    ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
-                                                                                    . "</td>"
-                                                                                    . "</tr>"; 
+                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>";
+                                                                            
+                                                                                    $time = strtotime($jobStartDate);
+                                                                                    $jobEndDate = new DateTime(date('Y-m-d',$time));
+                                                                                    $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
+                                                                                    
+                                                                                    if(!(time() >= strtotime($jobStartDate)))
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>";
+                                                                                    }else if((time() >= strtotime($jobEndDate->format("Y-m-d H:i:s"))))
+                                                                                    {
+                                                                                        require_once 'Model/PaymentModel.php';
+                                                                                        
+                                                                                        $paymentModel = new PaymentModel();
+                                                                                        $paymentConfirmed = $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($_SESSION['id'], $row->userID, $_SESSION['jobId']);
+                                                                                        if($paymentConfirmed != NULL)
+                                                                                        {
+                                                                                            if($paymentConfirmed->status == 2)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."Paid"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }else if($paymentConfirmed->status == 1)
+                                                                                            {
+                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                        ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                                . "</td>"
+                                                                                                . "</tr>"; 
+                                                                                            }
+                                                                                        }else
+                                                                                        {
+                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                    ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
+                                                                                            . "</td>"
+                                                                                            . "</tr>"; 
+                                                                                        }
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        . "</td>"
+                                                                                        . "</tr>"; 
+                                                                                    }
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>"
@@ -3425,6 +4250,7 @@ class JobController {
                                                                                     . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
                                                                                     . "<td bgcolor='#ffcc66' align='center'>"
@@ -3437,6 +4263,7 @@ class JobController {
                                                                                     . "<td align='center'></td>"
                                                                                     . "<td align='center'>$row->comment</td>"
                                                                                     . "<td align='center'>$row->placementDate</td>"
+                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
                                                                                     . "<td align='center'>$row->offerPrice</td>"
                                                                                     . "<td align='center'>$row->numberOfDays</td>"
                                                                                     . "</tr>";
@@ -3656,22 +4483,43 @@ class JobController {
    // View the Job Details
     function ViewJobDetailsOfYourJobSideBar()
     {
+        $jobModel = new JobModel();
+        $job= $jobModel->GetJobsByID($_SESSION['jobId']);
+        $jobStartDate = $job->startDate;
+        
         $result = "<div class='col-md-12 col-sm-12'>
 			<div class='profile-sidebar'>
 				<!-- SIDEBAR MENU -->
 				<div class='profile-usermenu'>
-					<ul class='nav'>
-						<li class='active'>
+					<ul class='nav'>";
+                                            if(!(time() >= strtotime($jobStartDate)))
+                                            {
+						$result.="<li class='active'>
 							<a href='EditJob.php?epr=update&id=".$_SESSION['jobId']."' style='text-align:center;'>
 							<i class='glyphicon glyphicon-edit'></i>
 							Update This Job </a>
-						</li>
-						<li>
+						</li>";
+                                            
+						$result.="<li>
 							<a href='#' style='text-align:center;'>
 							<i class='glyphicon glyphicon-remove'></i>
 							De-Activate This Job </a>
-						</li>
-						<li>
+						</li>";
+                                            }else
+                                            {
+						$result.="<li class='active'>
+							<a href='#' data-toggle='modal' data-target='#jobAlreadyStartedModal' style='text-align:center;'>
+							<i class='glyphicon glyphicon-edit'></i>
+							Update This Job </a>
+						</li>";
+                                            
+						$result.="<li>
+							<a href='#' style='text-align:center;'>
+							<i class='glyphicon glyphicon-remove'></i>
+							De-Activate This Job </a>
+						</li>"; 
+                                            }
+						$result.="<li>
 							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
@@ -3725,7 +4573,7 @@ class JobController {
                                                                 {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                    $noOffers = $placedOffersModel->CountNoPlacedOffersByJobId($row->jobid);
+                                                                    $noOffers = $placedOffersModel->CountViewUserJobNoPlacedOffersByJobId($row->jobid);
                                                                     $result.= "<tr>"
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
                                                                             . "<td align='center'>$row->description</td>"

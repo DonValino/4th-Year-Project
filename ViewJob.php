@@ -39,11 +39,14 @@ if($epr == 'view')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 if($epr == 'viewJobAcceptedOffer')
 {
-    $errorMessage = "Offer Accepted :)";
+    $errorMessage = "<p style='color:green;font-size:18px;'>Offer Accepted :)</p>";
     
     $_SESSION['jobId'] = $_GET['jobid'];
     $content = $jobController->ViewJobDetails($_SESSION['jobId']);
@@ -51,6 +54,9 @@ if($epr == 'viewJobAcceptedOffer')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 if($epr == 'viewDeclineOffer')
@@ -63,6 +69,9 @@ if($epr == 'viewDeclineOffer')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 if($epr == 'viewJobCancellationOffer')
@@ -75,6 +84,9 @@ if($epr == 'viewJobCancellationOffer')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 if($epr == 'renewedStandardAndview')
@@ -85,6 +97,9 @@ if($epr == 'renewedStandardAndview')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
     
     $jobController->updateJobActiveStatus($_SESSION['jobId'], 1);
     $jobController->updateJobAdType($_SESSION['jobId'], 0);
@@ -106,6 +121,9 @@ if($epr == 'renewedFeaturedAndview')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
     
     $jobController->updateJobActiveStatus($_SESSION['jobId'], 1);
     $jobController->updateJobAdType($_SESSION['jobId'], 1);
@@ -138,6 +156,9 @@ if($epr == 'viewAndUpgrade')
     $content .= $jobController->UpdateAnOfferModal();
     $content .= $jobController->JobSubscriptionStatusModal();
     $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 if($epr == 'viewfromnotification')
@@ -164,6 +185,9 @@ if(isset($_SESSION['username']))
    $content .= $jobController->UpdateAnOfferModal();
    $content .= $jobController->JobSubscriptionStatusModal();
    $content .= $jobController->RenewJobSubscriptionModal();
+   $content .= $jobController->SignInWorkerModal();
+   $content .= $jobController->JobAlreadyStartedModal();
+   $content .= $jobController->ViewAllWorkerAttendanceModal();
 }
 
 $content .= $jobController->SendMessageModal($_SESSION['jobId']);
@@ -183,12 +207,12 @@ if (isset($_POST['sendMessage']) && !empty($_POST['messages']))
 
 if($epr == 'offerPlaced')
 {
-    $errorMessage="Thanks, Offer Placed!!";
+    $errorMessage="<p style='color:green;font-size:18px;'>Thanks, Offer Placed!!</p>";
 }
 
 if($epr == 'offerUpdated')
 {
-    $errorMessage="Thanks, Offer Updated!!";
+    $errorMessage="<p style='color:green;font-size:18px;'>Thanks, Offer Updated!!</p>";
 }
 
 // Offer Accepted
@@ -300,6 +324,72 @@ if($epr == 'delete')
     $userId = $_GET['userId'];
     
     header('Location: placeOffer.php?epr=delete&userId='.$userId);
+}
+
+
+//Login Code - Query DB to see if user exist and if exist, allow user worker to login To A Job
+ if (isset($_POST['login']) && !empty($_POST['username']) 
+               && !empty($_POST['password'])) {
+     
+     require_once 'Controller/SignInController.php';
+     require_once 'Model/PlacedOffersModel.php';
+     require_once 'Model/UserModel.php';
+     
+    $userModel = new UserModel();
+    $signInController = new SignInController();
+    $PlacedOffersModel = new PlacedOffersModel();
+             
+    $userObject = $userModel->CheckUser($_POST['username']);
+    
+    if($userObject != NULL)
+    {  
+        if($userObject->username == $_POST['username'] && $userObject->password == $_POST['password'])
+        {
+            //Today's date
+            $date = new DateTime();
+            $dateTime = $date->format('Y-m-d H:i:s');
+            
+            $lastSignedIn = $signInController->GetSignInRecordsByUserIdAndJobId($userObject->id, $_SESSION['jobId']);
+            
+            $isUserOnceOfTheWorker = $PlacedOffersModel->GetUserlacedOffersByJobIdAndUserId($_SESSION['jobId'], $userObject->id);
+            
+            if($lastSignedIn != NULL && $isUserOnceOfTheWorker != NULL && $isUserOnceOfTheWorker->bidStatus == 1)
+            {
+                $lastSignInDate = $lastSignedIn->date;
+                if((time() - ((60 * 60 * 24) * 1) >= strtotime($lastSignInDate)))
+                {
+                    // User Has Not signed in today
+                    $signInController->updateLatestStatus(0, $userObject->id, $_SESSION['jobId']);
+                    $signInController->InsertAUserSignIn($userObject->id, $_SESSION['jobId'], $dateTime,1);
+                    $errorMessage= '<p style="color:green;font-size:18px;">Welcome Worker: <strong style="color:blue;">'.$userObject->firstName.' '.$userObject->lastName.'</strong> :)</p>';
+                }else
+                {
+                    // User Has Already Signed In Today
+                    $errorMessage= '<p style="color:green;font-size:18px;">This Worker Has Already Signed In Today</p>';
+                }
+            }else if($lastSignedIn == NULL && $isUserOnceOfTheWorker != NULL && $isUserOnceOfTheWorker->bidStatus == 1)
+            {
+                // User Has Never Signed Into This Job Yet
+                $signInController->InsertAUserSignIn($userObject->id, $_SESSION['jobId'], $dateTime,1);
+                $errorMessage= '<p style="color:green;font-size:18px;">Welcome Worker: <strong style="color:blue;">'.$userObject->firstName.' '.$userObject->lastName.'</strong> :)</p>'; 
+            }else if($lastSignedIn == NULL && $isUserOnceOfTheWorker != NULL && $isUserOnceOfTheWorker->bidStatus == 0)
+            {
+               // User Is Not One Of The Accepted Worker
+               $errorMessage= '* Error: You Are Not One Of The Accepted Workers For This Job *';
+            }
+            else
+            {
+                $errorMessage= '* Error: You Are Not One Of The Accepted Workers For This Job *';
+            }
+        }else
+        {
+            $_SESSION['valid'] = false;
+            $errorMessage= '* Error!! Username / Password is incorrect. Please try again :)';
+        }
+    }else
+    {
+        $errorMessage= '* Error!! Username / Password is incorrect. Please try again :)';
+    }
 }
 
  include 'Template.php'
