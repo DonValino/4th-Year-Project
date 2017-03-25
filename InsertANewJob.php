@@ -15,6 +15,16 @@ if(isset($_SESSION['username']))
     header('Location: index.php');
 }
 
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        // Go Back To Home Page
+         header('Location: Home.php');
+    }
+}
+
 // An Array to store all error messages
 $errors = array();
 

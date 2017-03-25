@@ -8,35 +8,28 @@ and open the template in the editor.
 
 session_start();
 
-require 'Controller/JobController.php';
+require 'Controller/CancelRequestController.php';
+$cancelRequestController = new CancelRequestController();
 
-$jobController = new JobController();
-
-$epr='';
-$title = "Search";
-$content = "";
 $loginStatus= "Login";
 $log = "";
-$errorMessage = "";
-$sidebar = "";
+
 if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
-   $log = "Home.php";
+   $log = $_SESSION['log'];
 }else
 {
     header('Location: index.php');
 }
 
-// User Is Admin
-if(isset($_SESSION['admin']))
-{
-    if($_SESSION['admin'] == 1)
-    {
-        // Go Back To Home Page
-         header('Location: Home.php');
-    }
-}
+$epr='';
+$title = "Offer Cancellation Request";
+
+$content = $cancelRequestController->AdminAllCancellationRequest();
+
+$errorMessage = "";
+$sidebar = $cancelRequestController->CreateAdminJobSideBar();
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {
@@ -50,13 +43,23 @@ if(isset($_GET['epr']))
     $epr=$_GET['epr'];
 }
 
-
-if($epr=='clear')
+if($epr=='cat')
 {
-    // Go to DeleteKeywordSearches.php
-    header('Location: DeleteKeywordSearches.php?epr=delete');
+    $id =$_GET['id'];
 }
 
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        $sidebar = $cancelRequestController->CreateAdminJobSideBar();
+        $log = "AccountSettings.php";
+    }else
+    {
+        header("location: Home.php");
+    }
+}
  
  include 'Template.php'
  ?>

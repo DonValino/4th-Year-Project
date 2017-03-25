@@ -47,7 +47,18 @@ if($userJobs != NULL)
         }
     }
 }
-    
+require_once 'Model/UserModel.php';
+$userModel = new UserModel();require_once 'Model/UserModel.php';
+
+        if($userModel->GetUserById($_SESSION['id'])->admin == 0)
+        {
+            $_SESSION['admin'] = 0;
             // Go To Home Page
             header('Location: Home.php');
+        }else
+        {
+            $_SESSION['admin'] = 1;
+            // Go To Home Page
+            header('Location: Home.php'); 
+        }
 

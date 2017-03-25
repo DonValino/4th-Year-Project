@@ -16,6 +16,50 @@ require ("Entities/JobEntities.php");
 class JobModel {
     //put your code here
     
+    //Get All Jobs In DB.
+    function GetAllJobs()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs");
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobid'];
+                $dbName= $row['name'];
+                $dbDescription= $row['description'];
+                $dbType = $row['typeId'];
+                $dbQualification = $row['qualificationId'];
+                $dbAddress = $row['address'];
+                $dbCounty = $row['county'];
+                $dbNumberOfDays = $row['numberOfDays'];
+                $dbNumberOfPeopleRequired = $row['numberOfPeopleRequired'];
+                $dbPrice = $row['price'];
+                $isActive = $row['isActive'];
+                $id = $row['id'];
+                $date = $row['date'];
+                $startDate = $row['startDate'];
+                $adType = $row['adType'];
+                
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate,$adType);
+                array_push($jobArray, $jobEntities);
+                
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Get Jobs in a particular type from the database.
     function GetJobByType($type)
     {
@@ -396,6 +440,48 @@ class JobModel {
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
         $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId AND isActive=1 ORDER BY adType DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobid'];
+                $dbName= $row['name'];
+                $dbDescription= $row['description'];
+                $dbType = $row['typeId'];
+                $dbQualification = $row['qualificationId'];
+                $dbAddress = $row['address'];
+                $dbCounty = $row['county'];
+                $dbNumberOfDays = $row['numberOfDays'];
+                $dbNumberOfPeopleRequired = $row['numberOfPeopleRequired'];
+                $dbPrice = $row['price'];
+                $isActive = $row['isActive'];
+                $id = $row['id'];
+                $date = $row['date'];
+                $startDate = $row['startDate'];
+                $adType = $row['adType'];
+                
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate,$adType);
+                array_push($jobArray, $jobEntities);
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    //Get All Job By Category.
+    function GetAllJobsByCategory($typeId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE typeId=$typeId ORDER BY adType DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();
@@ -841,6 +927,49 @@ class JobModel {
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
         $result = mysqli_query($connection," SELECT * FROM jobs WHERE price BETWEEN $minPrice AND $maxPrice AND isActive=1 ORDER BY date DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbJobid= $row['jobid'];
+                $dbName= $row['name'];
+                $dbDescription= $row['description'];
+                $dbType = $row['typeId'];
+                $dbQualification = $row['qualificationId'];
+                $dbAddress = $row['address'];
+                $dbCounty = $row['county'];
+                $dbNumberOfDays = $row['numberOfDays'];
+                $dbNumberOfPeopleRequired = $row['numberOfPeopleRequired'];
+                $dbPrice = $row['price'];
+                $isActive = $row['isActive'];
+                $id = $row['id'];
+                $date = $row['date'];
+                $startDate = $row['startDate'];
+                $adType = $row['adType'];
+                
+                $jobEntities = new JobEntities($dbJobid,$dbName,$dbDescription,$dbType,$dbQualification,$dbAddress,$dbCounty,$dbNumberOfDays,$dbNumberOfPeopleRequired,$dbPrice,$isActive,$id,$date,$startDate,$adType);
+                array_push($jobArray, $jobEntities);
+                
+            }
+            
+            return $jobArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    //Get All Jobs By between prices.
+    function GetAllJobsBetweenPrices($minPrice,$maxPrice)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM jobs WHERE price BETWEEN $minPrice AND $maxPrice ORDER BY date DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         $jobArray = array();

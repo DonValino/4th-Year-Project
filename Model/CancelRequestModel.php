@@ -132,6 +132,42 @@ class CancelRequestModel {
         }  
     }
     
+    // Get All Cancel Request
+    function GetAllCancelRequest()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM cancelrequest ORDER BY id") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $cancelRequestArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $id= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbTargetUserId= $row['tagerUserId'];
+                $dbJobId= $row['jobId'];
+                $dbReason= $row['reason'];
+                $dbStatus= $row['status'];
+                $dbDate= $row['date'];
+                $dbSeen= $row['seen'];
+                
+                $cancelRequestEntities = new CancelRequestEntities($id,$dbUserId,$dbTargetUserId,$dbJobId,$dbReason,$dbStatus,$dbDate,$dbSeen);
+                
+                array_push($cancelRequestArray, $cancelRequestEntities);
+            }
+            
+            return $cancelRequestArray;
+        }else
+        {
+            return 0;
+        }  
+    }
+    
     // Update A Cancel Request Status
     function updateCancelRequestStatus($status,$userId,$targetUserId,$jobId)
     {

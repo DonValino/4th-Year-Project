@@ -30,6 +30,15 @@ if(isset($_SESSION['username']))
     header('Location: index.php');
 }
 
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        
+    }
+}
+
 if(isset($_GET['epr']))
 {
     $epr=$_GET['epr'];

@@ -15,6 +15,15 @@ $log = "";
 $errorMessage = "";
 $sidebar = $userController->CreateUserAccSettingsProfileSidebar();
 
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        $sidebar = $userController->CreateAdminUserAccSettingsProfileSidebar();
+    }
+}
+
 if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
