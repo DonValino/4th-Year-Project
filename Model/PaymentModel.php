@@ -114,6 +114,43 @@ class PaymentModel {
         }
     }
     
+    // Get All Payments
+    function GetAllPayments()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM payment ORDER BY id") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        
+        $paymentArray = array();
+        
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserID= $row['userId'];
+                $dbTargetUserId= $row['targetUserId'];
+                $dbJobId= $row['jobId'];
+                $dbAmount= $row['amount'];
+                $dbDate= $row['date'];
+                $dbPaymentType= $row['paymentType'];
+                $dbStatus= $row['status'];
+                $dbSeen= $row['seen'];
+                
+                $paymentEntities = new PaymentEntities($dbId, $dbUserID, $dbTargetUserId, $dbJobId, $dbAmount, $dbDate, $dbPaymentType, $dbStatus, $dbSeen);
+                array_push($paymentArray, $paymentEntities);
+            }
+            return $paymentArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     // Get Payment by targetUserId And nobId
     function GetPayPalMeAccountByUserIdAndJobId($targetUserId,$jobId)
     {

@@ -772,6 +772,52 @@ class JobController {
         return $result;
     }
     
+    function AdminCategoryModal()
+    {
+        $typeModel = new TypeModel();
+        
+                $result = "<div class='modal fade col-xs-11' id='adminCategoryModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>List Of Categories</h4>
+				</div>
+				<div class='modal-body scrollitY'>
+                                <div class='row'>
+                                    <ul class='nav col-md-12 col-xs-12' style='text-align:center;'>";
+                                        try
+                                        {
+                                            $types = $typeModel->GetTypes();
+                                            foreach($types as $row)
+                                            {
+                                                $result.= "<li class='active'>
+                                            <a href='Home.php?epr=AdminCat&id=".$row->typeId."'>
+                                                <i class='glyphicon glyphicon-home'></i>";
+                                              $result.=  $row->name;
+                                            $result.= "</a>
+                                                      </li>";
+                                            }
+                                        }catch(Exception $x)
+                                        {
+                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                        }
+                                        $result .= "
+                                    </ul>
+                                </div>
+				</div>
+				<div class='modal-footer'>
+				  <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
     function PriceModal()
     {
                 $result = "<div class='modal fade col-xs-11' id='priceModal' role='dialog'>
@@ -792,6 +838,45 @@ class JobController {
                                             </div>
                                             <div class='row'>
                                             <button class='btn btn-info col-xs-4 col-xs-offset-8 col-sm-4 col-sm-offset-8 col-md-4 col-md-offset-8' name = 'searchByPrice' type='submit'>Search</button>
+                                            </div>
+                                          </fieldset>
+                                        </form>"                        
+
+                                ."
+				</div>
+				<div class='modal-footer'>
+                                  <div class='row'>
+                                    <button type='button' class='btn btn-default col-md-4 col-md-offset-4' data-dismiss='modal'>Close</button>
+                                    
+                                  </div>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
+    function AdminPriceModal()
+    {
+                $result = "<div class='modal fade col-xs-11' id='AdminPriceModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content col-md-8 col-sm-8'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>Search By Price</h4>
+				</div>
+				<div class='modal-body'>
+                                        <form action='' method = 'POST'>
+                                          <fieldset>
+                                            <div class='row' style='padding-bottom:10px;'>
+                                                <input type='text' name = 'min' id='min' style='width:50%;' class='col-md-6 col-sm-6 col-xs-6'placeholder='max' required autofocus>
+                                                <input type='text' name = 'max' id='max' style='width:50%;' class='col-md-6 col-sm-6 col-xs-6'  placeholder='max' required autofocus>
+                                            </div>
+                                            <div class='row'>
+                                            <button class='btn btn-info col-xs-4 col-xs-offset-8 col-sm-4 col-sm-offset-8 col-md-4 col-md-offset-8' name = 'AdminSearchByPrice' type='submit'>Search</button>
                                             </div>
                                           </fieldset>
                                         </form>"                        
@@ -960,6 +1045,227 @@ class JobController {
               //  . "</div>";
        
                 
+        return $result;
+    }
+    
+    function CreateAdminHomeSideBar()
+    {
+        $result = "<div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
+					</div>
+					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                    ."<div class='col-md-12'>
+                                                            <div class='profile-sidebar'>
+                                                                    <!-- SIDEBAR MENU -->
+                                                                    <div class='home-usermenu'>
+                                                                            <ul class='nav'>
+                                                                                    <li class='active'>
+                                                                                            <a href='Home.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-home'></i>
+                                                                                            Home </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                             Inbox</a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='JobAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-wrench'></i>
+                                                                                            Job </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='UserAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-user'></i>
+                                                                                            Users </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                                            Reports </a>
+                                                                                    </li>
+                                                                            </ul>
+                                                                    </div>
+                                                                    <!-- END MENU -->
+                                                            </div>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>";
+
+        return $result;
+    }
+    
+    function CreateAdminJobSideBar()
+    {
+        $result = "<div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
+					</div>
+					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                    ."<div class='col-md-12'>
+                                                            <div class='profile-sidebar'>
+                                                                    <!-- SIDEBAR MENU -->
+                                                                    <div class='home-usermenu'>
+                                                                            <ul class='nav'>
+                                                                                    <li>
+                                                                                            <a href='Home.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-home'></i>
+                                                                                            Home </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                             Inbox</a>
+                                                                                    </li>
+                                                                                    <li class='active'>
+                                                                                            <a href='JobAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-wrench'></i>
+                                                                                            Job </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='UserAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-user'></i>
+                                                                                            Users </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                                            Reports </a>
+                                                                                    </li>
+                                                                            </ul>
+                                                                    </div>
+                                                                    <!-- END MENU -->
+                                                            </div>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>";
+
+        return $result;
+    }
+    
+    function AdminJobContent()
+    {
+        $result = "<div class='row'>
+            <div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Browse:</strong></a>
+					</div>
+					<div id='collapseBrowse' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>
+                                                        <a href='SearchResult.php?epr=allJobs' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-search'></i>
+                                                            View All Jobs </a>
+                                                       </div>
+                                                        <div class='row'>                            
+                                                            <a href='#' data-toggle='modal' class='col-sm-12 col-xs-12'  data-target='#adminCategoryModal' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-book'></i>
+                                                            Categories </a>
+                                                        </div>
+                                                        <div class='row'>
+                                                            <a href='#' data-toggle='modal'  class='col-sm-12 col-xs-12' data-target='#AdminPriceModal' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-usd'></i>
+                                                            Price </a>
+                                                        </div>";
+                                                
+						$result.="</div>"
+					."</div>"
+                            ."</div>"
+                   ."</div>"
+                    ."<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobConfig' class='glyphicon glyphicon-hand-up'><strong>Configuration:</strong></a>
+					</div>
+					<div id='collapseJobConfig' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row'>
+                                                       <a href='AddEditNotificationType.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-upload'></i>
+                                                            Add / Edit Job Notification Type </a>
+                                                    </div>"
+                                                    . "<div class='row'>
+                                                        <a href='AddEditQualification.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-upload'></i>
+                                                            Add / Edit Job Qualification </a>
+                                                       </div>
+                                                    <div class='row'>
+                                                       <a href='AddEditType.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-upload'></i>
+                                                            Add / Edit Job Category </a>
+                                                    </div>
+                                                    <div class='row'>
+                                                       <a href='AddEditCounty.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-upload'></i>
+                                                            Add / Edit Job County </a>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>"
+                   ."</div>"
+              . "</div>"
+      ."<div class='row'>
+            <div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Job Offers:</strong></a>
+					</div>
+					<div id='collapseBrowse' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>
+                                                            <a href='AdminPlacedOffers.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                View All Placed Offers </a>
+                                                       </div>
+                                                       <div class='row'>
+                                                            <a href='AdminPlacedOffers.php?epr=accepted' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-ok'></i>
+                                                                Accepted Placed Offers </a>
+                                                       </div>
+                                                       <div class='row'>
+                                                            <a href='AdminPlacedOffers.php?epr=denied' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-remove'></i>
+                                                                Denied Placed Offers </a>
+                                                       </div>
+                                                       <div class='row'>
+                                                            <a href='AdminCancelOfferRequest.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                            <i class='glyphicon glyphicon-trash'></i>
+                                                                Offers Cancellation Request </a>
+                                                       </div> ";
+                                                
+						$result.="</div>"
+					."</div>"
+                            ."</div>"
+                   ."</div>"
+                    ."<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobConfig' class='glyphicon glyphicon-hand-up'><strong>Payments:</strong></a>
+					</div>
+					<div id='collapseJobConfig' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>
+                                                        <a href='AdminPaymentHistory.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-euro'></i>
+                                                            View Payment History </a>
+                                                       </div>
+                                                        <div class='row'>
+                                                        <a href='AdminUserAttendance.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-user'></i>
+                                                            Job Attendance </a>
+                                                       </div>"
+						."</div>"
+					."</div>"
+                            ."</div>"
+                   ."</div>"
+              . "</div>";
+
         return $result;
     }
     
@@ -1424,6 +1730,13 @@ class JobController {
         $jobModel->GetNumberOfJobsPerCategory($id); 
     }
     
+    //Get All Jobs In DB.
+    function GetAllJobs()
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetAllJobs();
+    }
+    
    function SearchByLocationResult($id)
     {
         $jobModel = new JobModel();
@@ -1879,6 +2192,237 @@ class JobController {
                 return $result; 
     }
     
+    // Get All Jobs
+    function GetAllJobsContent()
+    {
+        $jobModel = new JobModel();
+        
+        $search = $jobModel->GetAllJobs();
+        $typeModel = new TypeModel();
+        require_once 'Model/QualificationModel.php';
+        $qualificationModel = new QualificationModel();
+        
+        require_once 'Model/UserModel.php';
+        $userModel = new UserModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "     <th style='text-align:center;'>Description</th>"
+                                                        . "     <th style='text-align:center;'>Owner</th>"
+                                                        . "     <th style='text-align:center;'>Category</th>"
+                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;'>Address</th>"
+                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;'>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
+                                                        . "     <th>Status: </th>"
+                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $owner = $userModel->GetUserById($row->id)->username;
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                                if($row->isActive == 1)
+                                                                                {
+                                                                                    $result.="<td align='center'>Active</td>"
+                                                                                            . "<td>"
+                                                                                            . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
+                                                                                            . "</td>";
+                                                                                }else
+                                                                                {
+                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                }
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    //Get All Job By Category.
+    function GetAllJobsByCategory($typeId)
+    {
+        $jobModel = new JobModel();
+        return $jobModel->GetAllJobsByCategory($typeId);
+    }
+    
+    // Get All Jobs
+    function GetJobsByCategoryContentAdmin($typeId)
+    {
+        $jobModel = new JobModel();
+        
+        $search = $jobModel->GetAllJobsByCategory($typeId);
+        $typeModel = new TypeModel();
+        require_once 'Model/QualificationModel.php';
+        $qualificationModel = new QualificationModel();
+        
+        require_once 'Model/UserModel.php';
+        $userModel = new UserModel();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "     <th style='text-align:center;'>Description</th>"
+                                                        . "     <th style='text-align:center;'>Owner</th>"
+                                                        . "     <th style='text-align:center;'>Category</th>"
+                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;'>Address</th>"
+                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;'>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
+                                                        . "     <th>Status: </th>"
+                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $owner = $userModel->GetUserById($row->id)->username;
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                                if($row->isActive == 1)
+                                                                                {
+                                                                                    $result.="<td align='center'>Active</td>"
+                                                                                            . "<td>"
+                                                                                            . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
+                                                                                            . "</td>";
+                                                                                }else
+                                                                                {
+                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                }
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
     function SearchResultPrice($min,$max)
     {
         $jobModel = new JobModel();
@@ -2028,6 +2572,123 @@ class JobController {
                 return $result; 
     }
     
+    //Get All Jobs By between prices.
+    function GetAllJobsBetweenPrices($minPrice,$maxPrice)
+    {
+        $jobModel = new JobModel();
+        $jobModel->GetAllJobsBetweenPrices($minPrice, $maxPrice);
+    }
+    
+    function AdminSearchResultPrice($min,$max)
+    {
+        $jobModel = new JobModel();
+        
+        $search = $jobModel->GetAllJobsBetweenPrices($min, $max);
+        $typeModel = new TypeModel();
+        require_once 'Model/QualificationModel.php';
+        $qualificationModel = new QualificationModel();
+        
+        require_once 'Model/UserModel.php';
+        $userModel = new UserModel();
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    </br>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>Name</th>"
+                                                        . "     <th style='text-align:center;'>Description</th>"
+                                                        . "     <th style='text-align:center;'>Owner</th>"
+                                                        . "     <th style='text-align:center;'>Category</th>"
+                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;'>Address</th>"
+                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;'>Price: </th>"
+                                                        . "     <th>Date Posted: </th>"
+                                                        . "     <th>Status: </th>"
+                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $owner = $userModel->GetUserById($row->id)->username;
+                                                                    $type = $typeModel->GetTypeByID($row->type);
+                                                                    $qualification = $qualificationModel->GetQualificationByID($row->qualification);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
+                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
+                                                                            . "<td align='center'>$type->name</td>"
+                                                                            . "<td align='center'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center'>$row->address</td>"
+                                                                            . "<td align='center'>$row->numberOfDays</td>"
+                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center'>$row->price</td>";
+                                                                                $var = $row->date;
+                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                {
+                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                }
+                                                                                if($row->isActive == 1)
+                                                                                {
+                                                                                    $result.="<td align='center'>Active</td>"
+                                                                                            . "<td>"
+                                                                                            . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
+                                                                                            . "</td>";
+                                                                                }else
+                                                                                {
+                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                }
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                         . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
     function SearchUserJob($id)
     {
         $jobModel = new JobModel();
@@ -2072,10 +2733,10 @@ class JobController {
                                                                             . "<td align='center'>$row->placementDate</td>";
                                                                             if($bidType == 1)
                                                                             {
-                                                                                $result.= "<td align='center'>Full Time</td>";
+                                                                                $result.= "<td align='center'>Part Time</td>";
                                                                             }else if($bidType == 0)
                                                                             {
-                                                                                $result.= "<td align='center'>Part Time</td>";
+                                                                                $result.= "<td align='center'>Full Time</td>";
                                                                             }
                                                                             
                                                                             $result.="</tr>";
@@ -2120,10 +2781,10 @@ class JobController {
                                                                             . "<td align='center'>$row->placementDate</td>";
                                                                             if($bidType == 1)
                                                                             {
-                                                                                $result.= "<td align='center'>Full Time</td>";
+                                                                                $result.= "<td align='center'>Part Time</td>";
                                                                             }else if($bidType == 0)
                                                                             {
-                                                                                $result.= "<td align='center'>Part Time</td>";
+                                                                                $result.= "<td align='center'>Full Time</td>";
                                                                             }
                                                                             
                                                                             $result.="</tr>";

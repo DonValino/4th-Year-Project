@@ -363,6 +363,56 @@ class QualificationController {
         return $result;
     }
     
+    function CreateAdminJobSideBar()
+    {
+        $result = "<div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
+					</div>
+					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                    ."<div class='col-md-12'>
+                                                            <div class='profile-sidebar'>
+                                                                    <!-- SIDEBAR MENU -->
+                                                                    <div class='home-usermenu'>
+                                                                            <ul class='nav'>
+                                                                                    <li>
+                                                                                            <a href='Home.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-home'></i>
+                                                                                            Home </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                             Inbox</a>
+                                                                                    </li>
+                                                                                    <li class='active'>
+                                                                                            <a href='JobAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-wrench'></i>
+                                                                                            Job </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-user'></i>
+                                                                                            Users </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                                            Reports </a>
+                                                                                    </li>
+                                                                            </ul>
+                                                                    </div>
+                                                                    <!-- END MENU -->
+                                                            </div>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>";
+
+        return $result;
+    }
+    
     //Insert a new Qualification into the database
     function InsertANewQualification()
     {

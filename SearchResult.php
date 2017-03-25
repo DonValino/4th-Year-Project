@@ -23,6 +23,16 @@ $loginStatus= "Login";
 $log = "";
 $errorMessage = "";
 $sidebar = $jobController->CreateMyJobsSideBar();
+
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        $sidebar = $jobController->CreateAdminJobSideBar();
+    }
+}
+
 if(isset($_SESSION['username']))
 {
    $loginStatus="Home";
@@ -99,6 +109,17 @@ if($epr == 'price')
     $cat3 =$_GET['cat3'];
     $cat4 =$_GET['cat4'];
     $content = $jobController->RecommendedJobsResult($cat1, $cat2, $cat3, $cat4);
+}else if ($epr == 'allJobs')
+{
+    $content = $jobController->GetAllJobsContent();
+}else if ($epr == 'AdminCat')
+{
+    $content = $jobController->GetJobsByCategoryContentAdmin($_SESSION['search']);
+}else if ($epr == 'AdminSearchByPrice')
+{
+    $min =$_GET['min'];
+    $max =$_GET['max'];
+    $content = $jobController->AdminSearchResultPrice($min,$max);
 }
 else
 {

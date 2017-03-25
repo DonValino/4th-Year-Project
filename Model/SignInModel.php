@@ -69,6 +69,39 @@ class SignInModel {
         }
     }
     
+    //Get All Sign In.
+    function GetAllSignIn()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM signin ORDER BY date") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $signInArray = array();
+        
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbJobId= $row['jobId'];
+                $dbDate= $row['date'];
+                $dbLatest= $row['latest'];
+                
+                $signInEntities = new SignInEntities($dbId,$dbUserId,$dbJobId,$dbDate,$dbLatest);
+                array_push($signInArray, $signInEntities);
+            }
+            
+            return $signInArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Get Sign In Records by userId And jobId.
     function GetSignInRecordsByUserIdAndJobId($userId,$jobId)
     {

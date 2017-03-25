@@ -614,4 +614,152 @@ class CancelRequestController {
                 
         return $result;
     }
+    
+    function CreateAdminJobSideBar()
+    {
+        $result = "<div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
+					</div>
+					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                    ."<div class='col-md-12'>
+                                                            <div class='profile-sidebar'>
+                                                                    <!-- SIDEBAR MENU -->
+                                                                    <div class='home-usermenu'>
+                                                                            <ul class='nav'>
+                                                                                    <li>
+                                                                                            <a href='Home.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-home'></i>
+                                                                                            Home </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                             Inbox</a>
+                                                                                    </li>
+                                                                                    <li class='active'>
+                                                                                            <a href='JobAdmin.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-wrench'></i>
+                                                                                            Job </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-user'></i>
+                                                                                            Users </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                                            Reports </a>
+                                                                                    </li>
+                                                                            </ul>
+                                                                    </div>
+                                                                    <!-- END MENU -->
+                                                            </div>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>";
+
+        return $result;
+    }
+    
+    // Get All Cancel Request
+    function GetAllCancelRequest()
+    {
+        $cancelRequestModel = new CancelRequestModel();
+        $cancelRequestModel->GetAllCancelRequest();
+    }  
+    
+    // Search All Cancellation Request
+    function AdminAllCancellationRequest()
+    {
+        $cancelRequestModel = new CancelRequestModel();
+        
+        $search = $cancelRequestModel->GetAllCancelRequest();
+        
+        require_once 'Model/JobModel.php';
+        $jobModel = new JobModel();
+        
+        require_once 'Model/UserModel.php';
+        $userModel = new UserModel();
+        $result = "<div class='row'>"
+                . "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Cancellation Requests</strong></a>
+					</div>
+					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myInput' class='col-md-4' onkeyup='placedOfferTableFunction()' placeholder='Search for Request' title='Type in a Request' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                        . "<table class='table sortable' id='placedOffersTable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;'>id</th>"
+                                                        . "     <th style='text-align:center;'>From User</th>" 
+                                                        . "     <th style='text-align:center;'>To User</th>"
+                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;'>Reason</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
+                                                        . "     <th style='text-align:center;'>Date</th>"
+                                                        . "     <th style='text-align:center;'>seen</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'>$row->id</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userId)->id."'>".$userModel->GetUserById($row->userId)->username."</a></td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->tagerUserId)->id."'>".$userModel->GetUserById($row->tagerUserId)->username."</a></td>"
+                                                                            . "<td align='center'><a href='#'>".$jobModel->GetJobsByID($row->jobId)->name."</a></td>"
+                                                                            . "<td align='center'>$row->reason</td>";
+                                                                            if($row->status == 2)
+                                                                            {
+                                                                                $result.= "<td align='center'>Accepted</td>";
+                                                                            }else if($row->status == 1)
+                                                                            {
+                                                                                $result.= "<td align='center'>?</td>";
+                                                                            }else if($row->status == 0)
+                                                                            {
+                                                                                $result.= "<td align='center'>Denied</td>";
+                                                                            }
+                                                                    $result.= "<td align='center'>$row->date</td>"
+                                                                            . "<td align='center'>$row->seen</td>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                        . "<script>
+				function placedOfferTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('placedOffersTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
 }

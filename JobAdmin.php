@@ -9,16 +9,11 @@ and open the template in the editor.
 session_start();
 
 require 'Controller/JobController.php';
-
 $jobController = new JobController();
 
-$epr='';
-$title = "Search";
-$content = "";
 $loginStatus= "Login";
 $log = "";
-$errorMessage = "";
-$sidebar = "";
+
 if(isset($_SESSION['username']))
 {
    $loginStatus=$_SESSION['username'];
@@ -28,15 +23,14 @@ if(isset($_SESSION['username']))
     header('Location: index.php');
 }
 
-// User Is Admin
-if(isset($_SESSION['admin']))
-{
-    if($_SESSION['admin'] == 1)
-    {
-        // Go Back To Home Page
-         header('Location: Home.php');
-    }
-}
+$epr='';
+$title = "Jobs";
+$sidebar = $jobController->CreateAdminJobSideBar();
+$content = $jobController->AdminJobContent();
+$content .= $jobController->AdminPriceModal();
+$content .= $jobController->AdminCategoryModal();
+$errorMessage = "";
+
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {
@@ -50,13 +44,17 @@ if(isset($_GET['epr']))
     $epr=$_GET['epr'];
 }
 
-
-if($epr=='clear')
+if($epr=='cat')
 {
-    // Go to DeleteKeywordSearches.php
-    header('Location: DeleteKeywordSearches.php?epr=delete');
+    $id =$_GET['id'];
 }
 
+if(isset($_POST['AdminSearchByPrice']))
+{
+    $min =$_POST['min'];
+    $max =$_POST['max'];
+    header('Location: SearchResult.php?epr=AdminSearchByPrice&min='.$min.'&max='.$max.'');
+}
  
  include 'Template.php'
  ?>

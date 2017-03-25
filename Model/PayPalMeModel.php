@@ -65,6 +65,35 @@ class PayPalMeModel {
         }
     }
     
+    // Get PayPalMe Accounts
+    function GetPayPalMeAccounts()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM paypalme ORDER BY userId") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $accounts = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserID= $row['userId'];
+                $dbPayPalMeUrl= $row['payPalMeUrl'];
+                
+                $payPalMeEntities = new PayPalMeEntities($dbId, $dbUserID, $dbPayPalMeUrl);
+                array_push($accounts, $payPalMeEntities);
+            }
+            return $accounts;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Update a user's PayPalMe Account
     function updateUserPayPalMeAccount($payPalMeUrl,$userId)
     {

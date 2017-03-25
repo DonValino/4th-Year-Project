@@ -17,6 +17,16 @@ if(!isset($_SESSION['username']))
     header('Location: index.php');
 }
 
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        // Go Back To Home Page
+         header('Location: Home.php');
+    }
+}
+
 $MessagesModel = new MessagesModel();
 $epr='';
 $title = "View Job";
@@ -42,6 +52,20 @@ if($epr == 'view')
     $content .= $jobController->SignInWorkerModal();
     $content .= $jobController->JobAlreadyStartedModal();
     $content .= $jobController->ViewAllWorkerAttendanceModal();
+}
+
+if($epr == 'cashpaymentnotification')
+{
+    $content = $jobController->ViewJobDetails($_SESSION['jobId']);
+    $content .= $jobController->PlaceAnOfferModal();
+    $content .= $jobController->UpdateAnOfferModal();
+    $content .= $jobController->JobSubscriptionStatusModal();
+    $content .= $jobController->RenewJobSubscriptionModal();
+    $content .= $jobController->SignInWorkerModal();
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->ViewAllWorkerAttendanceModal();
+    
+    $errorMessage="<p style='color:green;text-align:center;font-size:18px;'>Cash Payment Notification sent :)</p>";
 }
 
 if($epr == 'viewJobAcceptedOffer')

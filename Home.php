@@ -27,6 +27,7 @@ if(isset($_SESSION['username']))
 
 $epr='';
 $title = "home";
+
 $content = $jobController->CreateSearchBar();
 $content .= $jobController->CategoryModal();
 $content .= $jobController->CreateHomeContent($_SESSION['id']);
@@ -118,6 +119,27 @@ if($epr=='cat')
     header('Location: SearchResult.php?epr=cat');
 }
 
+if($epr=='AdminCat')
+{
+    $id =$_GET['id'];
+    $_SESSION['search'] = $id;
+    
+    //Go to Search Result Page
+    header('Location: SearchResult.php?epr=AdminCat');
+}
+
+// User Is Admin
+if(isset($_SESSION['admin']))
+{
+    if($_SESSION['admin'] == 1)
+    {
+        $content = "";
+        $sidebar = $jobController->CreateAdminHomeSideBar();
+        $log = "AccountSettings.php";
+        
+    }
+}
+
 if($epr=='clear')
 {
     // Go to DeleteKeywordSearches.php
@@ -140,12 +162,12 @@ if($epr=='location')
     header('Location: SearchResult.php?epr=location');
 }
 
-    if(isset($_POST['searchByPrice']))
-    {
-        $min =$_POST['min'];
-        $max =$_POST['max'];
-        header('Location: SearchResult.php?epr=price&min='.$min.'&max='.$max.'');
-    }
+if(isset($_POST['searchByPrice']))
+{
+    $min =$_POST['min'];
+    $max =$_POST['max'];
+    header('Location: SearchResult.php?epr=price&min='.$min.'&max='.$max.'');
+}
  
  include 'Template.php'
  ?>
