@@ -2,7 +2,7 @@
 
 require_once('Stripe/Config.php');
 require 'Controller/UserController.php';
-
+session_start();
 
 $userController = new UserController();
 
@@ -40,7 +40,7 @@ if($epr == 'pay')
         try
         {
             \Stripe\Charge::create(array(
-              "amount" => 50,
+              "amount" => 100,
               "currency" => "eur",
               "source" => $token,
               "description" => "Charging user: ".$userController->GetUserById($userid)->firstName.' '.$userController->GetUserById($userid)->lastName. ' - Standard Job Ad Posting'
@@ -48,6 +48,16 @@ if($epr == 'pay')
         } catch (Stripe_CardError $ex) {
 
         }
+        
+        require_once 'Model/RevenueModel.php';
+        
+        $revenueModel = new RevenueModel();
+        
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+        $revenueModel->InsertANewRevenue(1, $dateTime, $_SESSION['id'], 0);
 
         header('Location: InsertANewJob.php?epr=paymentCompleted&jobid='.$jobid.'&name='.$name.'&description='.$description.'&typeId='.$typeId.'&qualificationId='.$qualificationId.'&address='.$address
                 .'&county='.$county.'&numberOfDays='.$numberOfDays.'&numberOfPeopleRequired='.$numberOfPeopleRequired.'&startDate='.$startDate.'&price='.$price.'&userid='.$userid);

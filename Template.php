@@ -12,6 +12,8 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="./Styles/circle.css">
         
         <script src="Styles/sorttable.js"></script>
+        
+        <script type="text/javascript" src="./Styles/canvasjs.min.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Latest compiled and minified CSS -->

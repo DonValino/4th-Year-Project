@@ -25,7 +25,7 @@ if(isset($_GET['epr']))
         try
         {
             \Stripe\Charge::create(array(
-              "amount" => 50,
+              "amount" => 100,
               "currency" => "eur",
               "source" => $token,
               "description" => "Charging user: ".$userController->GetUserById($_SESSION['id'])->firstName.' '.$userController->GetUserById($_SESSION['id'])->lastName. ' - Standard Job Ad Renewal Posting'
@@ -33,6 +33,16 @@ if(isset($_GET['epr']))
         } catch (Stripe_CardError $ex) {
 
         }
+        
+        require_once 'Model/RevenueModel.php';
+        
+        $revenueModel = new RevenueModel();
+        
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+        $revenueModel->InsertANewRevenue(1, $dateTime, $_SESSION['id'], 0);
 
        header('Location: ViewJob.php?epr=renewedStandardAndview&jobid='.$_SESSION['jobId']);
         exit();

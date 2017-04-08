@@ -60,6 +60,27 @@ class JobModel {
         }
     }
     
+    //Get Sum Of Jobs By Month And Year.
+    function GetSumJobsByMonthYear($month,$year)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT COUNT(*) FROM jobs WHERE MONTH(date) =$month AND YEAR(date) = $year GROUP BY jobid");
+        
+        $numrows = mysqli_num_rows($result);
+        $jobArray = array();
+        
+        if($numrows != 0)
+        {
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Get Jobs in a particular type from the database.
     function GetJobByType($type)
     {

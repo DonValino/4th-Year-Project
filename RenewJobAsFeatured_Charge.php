@@ -33,6 +33,16 @@ if(isset($_GET['epr']))
         } catch (Stripe_CardError $ex) {
 
         }
+        
+        require_once 'Model/RevenueModel.php';
+        
+        $revenueModel = new RevenueModel();
+        
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+        $revenueModel->InsertANewRevenue(3, $dateTime, $_SESSION['id'], 1);
 
        header('Location: ViewJob.php?epr=renewedFeaturedAndview&jobid='.$_SESSION['jobId']);
         exit();

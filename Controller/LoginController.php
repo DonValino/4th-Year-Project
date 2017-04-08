@@ -42,6 +42,13 @@ class LoginController {
         $userModel = new UserModel();
         return $userModel->CheckUser($username);
     }
+    
+    //Check if a user is active in the database.
+    function CheckIfUserIsActive($username)
+    {
+        $userModel = new UserModel();
+        return $userModel->CheckIfUserIsActive($username);
+    }
 }
 
 

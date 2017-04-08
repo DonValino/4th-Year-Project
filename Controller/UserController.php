@@ -201,7 +201,7 @@ class UserController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -385,7 +385,7 @@ class UserController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -484,7 +484,7 @@ class UserController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -1712,15 +1712,10 @@ class UserController {
 							<i class='glyphicon glyphicon-comment'></i>
 							Review </a>
 						</li>
-                                                <li>
-							<a href='Logout.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-globe'></i>
-							Connections </a>
-						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='ReportUser.php?epr=reportuser&id=".$id."' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
-							Help </a>
+							Report </a>
 						</li>
 					</ul>
 				</div>
@@ -1789,15 +1784,10 @@ class UserController {
 							<i class='glyphicon glyphicon-comment'></i>
 							Review </a>
 						</li>
-                                                <li>
-							<a href='Logout.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-globe'></i>
-							Connections </a>
-						</li>
 						<li>
 							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
-							Help </a>
+							Report </a>
 						</li>
 					</ul>
 				</div>
@@ -1806,6 +1796,20 @@ class UserController {
 		</div>";
                 
         return $result;
+    }
+    
+    //Update account state
+    function updateAccountStateActive($state,$id)
+    {
+        $userModel = new UserModel();
+        $userModel->updateAccountStateActive($state, $id);
+    }
+    
+    //Update account type
+    function updateAccountType($type,$id)
+    {
+       $userModel = new UserModel();
+       $userModel->updateAccountType($type, $id);
     }
     
     function CreateAdminUserSideBar()
@@ -1842,7 +1846,7 @@ class UserController {
                                                                                             Users </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <a href='ViewAdminReports.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-flag'></i>
                                                                                             Reports </a>
                                                                                     </li>
@@ -1856,6 +1860,255 @@ class UserController {
                             ."</div>";
 
         return $result;
+    }
+    
+    // Get All Active Jobs Jobs
+    function GetAllActiveUsersContent()
+    {
+        $userModel = new UserModel();
+        
+        $search = $userModel->GetActiveUsers();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Active Users</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Users' title='Type in a user name' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>First Name</th>"
+                                                        . "     <th style='text-align:center;'>Last Name</th>"
+                                                        . "     <th style='text-align:center;'>Username</th>"
+                                                        . "     <th style='text-align:center;'>Email</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
+                                                        . "     <th >Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'>$row->firstName</td>"
+                                                                            . "<td align='center'>$row->lastName</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$row->username</a></td>"
+                                                                            . "<td align='center'>$row->email</td>"
+                                                                            ."<td align='center'>Active</td>";
+
+
+                                                                            $result.= "<td>"
+                                                                                    //. "     <a href='AdminActiveUserAccount.php?epr=deactivate&id=".$row->id."'>Deactivate</a>"
+                                                                                      . "     <a href='DeactivateUser.php?epr=deactivate&id=".$row->id."'>Deactivate</a>"
+                                                                                    . "</td>";
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    // Get All Active Jobs Jobs
+    function GetAllInactiveUsersContent()
+    {
+        $userModel = new UserModel();
+        
+        $search = $userModel->GetDeactivedUsers();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Active Users</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Users' title='Type in a user name' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>First Name</th>"
+                                                        . "     <th style='text-align:center;'>Last Name</th>"
+                                                        . "     <th style='text-align:center;'>Username</th>"
+                                                        . "     <th style='text-align:center;'>Email</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
+                                                        . "     <th >Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                {
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'>$row->firstName</td>"
+                                                                            . "<td align='center'>$row->lastName</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$row->username</a></td>"
+                                                                            . "<td align='center'>$row->email</td>"
+                                                                            ."<td align='center'>Deactivated</td>";
+
+
+                                                                            $result.= "<td>"
+                                                                                    . "     <a href='AdminInactiveUserAccount.php?epr=activate&id=".$row->id."'>Activate</a>"
+                                                                                    . "</td>";
+                                                                            $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
+    }
+    
+    // Get All Active Jobs Jobs
+    function AddEditAdminUsersContent()
+    {
+        $userModel = new UserModel();
+        
+        $search = $userModel->GetActiveUsers();
+        
+        $result = "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Active Users</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Users' title='Type in a user name' style='display: block; margin: auto;'>
+                                                    </div>"
+                                                    ."<div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;'>First Name</th>"
+                                                        . "     <th style='text-align:center;'>Last Name</th>"
+                                                        . "     <th style='text-align:center;'>Username</th>"
+                                                        . "     <th style='text-align:center;'>Email</th>"
+                                                        . "     <th style='text-align:center;'>Admin</th>"
+                                                        . "     <th >Action: </th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($search != null)
+                                                            {
+                                                                foreach($search as $row)
+                                                                { 
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'>$row->firstName </td>"
+                                                                            . "<td align='center'>$row->lastName</td>"
+                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$row->username</a></td>"
+                                                                            . "<td align='center'>$row->email</td>";
+                                                                    if($row->admin == 0)
+                                                                    {
+                                                                        $result.="<td align='center'>False</td>"
+                                                                                . "<td>"
+                                                                                . "     <a href='AddEditAdminUser.php?epr=admin&id=".$row->id."'>-> Admin</a>"
+                                                                                . "</td>";
+                                                                    }else
+                                                                    {
+                                                                        $result.="<td align='center'>True</td>"
+                                                                                . "<td>"
+                                                                                . "     <a href='AddEditAdminUser.php?epr=user&id=".$row->id."'>-> User</a>"
+                                                                                . "</td>";
+                                                                    }
+
+                                                                        $result.="</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                        
+                     . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+                return $result; 
     }
     
     // View All Users
@@ -1958,16 +2211,6 @@ class UserController {
                                                     <i class='glyphicon glyphicon-search'></i>
                                                             View All Users </a>
                                                        </div>
-                                                        <div class='row'>                            
-                                                            <a href='#' data-toggle='modal' class='col-sm-12 col-xs-12'  data-target='#adminCategoryModal' style='text-align:center;'>
-                                                            <i class='glyphicon glyphicon-ok'></i>
-                                                            Active User Accounts </a>
-                                                        </div>
-                                                        <div class='row'>
-                                                            <a href='#' data-toggle='modal'  class='col-sm-12 col-xs-12' data-target='#AdminPriceModal' style='text-align:center;'>
-                                                            <i class='glyphicon glyphicon-remove'></i>
-                                                            Deactivated User Accounts </a>
-                                                        </div>
                                                         <div class='row'>
                                                             <a href='AdminResumeRequest.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                             <i class='glyphicon glyphicon-book'></i>
@@ -1991,17 +2234,17 @@ class UserController {
 					<div id='collapseJobConfig' class='panel-collapse collapse in'>
 						<div class='panel-body'>
                                                     <div class='row'>
-                                                       <a href='AddEditNotificationType.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                       <a href='AddEditAdminUser.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                     <i class='glyphicon glyphicon-upload'></i>
-                                                            Add / edit Admin User </a>
+                                                            Add / Edit Admin User </a>
                                                     </div>"
                                                     . "<div class='row'>
-                                                        <a href='AddEditQualification.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <a href='AdminInactiveUserAccount.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                     <i class='glyphicon glyphicon-upload'></i>
                                                             Activate User Account </a>
                                                        </div>
                                                     <div class='row'>
-                                                       <a href='AddEditType.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                       <a href='AdminActiveUserAccount.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                     <i class='glyphicon glyphicon-upload'></i>
                                                             Deactivate User Account </a>
                                                     </div>"
@@ -2009,9 +2252,42 @@ class UserController {
 					."</div>"
                             ."</div>"
                    ."</div>"
-              . "</div>";
+              . "</div>"
+              . "<div class='row'>"
+                    ."<div class='panel-group col-md-6 col-md-offset-3'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Deativated Users:</strong></a>
+					</div>
+					<div id='collapseBrowse' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>
+                                                        <a href='AdminReasonForUserDeactivation.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                    <i class='glyphicon glyphicon-pencil'></i>
+                                                            Reason For Deactivation </a>
+                                                       </div>";
+                                                
+						$result.="</div>"
+					."</div>"
+                            ."</div>"
+                   ."</div>"
+              ."</div>";                                  
 
         return $result;
+    }
+    
+    // Get Active Users
+    function GetActiveUsers()
+    {
+        $userModel = new UserModel();
+        $userModel->GetActiveUsers();
+    }
+    
+    // Get Deactived Users
+    function GetDeactivedUsers()
+    {
+        $userModel = new UserModel();
+        $userModel->GetDeactivedUsers();
     }
     
     // Get User By Id
@@ -2019,6 +2295,13 @@ class UserController {
     {
         $userModel = new UserModel();
         return $userModel->GetUserById($id);
+    }
+    
+    //Check if a user is active in the database.
+    function CheckIfUserIsActive($username)
+    {
+       $userModel = new UserModel();
+       $userModel->CheckIfUserIsActive($username);
     }
     
      //Check if a user exist using the model and return the object

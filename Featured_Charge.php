@@ -7,6 +7,7 @@ if(!isset($_SESSION['username']))
 {
     header('Location: index.php');
 }
+session_start();
 
 $userController = new UserController();
 
@@ -47,7 +48,16 @@ if($epr == 'pay')
         } catch (Stripe_CardError $ex) {
 
         }
-
+        require_once 'Model/RevenueModel.php';
+        
+        $revenueModel = new RevenueModel();
+        
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y-m-d H:i:s');
+        
+        $revenueModel->InsertANewRevenue(3, $dateTime, $_SESSION['id'], 1);
+        
         header('Location: InsertANewJob.php?epr=paymentCompleted&jobid='.$jobid.'&name='.$name.'&description='.$description.'&typeId='.$typeId.'&qualificationId='.$qualificationId.'&address='.$address
                 .'&county='.$county.'&numberOfDays='.$numberOfDays.'&numberOfPeopleRequired='.$numberOfPeopleRequired.'&startDate='.$startDate.'&price='.$price.'&userid='.$userid);
         exit();

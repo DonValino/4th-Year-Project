@@ -133,11 +133,19 @@ if(isset($_SESSION['admin']))
 {
     if($_SESSION['admin'] == 1)
     {
-        $content = "";
+        $content = $jobController->CreateAdminDashboard();
         $sidebar = $jobController->CreateAdminHomeSideBar();
         $log = "AccountSettings.php";
-        
     }
+}
+
+// Change Year
+if(isset($_POST['searchAdminDashboard']) && !empty($_POST['year']))
+{
+
+    $_SESSION['yearDate'] = $_POST['year'];
+    //Go to Search Result Page
+    header('Location: Home.php');
 }
 
 if($epr=='clear')
@@ -167,6 +175,32 @@ if(isset($_POST['searchByPrice']))
     $min =$_POST['min'];
     $max =$_POST['max'];
     header('Location: SearchResult.php?epr=price&min='.$min.'&max='.$max.'');
+}
+
+if(isset($_SESSION['active']))
+{
+    if ($_SESSION['active'] == 0)
+    {
+        require_once 'Model/UserModel.php';
+        $userModel = new UserModel();
+        $adminusers = $userModel->GetActiveUsers();
+        $content = "<p style='color:blue;font-size:18px;text-align:center;'>Your account has been deactivated. Please Contact one of the listed administrator: </p>";
+        
+        if ($adminusers != null)
+        {
+            foreach($adminusers as $row)
+            {
+                if($row->admin == 1)
+                {
+                    $log = "Logout.php";
+                    $loginStatus = "Logout";
+                    $sidebar = "";
+                    $content .= "<p style='color:green;font-size:18px;text-align:center;'>$row->email</p>";
+                }
+            }
+        }
+        
+    }
 }
  
  include 'Template.php'

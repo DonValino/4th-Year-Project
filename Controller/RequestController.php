@@ -257,7 +257,7 @@ class RequestController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -559,7 +559,7 @@ class RequestController {
                                                         . "<tr>"
                                                         . "     <th style='text-align:center;'>From User</th>"
                                                         . "     <th style='text-align:center;'>To User</th>" 
-                                                        . "     <th style='text-align:center;'>Type</th>"
+                                                        . "     <th style='text-align:center;'>Status</th>"
                                                         . "     <th style='text-align:center;'>Date</th>"
                                                         . "     <th style='text-align:center;'>Status</th>"
                                                         . "     <th style='text-align:center;'>Seen</th>"
