@@ -392,7 +392,7 @@ class QualificationController {
                                                                                             Job </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
+                                                                                            <a href='UserAdmin.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-user'></i>
                                                                                             Users </a>
                                                                                     </li>

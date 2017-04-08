@@ -34,17 +34,88 @@ $sidebar = '<div id="aboutFreelanceMe">'
     $userObject = $loginController->CheckUser($_POST['username']);
     
     if($userObject != NULL)
-    {  
+    {
+        //Today's date
+        $date = new DateTime();
+        $dateTime = $date->format('Y');
+        $dateTimeLastLogedIn = $date->format('Y-m-d');
+        
+        // Used For The Admin Dashboard To Change The Year To Display data
+        $_SESSION['yearDate'] = $dateTime;
+        
         if($userObject->username == $_POST['username'] && $userObject->password == $_POST['password'])
         {
-            $_SESSION['valid'] = true;
-            $_SESSION['timeout'] = time();
-            $_SESSION['username'] = $userObject->username;
-            $_SESSION['id'] = $userObject->id;
-            $_SESSION['log'] = "UserAccount.php";
-            header('Location: CheckExpiredJobs.php');
+            // Password and User Is Correct
+            if($loginController->CheckIfUserIsActive($_POST['username']) == true)
+            {
+                // User Is Still Active
+                require_once 'Model/ActiveUsersModel.php';
+                $activeUsersModel = new ActiveUsersModel();
+                
+                // Check Last Time He Loged In if its still this month.
+                $lastLogedIn = $activeUsersModel->GetActiveUserByUserId($userObject->id);
+                if($lastLogedIn == NULL)
+                {
+                    // He has never logged into the system before
+                    $activeUsersModel->InsertANewActiveUser($userObject->id, $dateTimeLastLogedIn, 1);
+                    $_SESSION['valid'] = true;
+                    $_SESSION['timeout'] = time();
+                    $_SESSION['username'] = $userObject->username;
+                    $_SESSION['id'] = $userObject->id;
+                    $_SESSION['active'] = 1;
+                    $_SESSION['log'] = "UserAccount.php";
+                    header('Location: CheckExpiredJobs.php');
+                }else
+                {
+                    // He has loged Into Ths system before.
+                    
+                    // Last Logged In
+                    $dateLastLogedIn = $lastLogedIn->date;
+                    
+                    $first_day_of_month = strtotime(date('Y-m-01'));
+                    $last_day_of_month = strtotime(date('Y-m-t 23:59:59'));
+                    
+                    // Checking If the User Has already logged In This Month.
+                    if ((strtotime($dateLastLogedIn) >= $first_day_of_month) && (strtotime($dateLastLogedIn) <= $last_day_of_month))
+                    {
+                        // User Has Already Logged In This Month. Do Nothing And Just Login
+                        $_SESSION['valid'] = true;
+                        $_SESSION['timeout'] = time();
+                        $_SESSION['username'] = $userObject->username;
+                        $_SESSION['id'] = $userObject->id;
+                        $_SESSION['active'] = 1;
+                        $_SESSION['log'] = "UserAccount.php";
+                        header('Location: CheckExpiredJobs.php');
+
+                    } 
+                    else 
+                    {
+                        // This is a new month. Insert A New Login Record and makew that the latest.
+                        $activeUsersModel->updateLatestActiveUserByUserId(0, $userObject->id);
+                        $activeUsersModel->InsertANewActiveUser($userObject->id, $dateTimeLastLogedIn, 1);
+                        $_SESSION['valid'] = true;
+                        $_SESSION['timeout'] = time();
+                        $_SESSION['username'] = $userObject->username;
+                        $_SESSION['id'] = $userObject->id;
+                        $_SESSION['active'] = 1;
+                        $_SESSION['log'] = "UserAccount.php";
+                        header('Location: CheckExpiredJobs.php');
+                    }
+
+
+                }
+            }else
+            {
+                // User Is Not Active.
+                $_SESSION['id'] = $userObject->id;
+                $_SESSION['log'] = "UserAccount.php";
+                $_SESSION['active'] = 0;
+                $_SESSION['username'] = $userObject->username;
+                header('Location: Home.php?inactiveaccount');
+            }
         }else
         {
+            // Incorrect username / password
             $_SESSION['valid'] = false;
             $errorMessage= '* Error!! Username / Password is incorrect. Please try again :)';
         }

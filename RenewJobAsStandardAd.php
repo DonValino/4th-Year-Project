@@ -72,7 +72,7 @@ if(isset($_GET['epr']))
                                     <script
                                       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                                       data-key="'.$stripe['publishable_key'].'"
-                                      data-amount="50"
+                                      data-amount="100"
                                       data-name="FreelanceMe"
                                       data-description="Standard Ad Posting"
                                       data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

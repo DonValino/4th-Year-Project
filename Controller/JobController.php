@@ -542,6 +542,2166 @@ class JobController {
         return $result;
     }
     
+    //Get Sum Of Jobs By Month And Year.
+    function GetSumJobsByMonthYear($month,$year)
+    {
+        $jobModel = new JobModel();
+        $jobModel->GetSumJobsByMonthYear($month, $year);
+    }
+    
+    function CreateAdminDashboard()
+    {
+        $jobModel = new JobModel();
+        
+        $year = $_SESSION['yearDate'];
+        
+        $jan = $jobModel->GetSumJobsByMonthYear(1, $year);
+        $feb = $jobModel->GetSumJobsByMonthYear(2, $year);
+        $mar = $jobModel->GetSumJobsByMonthYear(3, $year);
+        $apr = $jobModel->GetSumJobsByMonthYear(4, $year);
+        $may = $jobModel->GetSumJobsByMonthYear(5, $year);
+        $june = $jobModel->GetSumJobsByMonthYear(6, $year);
+        $july = $jobModel->GetSumJobsByMonthYear(7, $year);
+        $aug = $jobModel->GetSumJobsByMonthYear(8, $year);
+        $sept = $jobModel->GetSumJobsByMonthYear(9, $year);
+        $oct = $jobModel->GetSumJobsByMonthYear(10, $year);
+        $nov = $jobModel->GetSumJobsByMonthYear(11, $year);
+        $dec = $jobModel->GetSumJobsByMonthYear(12, $year);
+        
+        require_once 'Model/ActiveUsersModel.php';
+        
+        $activeUsersModel = new ActiveUsersModel();
+        
+        $janUser = $activeUsersModel->GetSumActiveUsersByMonthYear(1, $year);
+        $febUser = $activeUsersModel->GetSumActiveUsersByMonthYear(2, $year);
+        $marUser = $activeUsersModel->GetSumActiveUsersByMonthYear(3, $year);
+        $aprUser = $activeUsersModel->GetSumActiveUsersByMonthYear(4, $year);
+        $mayUser = $activeUsersModel->GetSumActiveUsersByMonthYear(5, $year);
+        $juneUser = $activeUsersModel->GetSumActiveUsersByMonthYear(6, $year);
+        $julyUser = $activeUsersModel->GetSumActiveUsersByMonthYear(7, $year);
+        $augUser = $activeUsersModel->GetSumActiveUsersByMonthYear(8, $year);
+        $septUser = $activeUsersModel->GetSumActiveUsersByMonthYear(9, $year);
+        $octUser = $activeUsersModel->GetSumActiveUsersByMonthYear(10, $year);
+        $novUser = $activeUsersModel->GetSumActiveUsersByMonthYear(11, $year);
+        $decUser = $activeUsersModel->GetSumActiveUsersByMonthYear(12, $year);
+        
+        
+        require_once 'Model/RevenueModel.php';
+        
+        $revenueModel = new RevenueModel();
+        
+        $janRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(1, $year, 0);
+        $febRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(2, $year, 0);
+        $marRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(3, $year, 0);
+        $aprRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(4, $year, 0);
+        $mayRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(5, $year, 0);
+        $juneRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(6, $year, 0);
+        $julyRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(7, $year, 0);
+        $augRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(8, $year, 0);
+        $septRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(9, $year, 0);
+        $octRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(10, $year, 0);
+        $novRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(11, $year, 0);
+        $decRevenueStandard = $revenueModel->GetSumRevenueByMonthYear(12, $year, 0);
+        
+        $janRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(1, $year, 1);
+        $febRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(2, $year, 1);
+        $marRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(3, $year, 1);
+        $aprRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(4, $year, 1);
+        $mayRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(5, $year, 1);
+        $juneRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(6, $year, 1);
+        $julyRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(7, $year, 1);
+        $augRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(8, $year, 1);
+        $septRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(9, $year, 1);
+        $octRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(10, $year, 1);
+        $novRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(11, $year, 1);
+        $decRevenueFeatured = $revenueModel->GetSumRevenueByMonthYear(12, $year, 1);
+        
+        // Donut Chart
+        require_once 'Model/ReportModel.php';
+        
+        $reportModel = new ReportModel();
+        
+        $systemFault = $reportModel->GetSumReportsByYear($year, 1);
+        $userComplaint = $reportModel->GetSumReportsByYear($year, 2);
+        $bugComplaint = $reportModel->GetSumReportsByYear($year, 3);
+        $jobComplaint = $reportModel->GetSumReportsByYear($year, 4);
+        $paymentComplaint = $reportModel->GetSumReportsByYear($year, 5);
+        $others = $reportModel->GetSumReportsByYear($year, 7);
+        
+        $numberOfReports = $reportModel->CountReports();
+        
+$result = "<div class='row'>
+            <form action='' method = 'POST'>
+              <fieldset>
+                <div class='clearfix row col-md-5 col-md-offset-4 col-xs-offset-1'>
+                  <input type='text' onKeyPress='return checkIt(event)' name = 'year' id='keyword' placeholder='Search By Year' required autofocus>
+                  <button class='btn primary' name = 'searchAdminDashboard' type='submit'>Submit</button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+          <script>
+          function checkIt(evt) {
+    evt = (evt) ? evt : window.event
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        status = 'This field accepts numbers only.'
+        return false
+    }
+    status = ''
+    return true
+}
+          </script>";
+
+        $result.="<div class='row'>"
+                ."<div class='panel-group col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseKeyTable' class='glyphicon glyphicon-hand-up'><strong>Keys:</strong></a>
+					</div>
+					<div id='collapseKeyTable' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>"
+                                                        . "<div style='background-color:lightgreen;text-align:center;font-weight:bold;font-size:13px;color:blue;' class='col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4'>Year</div>"
+                                                      ."</div>"
+                                                    . "<div class='row'>"
+                                                        . "<div style='margin-top:10px;;text-align:center;font-weight:bold;font-size:13px;color:blue;' class='col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4'>$_SESSION[yearDate]</div>"
+                                                      ."</div>"
+						."</div>"
+					."</div>"
+                            ."</div>"
+                    ."</div>"           
+                . "</div>";
+
+
+                $result.= "<div class='row'>"
+                . "<div class='panel-group col-md-6'>
+			  <div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseActiveUsers' class='glyphicon glyphicon-hand-up'><strong>Active Ads</strong></a>
+					</div>
+					<div id='collapseActiveUsers' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div id='chartContainer' style='height: 300px; width: 100%;'>
+                                                    </div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                        
+                    . "<div class='panel-group col-md-6'>
+                              <div class='panel panel-default'>
+                                            <div class='panel-heading' style='text-align:center;'>
+                                            <a data-toggle='collapse' data-parent='#accordion' href='#collapseRevenue' class='glyphicon glyphicon-hand-up'><strong>Revenue</strong></a>
+                                            </div>
+                                            <div id='collapseRevenue' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>
+                                                        <div id='revenueContainer' style='height: 300px; width: 100%;'>
+                                                        </div>"
+                                                    ."</div>"
+                                            ."</div>"
+                                    ."</div>"
+                            ."</div>"
+                    ."</div>"
+                        
+                        
+                ."<div class='row'>"
+                    . "<div class='panel-group col-md-6'>
+                              <div class='panel panel-default'>
+                                            <div class='panel-heading' style='text-align:center;'>
+                                            <a data-toggle='collapse' data-parent='#accordion' href='#collapseTopPayingjobs' class='glyphicon glyphicon-hand-up'><strong>Active Users</strong></a>
+                                            </div>
+                                            <div id='collapseTopPayingjobs' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>
+                                                        <div id='activeUserContainer' style='height: 300px; width: 100%;'>
+                                                        </div>"
+                                                    ."</div>"
+                                            ."</div>"
+                                    ."</div>"
+                        
+			."</div>"
+                    . "<div class='panel-group col-md-6'>
+                              <div class='panel panel-default'>
+                                            <div class='panel-heading' style='text-align:center;'>
+                                            <a data-toggle='collapse' data-parent='#accordion' href='#collapseReports' class='glyphicon glyphicon-hand-up'><strong>Reports</strong></a>
+                                            </div>
+                                            <div id='collapseReports' class='panel-collapse collapse in'>
+                                                    <div class='panel-body'>
+                                                    <div class='row'>
+                                                        <a href='ViewAdminReports.php'><p style='text-align:center;font-size:13px;'><strong>Based on $numberOfReports reports</strong></p></a>
+                                                    </div>
+                                                    <div class='row'>
+                                                        <div id='reportsContainer' style='height: 300px; width: 100%;'>
+                                                        </div>
+                                                    </div>"
+                                                    ."</div>"
+                                            ."</div>"
+                                    ."</div>"
+                        ."</div>"
+                . "<script  type='text/javascript'>"
+                . "var year = $year;"
+                . "var jan = $jan;"
+                . "var feb = $feb;"
+                . "var mar = $mar;"
+                . "var apr = $apr;"
+                . "var may = $may;"
+                . "var june = $june;"
+                . "var july = $july;"
+                . "var aug = $aug;"
+                . "var sept = $sept;"
+                . "var oct = $oct;"
+                . "var nov = $nov;"
+                . "var dec = $dec;"
+                
+                . "var janUser = $janUser;"
+                . "var febUser = $febUser;"
+                . "var marUser = $marUser;"
+                . "var aprUser = $aprUser;"
+                . "var mayUser = $mayUser;"
+                . "var juneUser = $juneUser;"
+                . "var julyUser = $julyUser;"
+                . "var augUser = $augUser;"
+                . "var septUser = $septUser;"
+                . "var octUser = $octUser;"
+                . "var novUser = $novUser;"
+                . "var decUser = $decUser;"
+                        
+                . "var janRevenueStandard = $janRevenueStandard;"
+                . "var febUserRevenueStandard = $febRevenueStandard;"
+                . "var marUserRevenueStandard = $marRevenueStandard;"
+                . "var aprUserRevenueStandard = $aprRevenueStandard;"
+                . "var mayUserRevenueStandard = $mayRevenueStandard;"
+                . "var juneUserRevenueStandard = $juneRevenueStandard;"
+                . "var julyUserRevenueStandard = $julyRevenueStandard;"
+                . "var augUserRevenueStandard = $augRevenueStandard;"
+                . "var septUserRevenueStandard = $septRevenueStandard;"
+                . "var octUserRevenueStandard = $octRevenueStandard;"
+                . "var novUserRevenueStandard = $novRevenueStandard;"
+                . "var decUserRevenueStandard = $decRevenueStandard;"
+                        
+                . "var janRevenueFeatured = $janRevenueFeatured;"
+                . "var febUserRevenueFeatured = $febRevenueFeatured;"
+                . "var marUserRevenueFeatured = $marRevenueFeatured;"
+                . "var aprUserRevenueFeatured = $aprRevenueFeatured;"
+                . "var mayUserRevenueFeatured = $mayRevenueFeatured;"
+                . "var juneUserRevenueFeatured = $juneRevenueFeatured;"
+                . "var julyUserRevenueFeatured = $julyRevenueFeatured;"
+                . "var augUserRevenueFeatured = $augRevenueFeatured;"
+                . "var septUserRevenueFeatured = $septRevenueFeatured;"
+                . "var octUserRevenueFeatured = $octRevenueFeatured;"
+                . "var novUserRevenueFeatured = $novRevenueFeatured;"
+                . "var decUserRevenueFeatured = $decRevenueFeatured;"   
+                 
+                ."systemFault = $systemFault;"
+                ."userComplaint = $userComplaint;"
+                ."bugComplaint = $bugComplaint;"
+                ."jobComplaint = $jobComplaint;"        
+                ."paymentComplaint = $paymentComplaint;"
+                ."others = $others;"
+                
+                . " var d = new Date();
+                    var n = d.getMonth();
+                    if(n == 0)
+                    {"
+                        . "  window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 1)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 2)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 3)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 4)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 5)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if (n == 6)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 7)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july },
+                                        { x: new Date(year, 07, 1), y: aug }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser },
+                                        { x: new Date(year, 07, 1), y: augUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: augUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: augUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 8)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july },
+                                        { x: new Date(year, 07, 1), y: aug },
+                                        { x: new Date(year, 08, 1), y: sept }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser },
+                                        { x: new Date(year, 07, 1), y: augUser },
+                                        { x: new Date(year, 08, 1), y: septUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: augUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: septUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: augUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: septUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 9)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july },
+                                        { x: new Date(year, 07, 1), y: aug },
+                                        { x: new Date(year, 08, 1), y: sept },
+                                        { x: new Date(year, 09, 1), y: oct }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser },
+                                        { x: new Date(year, 07, 1), y: augUser },
+                                        { x: new Date(year, 08, 1), y: septUser },
+                                        { x: new Date(year, 09, 1), y: octUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: augUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: septUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: octUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: augUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: septUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: octUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 10)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july },
+                                        { x: new Date(year, 07, 1), y: aug },
+                                        { x: new Date(year, 08, 1), y: sept },
+                                        { x: new Date(year, 09, 1), y: oct },
+                                        { x: new Date(year, 10, 1), y: nov }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser },
+                                        { x: new Date(year, 07, 1), y: augUser },
+                                        { x: new Date(year, 08, 1), y: septUser },
+                                        { x: new Date(year, 09, 1), y: octUser },
+                                        { x: new Date(year, 10, 1), y: novUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: augUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: septUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: octUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: novUserRevenueFeatured}
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: augUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: septUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: octUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: novUserRevenueStandard}
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }else if(n == 11)
+                     {
+                                window.onload = function () {
+                                    var chart = new CanvasJS.Chart('chartContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Ads'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: jan },
+                                        { x: new Date(year, 01, 1), y: feb },
+                                        { x: new Date(year, 02, 1), y: mar },
+                                        { x: new Date(year, 03, 1), y: apr },
+                                        { x: new Date(year, 04, 1), y: may },
+                                        { x: new Date(year, 05, 1), y: june },
+                                        { x: new Date(year, 06, 1), y: july },
+                                        { x: new Date(year, 07, 1), y: aug },
+                                        { x: new Date(year, 08, 1), y: sept },
+                                        { x: new Date(year, 09, 1), y: oct },
+                                        { x: new Date(year, 10, 1), y: nov },
+                                        { x: new Date(year, 11, 1), y: dec }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                chart.render();
+                                
+                                    var userChart = new CanvasJS.Chart('activeUserContainer',
+                                    {
+                                      theme: 'theme2',
+                                      title:{
+                                        text: 'Active Users'
+                                      },
+                                      animationEnabled: true,
+                                      axisX: {
+                                        valueFormatString: 'MMM',
+                                        interval:1,
+                                        intervalType: 'month'
+
+                                      },
+                                      axisY:{
+                                        includeZero: false
+
+                                      },
+                                      data: [
+                                      {        
+                                        type: 'line',
+                                        //lineThickness: 3,        
+                                        dataPoints: [
+                                        { x: new Date(year, 00, 1), y: janUser },
+                                        { x: new Date(year, 01, 1), y: febUser },
+                                        { x: new Date(year, 02, 1), y: marUser },
+                                        { x: new Date(year, 03, 1), y: aprUser },
+                                        { x: new Date(year, 03, 1), y: mayUser },
+                                        { x: new Date(year, 05, 1), y: juneUser },
+                                        { x: new Date(year, 06, 1), y: julyUser },
+                                        { x: new Date(year, 07, 1), y: augUser },
+                                        { x: new Date(year, 08, 1), y: septUser },
+                                        { x: new Date(year, 09, 1), y: octUser },
+                                        { x: new Date(year, 10, 1), y: novUser },
+                                        { x: new Date(year, 11, 1), y: decUser }
+                                        ]
+                                      }
+
+
+                                      ]
+                                    });
+
+                                userChart.render();
+                                
+                                var revenueChart = new CanvasJS.Chart('revenueContainer',
+                                {      
+                                    title:{
+                                        text: 'Revenues'
+                                    },
+                                    animationEnabled: true,
+                                    axisY :{
+                                        includeZero: false,
+                                        prefix: '€ '
+                                    },
+                                    toolTip: {
+                                        shared: true
+                                    },
+                                    legend: {
+                                        fontSize: 13
+                                    },
+                                    data: [
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Featured Ads',
+                                        color: 'rgba(54,158,173,.6)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueFeatured},
+                                        {x: new Date(year,01, 1), y: febUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: marUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: augUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: septUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: octUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: novUserRevenueFeatured},
+                                        {x: new Date(year,02, 1), y: decRevenueFeatured},
+                                        ]
+                                    },
+                                    {        
+                                        type: 'splineArea', 
+                                        showInLegend: true,
+                                        name: 'Standard Ads',        
+                                        color: 'rgba(134,180,2,.7)',
+                                        dataPoints: [
+                                        {x: new Date(year,00, 1), y: janRevenueStandard},
+                                        {x: new Date(year,01, 1), y: febUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: marUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: aprUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: mayUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: juneUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: julyUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: augUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: septUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: octUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: novUserRevenueStandard},
+                                        {x: new Date(year,02, 1), y: decRevenueStandard},
+
+                                        ]
+                                    },
+
+                                    ]
+                                });
+
+                            revenueChart.render();
+                            
+                            var chart = new CanvasJS.Chart('reportsContainer',
+                            {
+                                    title:{
+                                            text: 'Reports',
+                                            verticalAlign: 'top',
+                                            horizontalAlign: 'left'
+                                    },
+                                    animationEnabled: true,
+                                    data: [
+                                    {        
+                                            type: 'doughnut',
+                                            startAngle:20,
+                                            toolTipContent: '{label}: {y} - <strong>#percent%</strong>',
+                                            indexLabel: '{label} #percent%',
+                                            dataPoints: [
+                                                    {  y: systemFault, label: 'System Fault' },
+                                                    {  y: userComplaint, label: 'User Complaint' },
+                                                    {  y: bugComplaint, label: 'Bug Complaint' },
+                                                    {  y: jobComplaint,  label: 'Job Complaint'},
+                                                    {  y: paymentComplaint,  label: 'Payment Complaint'},
+                                                    {  y: others,  label: 'Others'}
+                                            ]
+                                    }
+                                    ]
+                            });
+                            chart.render();
+                                }
+                     }"
+                . "</script>";
+        return $result;
+    }
+    
      //Get All Job Addresses.
     function GetJobAddresses()
     {
@@ -955,15 +3115,10 @@ class JobController {
 							<i class='glyphicon glyphicon-comment'></i>
 							Review </a>
 						</li>
-                                                <li>
-							<a href='Logout.php' style='text-align:center;'>
-							<i class='glyphicon glyphicon-globe'></i>
-							Connections </a>
-						</li>
 						<li>
 							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
-							Help </a>
+							Report </a>
 						</li>
 					</ul>
 				</div>
@@ -1082,7 +3237,7 @@ class JobController {
                                                                                             Users </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <a href='ViewAdminReports.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-flag'></i>
                                                                                             Reports </a>
                                                                                     </li>
@@ -1132,7 +3287,7 @@ class JobController {
                                                                                             Users </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <a href='ViewAdminReports.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-flag'></i>
                                                                                             Reports </a>
                                                                                     </li>
@@ -3405,7 +5560,7 @@ class JobController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
@@ -5008,9 +7163,9 @@ function allWorkersAttendanceFunction() {
 							Contact </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='ReportJob.php?epr=reportjob&jobId=$jobController->jobid' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
-							Help </a>
+							Report </a>
 						</li>
 					</ul>
 				</div>

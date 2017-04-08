@@ -325,7 +325,7 @@ class NotificationController {
 							Logout </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='Help.php' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
 						</li>
