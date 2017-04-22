@@ -42,4 +42,11 @@ class RecommenderController {
         $recommenderModel = new RecommenderModel();
         $recommenderModel->updateQtyByCatIdAndUserId($qty, $catId, $userId);  
     }
+    
+    // Get All Records
+    function GetAllRecords()
+    {
+        $recommenderModel = new RecommenderModel();
+        return $recommenderModel->GetAllRecords(); 
+    }
 }

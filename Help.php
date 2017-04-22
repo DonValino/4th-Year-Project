@@ -24,9 +24,10 @@ if(isset($_SESSION['username']))
 }
 
 $epr='';
-$title = "home";
+$title = "Help";
 
 $content = $reportController->HelpContent();
+$content .= $reportController->AboutFreelanceMeModal();
 
 $errorMessage = "";
 $sidebar = $reportController->CreateUserProfileSidebar();

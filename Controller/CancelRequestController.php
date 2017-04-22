@@ -29,11 +29,18 @@ class CancelRequestController {
        return $cancelRequestModel->GetCancelRequestByTargetUserId($tagerUserId);
     }
     
+    // Get Cancel Request by Target User Id
+    function GetCancelRequestByUserIdANDTargetUserId($userId,$tagerUserId)
+    {
+        $cancelRequestModel = new CancelRequestModel();
+        return $cancelRequestModel->GetCancelRequestByUserIdANDTargetUserId($userId, $tagerUserId);
+    }
+    
     // Get Cancel Request by User Id
     function GetCancelRequestByUserId($userId)
     {
        $cancelRequestModel = new CancelRequestModel();
-       $cancelRequestModel->GetCancelRequestByUserId($userId);
+       return $cancelRequestModel->GetCancelRequestByUserId($userId);
     }
     
     // Update A Cancel Request Status

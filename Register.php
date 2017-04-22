@@ -19,9 +19,14 @@ $registerController = new RegisterController();
 $loginStatus= "Login";
 $log = "index.php";
 $errorMessage = "";
-$sidebar = '<div id="aboutFreelanceMe">'
+$sidebar = '<div id="aboutFreelanceMe" class="alert alert-info">'
+            ."<div class='row' style='margin-bottom:20px;'>
+              <div class='col-md-12 style='background-color:white;'>
+                  <a href='Home.php'><img src='Images/FreelanceMeLogo.png' class='col-md-12 col-sm-12 col-xs-12'/></a>
+              </div>
+            </div>"
         . '<h4 style="text-align:center;"> About Freelance Me:</h4>'
-        . '<p style="text-align:center;">This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
+        . '<p style="text-align:center;font-size:13px;color:black;">This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
         . ' Users can post jobs on the website and vice versa, can also look for existing jobs posted by other users of the website. </p>'
         . '</div>';
 $title = "home";

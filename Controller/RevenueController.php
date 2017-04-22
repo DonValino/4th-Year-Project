@@ -31,9 +31,16 @@ class RevenueController {
     }
     
     //Get Sum Of Revenue By Month And Year.
-    function GetSumRevenueByMonthYear($month,$year)
+    function GetSumRevenueByMonthYear($month,$year,$adType)
     {
         $RevenueModel = new RevenueModel();
         return $RevenueModel->GetSumRevenueByMonthYear($month, $year, $adType);
+    }
+    
+    // Get Revenues
+    function GetRevenues()
+    {
+        $revenueModel = new RevenueModel();
+        return $revenueModel->GetRevenues();
     }
 }

@@ -69,19 +69,19 @@ class JobController {
         
         $keyword = '';
         
-        $result = " <div>
+        $result = " <div class='alert alert-info'>
           <form action='' method = 'POST'>
             <fieldset>
               <div class='clearfix row'>
                 <label for='keyword' class='col-md-1 col-sm-1'> Search: </label>
                 <input type='text' class='col-md-6 col-sm-6' style='padding-bottom:8px;' name = 'keyword' id='keyword' value='$keyword'placeholder='Search Jobs' required autofocus>
-                <button class='btn primary col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1' name = 'search' type='submit'>Search</button>
+                <button class='btn btn-success col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1' name = 'search' type='submit'>Search</button>
               </div>
             </fieldset>
           </form>
         </div>"
         . "<div class='row' style='padding-bottom:10px'>
-                <div class='col-md-5 col-md-offset-3' style='background-color: white;' id='searchResults'>";
+                <div class='col-md-5 col-md-offset-3 alert alert-info' style='background-color: white;' id='searchResults'>";
                     try
                         {
                             $userRecommender = $recommenderModel->GetRecordByUserId($_SESSION['id']);
@@ -149,6 +149,33 @@ class JobController {
                 
         return $result;
     }
+    
+    function AboutFreelanceMeModal()
+    {
+                $result = "<div class='modal fade col-xs-11' id='aboutFreelanceMeModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content col-md-12 col-sm-12'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>About FreelanceMe</h4>
+				</div>
+				<div class='modal-body'>
+                                    <p style='font-size:14px;color:green;'>This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.
+                                       Users can post jobs on the website and vice versa, can also look for existing jobs posted by other users of the website. </p>
+				</div>
+				<div class='modal-footer'>
+                                  <div class='row'>
+                                    <button type='button' class='btn btn-default col-md-4 col-md-offset-4' data-dismiss='modal'>Close</button>
+                                  </div>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
       
     //Get Job By Top 4 Category.
     function GetJobsByTop4Category($typeId1,$typeId2,$typeId3,$typeId4)
@@ -203,8 +230,8 @@ class JobController {
         $countyModel = new CountyModel();
         $allCounty = $countyModel->GetAllCounties();
         $result = "<div class='row'>"
-                . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+                . "<div class='panel-group col-md-5'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseTopPayingjobs' class='glyphicon glyphicon-hand-up'><strong>Top Paying Jobs</strong></a>
 					</div>
@@ -245,8 +272,8 @@ class JobController {
 					."</div>"
 				."</div>"
 			."</div>"
-                . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+                . "<div class='panel-group col-md-7'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseTopEmployers' class='glyphicon glyphicon-hand-up'><strong>Top Rated FreeLancers</strong></a>
 					</div>
@@ -307,8 +334,8 @@ class JobController {
 			."</div>"
                 . "</div>"
                 ."<div class='row'>"
-                . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+                . "<div class='panel-group col-md-7'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCategories' class='glyphicon glyphicon-hand-up'><strong>Categories</strong></a>
 					</div>
@@ -353,8 +380,8 @@ class JobController {
 					."</div>"
 				."</div>"
 			."</div>"
-                        . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+                        . "<div class='panel-group col-md-5'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRequiredQualifications' class='glyphicon glyphicon-hand-up'><strong>Required Qualifications</strong></a>
 					</div>
@@ -401,8 +428,8 @@ class JobController {
 			."</div>"
                 . "</div>"
                 . "<div class='row'>"
-                . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+                . "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Locations:</strong></a>
 					</div>
@@ -449,7 +476,7 @@ class JobController {
 					."</div>"
 				."</div>"
 			."</div>"
-                . "<div class='panel-group col-md-6'>
+              /*  . "<div class='panel-group col-md-6'>
 			  <div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
@@ -460,7 +487,7 @@ class JobController {
 					."</div>"
 				."</div>"
 			."</div>"
-                . "</div>"
+                . "</div>"*/
                 . "</div>"
                      . "<script>
 				function topPayingJobsFunction() {
@@ -655,7 +682,7 @@ $result = "<div class='row'>
 
         $result.="<div class='row'>"
                 ."<div class='panel-group col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseKeyTable' class='glyphicon glyphicon-hand-up'><strong>Keys:</strong></a>
 					</div>
@@ -676,7 +703,7 @@ $result = "<div class='row'>
 
                 $result.= "<div class='row'>"
                 . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseActiveUsers' class='glyphicon glyphicon-hand-up'><strong>Active Ads</strong></a>
 					</div>
@@ -690,7 +717,7 @@ $result = "<div class='row'>
 			."</div>"
                         
                     . "<div class='panel-group col-md-6'>
-                              <div class='panel panel-default'>
+                              <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseRevenue' class='glyphicon glyphicon-hand-up'><strong>Revenue</strong></a>
                                             </div>
@@ -707,7 +734,7 @@ $result = "<div class='row'>
                         
                 ."<div class='row'>"
                     . "<div class='panel-group col-md-6'>
-                              <div class='panel panel-default'>
+                              <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseTopPayingjobs' class='glyphicon glyphicon-hand-up'><strong>Active Users</strong></a>
                                             </div>
@@ -721,7 +748,7 @@ $result = "<div class='row'>
                         
 			."</div>"
                     . "<div class='panel-group col-md-6'>
-                              <div class='panel panel-default'>
+                              <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseReports' class='glyphicon glyphicon-hand-up'><strong>Reports</strong></a>
                                             </div>
@@ -3116,7 +3143,7 @@ $result = "<div class='row'>
 							Review </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='ReportUser.php?epr=reportuser&id=".$id."' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Report </a>
 						</li>
@@ -3148,9 +3175,134 @@ $result = "<div class='row'>
                                                                                             Home </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='Search.php' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-search'></i>
-                                                                                            Search </a>
+                                                                                            <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-book'></i>
+                                                                                            Categories </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#priceModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-usd'></i>
+                                                                                            Price </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                            <i class='gglyphicon glyphicon-pencil'></i>
+                                                                                            My Jobs </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='JobOffer.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-pencil'></i>
+                                                                                            Job Offers </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='FavoriteJobs.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-heart'></i>
+                                                                                            Favorite </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='#' data-toggle='modal' data-target='#aboutFreelanceMeModal' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-italic'></i>
+                                                                                            About Us </a>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                            <a href='Help.php' target='_blank' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-flag'></i>
+                                                                                            Help </a>
+                                                                                    </li>
+                                                                            </ul>
+                                                                    </div>
+                                                                    <!-- END MENU -->
+                                                            </div>
+                                                    </div>"
+						."</div>"
+					."</div>"
+                            ."</div>";
+               // . "<div class='row'>"
+               // . "     <a href='Report.php' class='glyphicon glyphicon-exclamation-sign col-xs-12 col-md-12 col-sm-12' style='text-align:center;'>Report</a>"
+              //  . "</div>";
+       
+                
+        return $result;
+    }
+    
+    //Code for default content 
+    function CreateJobOfferContent($id)
+    {
+        require_once 'Model/JobModel.php';
+        require_once 'Model/UserReviewModel.php';
+        
+        $userModel = new UserModel();
+        
+        $jobModel = new JobModel();
+   
+        $placedOffersModel = new PlacedOffersModel();
+        $offersToUsersJob= $placedOffersModel->GetAllPlacedOffersToUsersJob($id);
+        
+        $result = "<div class='alert alert-info'>
+                    <H4 Style='text-align:center;'>Job Offers: </H4>
+                  </div>"
+                . "<div class='row'>"
+                . "<div class='panel-group col-md-12'>
+			  <div class='panel panel-default alert alert-info'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers To My Jobs</strong></a>
+					</div>
+					<div id='collapseListPlacedOffers' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                        . "<table class='table sortable'>"
+                                                        . "<tr>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>User</th>" 
+                                                        . "     <th style='text-align:center;color:black;'>Price</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if($offersToUsersJob != null)
+                                                            {
+                                                                foreach($offersToUsersJob as $row)
+                                                                {
+                                                                    $job = $jobModel->GetJobsByID($row->jobid);
+                                                                    $result.= "<tr>"
+                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center' style='color:black;'>".$userModel->GetUserById($row->userID)->username."</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                            . "</tr>";
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"                 
+                . "</div>"
+                . "</div>";
+                
+        return $result;
+    }
+    
+    function CreateJobOfferSideBar()
+    {
+        $result = "<div class='panel panel-default'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
+					</div>
+					<div id='collapseJObOverviewPage' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                    ."<div class='col-md-12'>
+                                                            <div class='profile-sidebar'>
+                                                                    <!-- SIDEBAR MENU -->
+                                                                    <div class='home-usermenu'>
+                                                                            <ul class='nav'>
+                                                                                    <li>
+                                                                                            <a href='Home.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-home'></i>
+                                                                                            Home </a>
                                                                                     </li>
                                                                                     <li>
                                                                                             <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
@@ -3167,8 +3319,8 @@ $result = "<div class='row'>
                                                                                             <i class='gglyphicon glyphicon-pencil'></i>
                                                                                             My Jobs </a>
                                                                                     </li>
-                                                                                    <li>
-                                                                                            <a href='JobsOverview.php' style='text-align:center;'>
+                                                                                    <li class='active'>
+                                                                                            <a href='JobOffer.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-pencil'></i>
                                                                                             Job Offers </a>
                                                                                     </li>
@@ -3178,12 +3330,12 @@ $result = "<div class='row'>
                                                                                             Favorite </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' target='_blank' style='text-align:center;'>
+                                                                                            <a href='#' data-toggle='modal' data-target='#aboutFreelanceMeModal' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-italic'></i>
                                                                                             About Us </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' target='_blank' style='text-align:center;'>
+                                                                                            <a href='Help.php' target='_blank' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-flag'></i>
                                                                                             Help </a>
                                                                                     </li>
@@ -3205,6 +3357,10 @@ $result = "<div class='row'>
     
     function CreateAdminHomeSideBar()
     {
+        require_once 'Model/MessagesModel.php';
+        $messagesModel = new MessagesModel();
+        $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
@@ -3220,13 +3376,23 @@ $result = "<div class='row'>
                                                                                             <a href='Home.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-home'></i>
                                                                                             Home </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
+                                                                                    </li>";
+                                                                                if($myMessages != null)
+                                                                                {
+                                                                                    $result.="<li>
+                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                             Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                                                    </li>";
+                                                                                }else
+                                                                                {
+                                                                                    $result.="<li>
+                                                                                            <a href='Messages.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-envelope'></i>
                                                                                              Inbox</a>
-                                                                                    </li>
-                                                                                    <li>
+                                                                                    </li>";
+                                                                                }
+                                                                                    $result.="<li>
                                                                                             <a href='JobAdmin.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-wrench'></i>
                                                                                             Job </a>
@@ -3255,6 +3421,10 @@ $result = "<div class='row'>
     
     function CreateAdminJobSideBar()
     {
+        require 'Model/MessagesModel.php';
+        $messagesModel = new MessagesModel();
+        $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
@@ -3270,13 +3440,23 @@ $result = "<div class='row'>
                                                                                             <a href='Home.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-home'></i>
                                                                                             Home </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-envelope'></i>
-                                                                                             Inbox</a>
-                                                                                    </li>
-                                                                                    <li class='active'>
+                                                                                    </li>";
+                                                                                    if($myMessages != null)
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                                                            </li>";
+                                                                                    }else
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox</a>
+                                                                                            </li>";
+                                                                                    }
+                                                                                    $result.="<li class='active'>
                                                                                             <a href='JobAdmin.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-wrench'></i>
                                                                                             Job </a>
@@ -3307,7 +3487,7 @@ $result = "<div class='row'>
     {
         $result = "<div class='row'>
             <div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Browse:</strong></a>
 					</div>
@@ -3334,7 +3514,7 @@ $result = "<div class='row'>
                             ."</div>"
                    ."</div>"
                     ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobConfig' class='glyphicon glyphicon-hand-up'><strong>Configuration:</strong></a>
 					</div>
@@ -3367,7 +3547,7 @@ $result = "<div class='row'>
               . "</div>"
       ."<div class='row'>
             <div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Job Offers:</strong></a>
 					</div>
@@ -3399,7 +3579,7 @@ $result = "<div class='row'>
                             ."</div>"
                    ."</div>"
                     ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobConfig' class='glyphicon glyphicon-hand-up'><strong>Payments:</strong></a>
 					</div>
@@ -3509,11 +3689,6 @@ $result = "<div class='row'>
                                                                                             Home </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='Search.php' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-search'></i>
-                                                                                            Search </a>
-                                                                                    </li>
-                                                                                    <li>
                                                                                             <a href='#' data-toggle='modal' data-target='#myModal' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-book'></i>
                                                                                             Categories </a>
@@ -3529,7 +3704,7 @@ $result = "<div class='row'>
                                                                                             My Jobs </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='JobsOverview.php' style='text-align:center;'>
+                                                                                            <a href='JobOffer.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-usd'></i>
                                                                                             Job Offers </a>
                                                                                     </li>
@@ -3539,12 +3714,12 @@ $result = "<div class='row'>
                                                                                             Favorite </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' target='_blank' style='text-align:center;'>
+                                                                                            <a href='#' data-toggle='modal' data-target='#aboutFreelanceMeModal' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-italic'></i>
                                                                                             About Us </a>
                                                                                     </li>
                                                                                     <li>
-                                                                                            <a href='#' target='_blank' style='text-align:center;'>
+                                                                                            <a href='Help.php' target='_blank' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-flag'></i>
                                                                                             Help </a>
                                                                                     </li>
@@ -3571,7 +3746,7 @@ $result = "<div class='row'>
         $typeModel = new TypeModel();
         $typeName = $typeModel->GetTypeByID($id)->name;
         $result = "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -3635,7 +3810,7 @@ $result = "<div class='row'>
                                                                                             </div>
                                                                                             <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
                                                                                                     <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                    <p>$row->description</p>						
+                                                                                                    <p style='color:black;'>$row->description</p>						
                                                                                             </div>
                                                                                             <span class='clearfix borda'></span>
                                                                                     </article>	
@@ -3687,7 +3862,7 @@ $result = "<div class='row'>
                                                                                             </div>
                                                                                             <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
                                                                                                     <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                    <p>$row->description</p>						
+                                                                                                    <p style='color:black;'>$row->description</p>						
                                                                                             </div>
                                                                                             <span class='clearfix borda'></span>
                                                                                     </article>	
@@ -4361,7 +4536,7 @@ $result = "<div class='row'>
         $userModel = new UserModel();
         
         $result = "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -4373,18 +4548,18 @@ $result = "<div class='row'>
                                                     ."<div class='table-responsive col-xs-12'>"
                                                         . "<table class='sortable table' id='myJobTable'>"
                                                         . "<tr style='text-align:center;'>"
-                                                        . "     <th style='text-align:center;'>Name</th>"
-                                                        . "     <th style='text-align:center;'>Description</th>"
-                                                        . "     <th style='text-align:center;'>Owner</th>"
-                                                        . "     <th style='text-align:center;'>Category</th>"
-                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
-                                                        . "     <th style='text-align:center;'>Address</th>"
-                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
-                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
-                                                        . "     <th style='text-align:center;'>Price: </th>"
-                                                        . "     <th>Date Posted: </th>"
-                                                        . "     <th>Status: </th>"
-                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "     <th style='text-align:center;color:black;'>Name</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Description</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Owner</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Category</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Address</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Price: </th>"
+                                                        . "     <th style='color:black;'>Date Posted: </th>"
+                                                        . "     <th style='color:black;'>Status: </th>"
+                                                        . "     <th style='text-align:center;color:black;'>Action: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -4397,31 +4572,31 @@ $result = "<div class='row'>
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
-                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->description</td>"
                                                                             . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
-                                                                            . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td align='center'>$row->address</td>"
-                                                                            . "<td align='center'>$row->numberOfDays</td>"
-                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>";
+                                                                            . "<td align='center' style='color:black;'>$type->name</td>"
+                                                                            . "<td align='center' style='color:black;'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->address</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->price</td>";
                                                                                 $var = $row->date;
                                                                                 if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
                                                                                 {
-                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                    $result.="<td style='color:black;' align='center'>$row->date</td>";
                                                                                 }else
                                                                                 {
-                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                    $result.="<td style='color:black;' align='center' style='color:red'><strong>New</strong></td>";
                                                                                 }
                                                                                 if($row->isActive == 1)
                                                                                 {
-                                                                                    $result.="<td align='center'>Active</td>"
-                                                                                            . "<td>"
+                                                                                    $result.="<td style='color:black;' align='center'>Active</td>"
+                                                                                            . "<td style='color:black;'>"
                                                                                             . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
                                                                                             . "</td>";
                                                                                 }else
                                                                                 {
-                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                   $result.="<td style='color:black;' align='center'>De-Activated</td>"; 
                                                                                 }
                                                                             $result.="</tr>";
                                                                 }
@@ -4480,7 +4655,7 @@ $result = "<div class='row'>
         $userModel = new UserModel();
         
         $result = "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -4492,18 +4667,18 @@ $result = "<div class='row'>
                                                     ."<div class='table-responsive col-xs-12'>"
                                                         . "<table class='sortable table' id='myJobTable'>"
                                                         . "<tr style='text-align:center;'>"
-                                                        . "     <th style='text-align:center;'>Name</th>"
-                                                        . "     <th style='text-align:center;'>Description</th>"
-                                                        . "     <th style='text-align:center;'>Owner</th>"
-                                                        . "     <th style='text-align:center;'>Category</th>"
-                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
-                                                        . "     <th style='text-align:center;'>Address</th>"
-                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
-                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
-                                                        . "     <th style='text-align:center;'>Price: </th>"
-                                                        . "     <th>Date Posted: </th>"
-                                                        . "     <th>Status: </th>"
-                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "     <th style='text-align:center;color:black;'>Name</th>"
+                                                        . "     <th style='text-align:center;color:black'>Description</th>"
+                                                        . "     <th style='text-align:center;color:black'>Owner</th>"
+                                                        . "     <th style='text-align:center;color:black'>Category</th>"
+                                                        . "     <th style='text-align:center;color:black'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;color:black'>Address</th>"
+                                                        . "     <th style='text-align:center;color:black'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;color:black'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;color:black'>Price: </th>"
+                                                        . "     <th style='text-align:center;color:black'>Date Posted: </th>"
+                                                        . "     <th style='text-align:center;color:black'>Status: </th>"
+                                                        . "     <th style='text-align:center;color:black'>Action: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -4516,31 +4691,31 @@ $result = "<div class='row'>
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
-                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center' style='color:black'>$row->description</td>"
                                                                             . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
-                                                                            . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td align='center'>$row->address</td>"
-                                                                            . "<td align='center'>$row->numberOfDays</td>"
-                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>";
+                                                                            . "<td align='center' style='color:black'>$type->name</td>"
+                                                                            . "<td align='center' style='color:black'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center' style='color:black'>$row->address</td>"
+                                                                            . "<td align='center' style='color:black'>$row->numberOfDays</td>"
+                                                                            . "<td align='center' style='color:black'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center' style='color:black'>$row->price</td>";
                                                                                 $var = $row->date;
                                                                                 if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
                                                                                 {
-                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                    $result.="<td style='color:black' align='center'>$row->date</td>";
                                                                                 }else
                                                                                 {
-                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                    $result.="<td style='color:black' align='center' style='color:red'><strong>New</strong></td>";
                                                                                 }
                                                                                 if($row->isActive == 1)
                                                                                 {
-                                                                                    $result.="<td align='center'>Active</td>"
-                                                                                            . "<td>"
+                                                                                    $result.="<td style='color:black' align='center'>Active</td>"
+                                                                                            . "<td style='color:black'>"
                                                                                             . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
                                                                                             . "</td>";
                                                                                 }else
                                                                                 {
-                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                   $result.="<td style='color:black' align='center'>De-Activated</td>"; 
                                                                                 }
                                                                             $result.="</tr>";
                                                                 }
@@ -4587,7 +4762,7 @@ $result = "<div class='row'>
         $typeModel = new TypeModel();
         
         $result = "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -4644,7 +4819,7 @@ $result = "<div class='row'>
                                                                                             </div>
                                                                                             <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
                                                                                                     <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                    <p>$row->description</p>						
+                                                                                                    <p style='color:black;'>$row->description</p>						
                                                                                             </div>
                                                                                             <span class='clearfix borda'></span>
                                                                                     </article>	
@@ -4688,7 +4863,7 @@ $result = "<div class='row'>
                                                                                             </div>
                                                                                             <div class='col-xs-12 col-sm-12 col-md-7 excerpet'>
                                                                                                     <h3><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' title=''>$row->name</a></h3>
-                                                                                                    <p>$row->description</p>						
+                                                                                                    <p style='color:black;'>$row->description</p>						
                                                                                             </div>
                                                                                             <span class='clearfix borda'></span>
                                                                                     </article>	
@@ -4746,7 +4921,7 @@ $result = "<div class='row'>
         require_once 'Model/UserModel.php';
         $userModel = new UserModel();
         $result = "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -4759,18 +4934,18 @@ $result = "<div class='row'>
                                                     ."<div class='table-responsive col-xs-12'>"
                                                         . "<table class='sortable table' id='myJobTable'>"
                                                         . "<tr style='text-align:center;'>"
-                                                        . "     <th style='text-align:center;'>Name</th>"
-                                                        . "     <th style='text-align:center;'>Description</th>"
-                                                        . "     <th style='text-align:center;'>Owner</th>"
-                                                        . "     <th style='text-align:center;'>Category</th>"
-                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
-                                                        . "     <th style='text-align:center;'>Address</th>"
-                                                        . "     <th style='text-align:center;'>Number Of Days</th>"
-                                                        . "     <th style='text-align:center;'>Number Of People Required</th>"
-                                                        . "     <th style='text-align:center;'>Price: </th>"
-                                                        . "     <th>Date Posted: </th>"
-                                                        . "     <th>Status: </th>"
-                                                        . "     <th style='text-align:center;'>Action: </th>"
+                                                        . "     <th style='text-align:center;color:black;'>Name</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Description</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Owner</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Category</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Address</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Number Of Days</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Number Of People Required</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Price: </th>"
+                                                        . "     <th style='color:black;'>Date Posted: </th>"
+                                                        . "     <th style='color:black;'>Status: </th>"
+                                                        . "     <th style='text-align:center;color:black;'>Action: </th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -4783,31 +4958,31 @@ $result = "<div class='row'>
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $result.= "<tr>"
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
-                                                                            . "<td align='center'>$row->description</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->description</td>"
                                                                             . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=$row->id'>$owner</a></td>"
-                                                                            . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td align='center'>$row->address</td>"
-                                                                            . "<td align='center'>$row->numberOfDays</td>"
-                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>";
+                                                                            . "<td align='center' style='color:black;'>$type->name</td>"
+                                                                            . "<td align='center' style='color:black;'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->address</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->numberOfPeopleRequired</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->price</td>";
                                                                                 $var = $row->date;
                                                                                 if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
                                                                                 {
-                                                                                    $result.="<td align='center'>$row->date</td>";
+                                                                                    $result.="<td style='color:black;' align='center'>$row->date</td>";
                                                                                 }else
                                                                                 {
-                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
+                                                                                    $result.="<td style='color:black;' align='center' style='color:red'><strong>New</strong></td>";
                                                                                 }
                                                                                 if($row->isActive == 1)
                                                                                 {
-                                                                                    $result.="<td align='center'>Active</td>"
-                                                                                            . "<td>"
+                                                                                    $result.="<td style='color:black;' align='center'>Active</td>"
+                                                                                            . "<td style='color:black;'>"
                                                                                             . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->jobid."'>Deactivate</a>"
                                                                                             . "</td>";
                                                                                 }else
                                                                                 {
-                                                                                   $result.="<td align='center'>De-Activated</td>"; 
+                                                                                   $result.="<td style='color:black;' align='center'>De-Activated</td>"; 
                                                                                 }
                                                                             $result.="</tr>";
                                                                 }
@@ -4859,7 +5034,7 @@ $result = "<div class='row'>
         $OffersIAccepted = $placedOffersModel->GetAllPlacedOffersIAccepted($id);
         $result = "<div class='row'>"
                 . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers I Accepted</strong></a>
 					</div>
@@ -4867,11 +5042,11 @@ $result = "<div class='row'>
 						<div class='panel-body'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
-                                                        . "     <th style='text-align:center;'>Job</th>"
-                                                        . "     <th style='text-align:center;'>User</th>" 
-                                                        . "     <th style='text-align:center;'>Price</th>"
-                                                        . "     <th style='text-align:center;'>Date</th>"
-                                                        . "     <th style='text-align:center;'>Bid Type:</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>User</th>" 
+                                                        . "     <th style='text-align:center;color:black;'>Price</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Type:</th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -4882,16 +5057,16 @@ $result = "<div class='row'>
                                                                     $bidType = $row->bidType;
                                                                     $job = $jobModel->GetJobsByID($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
-                                                                            . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>".$userModel->GetUserById($row->userID)->username."</a></td>"
-                                                                            . "<td align='center'>$row->offerPrice</td>"
-                                                                            . "<td align='center'>$row->placementDate</td>";
+                                                                            . "<td align='center' style='color:black;'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center' style='color:black;'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>".$userModel->GetUserById($row->userID)->username."</a></td>"
+                                                                            . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->placementDate</td>";
                                                                             if($bidType == 1)
                                                                             {
-                                                                                $result.= "<td align='center'>Part Time</td>";
+                                                                                $result.= "<td align='center' style='color:black;'>Part Time</td>";
                                                                             }else if($bidType == 0)
                                                                             {
-                                                                                $result.= "<td align='center'>Full Time</td>";
+                                                                                $result.= "<td align='center' style='color:black;'>Full Time</td>";
                                                                             }
                                                                             
                                                                             $result.="</tr>";
@@ -4907,7 +5082,7 @@ $result = "<div class='row'>
 				."</div>"
 			."</div>"
                 . "<div class='panel-group col-md-6 col-xs-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Accepted Offers</strong></a>
 					</div>
@@ -4915,11 +5090,11 @@ $result = "<div class='row'>
 						<div class='panel-body'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
-                                                        . "     <th style='text-align:center;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
                                                        // . "     <th style='text-align:center;'>User</th>" 
-                                                        . "     <th style='text-align:center;'>Price</th>"
-                                                        . "     <th style='text-align:center;'>Date</th>"
-                                                        . "     <th style='text-align:center;'>Bid Type:</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Price</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Bid Type:</th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -4932,14 +5107,14 @@ $result = "<div class='row'>
                                                                     $result.= "<tr>"
                                                                             . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$job->type."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
                                                                            // . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>".$userModel->GetUserById($row->userID)->username."</a></td>"
-                                                                            . "<td align='center'>$row->offerPrice</td>"
-                                                                            . "<td align='center'>$row->placementDate</td>";
+                                                                            . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->placementDate</td>";
                                                                             if($bidType == 1)
                                                                             {
-                                                                                $result.= "<td align='center'>Part Time</td>";
+                                                                                $result.= "<td align='center' style='color:black;'>Part Time</td>";
                                                                             }else if($bidType == 0)
                                                                             {
-                                                                                $result.= "<td align='center'>Full Time</td>";
+                                                                                $result.= "<td align='center' style='color:black;'>Full Time</td>";
                                                                             }
                                                                             
                                                                             $result.="</tr>";
@@ -4953,9 +5128,28 @@ $result = "<div class='row'>
 					."</div>"
 				."</div>"
 			."</div>
-                     </div>
-            <div class='panel-group col-md-12 col-xs-12'>
-			  <div class='panel panel-default'>
+                     </div>";
+        $result.="<div class='row'>"
+                ."<div class='panel-group col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4'>
+			  <div class='panel panel-default alert alert-info'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseKeyTable' class='glyphicon glyphicon-hand-up'><strong>Keys:</strong></a>
+					</div>
+					<div id='collapseKeyTable' class='panel-collapse collapse in'>
+						<div class='panel-body'>"
+                                                    . "<div class='row'>"
+                                                        . "<div style='background-color:lightgreen;text-align:center;font-weight:bold;font-size:13px;color:blue;' class='col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4'>Active</div>"
+                                                      ."</div>"
+                                                    . "<div class='row'>"
+                                                        . "<div style='margin-top:10px;background-color:#ffcc66;text-align:center;font-weight:bold;font-size:13px;color:blue;' class='col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4'>Deactivated</div>"
+                                                      ."</div>"
+						."</div>"
+					."</div>"
+                            ."</div>"
+                    ."</div>"           
+                . "</div>";
+            $result.="<div class='panel-group col-md-12 col-xs-12'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>Search Result</strong></a>
 					</div>
@@ -4986,28 +5180,66 @@ $result = "<div class='row'>
                                                                 {
                                                                     $type = $typeModel->GetTypeByID($row->type);
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
-                                                                    $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
-                                                                            . "<td align='center'>$row->description</td>"
-                                                                            . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td align='center'>$row->address</td>"
-                                                                            . "<td align='center'>$row->numberOfDays</td>"
-                                                                            . "<td align='center'>$row->numberOfPeopleRequired</td>"
-                                                                            . "<td align='center'>$row->price</td>";
-                                                                                $var = $row->date;
-                                                                                if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
-                                                                                {
-                                                                                    $result.="<td align='center'>$row->date</td>";
-                                                                                }else
-                                                                                {
-                                                                                    $result.="<td align='center' style='color:red'><strong>New</strong></td>";
-                                                                                }
-                                                                            $result.="<td>"
-                                                                            . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Delete</a>&nbsp|"
-                                                                            . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
-                                                                            . "</td>"
-                                                                            . "</tr>";
+                                                                    if($row->isActive == 1)
+                                                                    {
+                                                                        $result.= "<tr>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$row->description</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$type->name</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$qualification->qualificationName</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$row->address</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$row->numberOfDays</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$row->numberOfPeopleRequired</td>"
+                                                                                . "<td bgcolor='lightgreen' style='color:black' align='center'>$row->price</td>";
+                                                                                    $var = $row->date;
+                                                                                    if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                    {
+                                                                                        $result.="<td bgcolor='lightgreen' style='color:black' align='center'>$row->date</td>";
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.="<td bgcolor='lightgreen' style='color:black' align='center' style='color:red'><strong>New</strong></td>";
+                                                                                    }
+                                                                            $jobStartDate = $row->startDate;
+                                                                            if(!(time() >= strtotime($jobStartDate)))
+                                                                            {
+                                                                                $result.="<td style='color:black' bgcolor='lightgreen'>"
+                                                                                . "     <a href='EditJob.php?epr=delete&id=".$row->jobid."'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>"
+                                                                                . "</td>"
+                                                                                . "</tr>";
+                                                                            }else
+                                                                            {
+                                                                                $result.="<td style='color:black' bgcolor='lightgreen'>"
+                                                                                . "     <a href='#' data-toggle='modal' data-target='#jobAlreadyStartedDeactivateModal'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='#' data-toggle='modal' data-target='#jobAlreadyStartedModal'>Update</a>"
+                                                                                . "</td>"
+                                                                                . "</tr>";
+                                                                            }
+
+                                                                                
+                                                                        }else if($row->isActive == 0)
+                                                                        {
+                                                                        $result.= "<tr>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."' target='_blank'>$row->name</a></td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$row->description</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$type->name</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$qualification->qualificationName</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$row->address</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$row->numberOfDays</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$row->numberOfPeopleRequired</td>"
+                                                                                . "<td bgcolor='#ffcc66' style='color:black' align='center'>$row->price</td>";
+                                                                                    $var = $row->date;
+                                                                                    if(time() - ((60 * 60 * 24) * 10) >= strtotime($var))
+                                                                                    {
+                                                                                        $result.="<td style='color:black' bgcolor='#ffcc66' align='center'>$row->date</td>";
+                                                                                    }else
+                                                                                    {
+                                                                                        $result.="<td style='color:black' bgcolor='#ffcc66' align='center' style='color:red'><strong>New</strong></td>";
+                                                                                    }
+                                                                                $result.="<td style='color:black' bgcolor='#ffcc66'>"
+                                                                                . "</td>"
+                                                                                . "</tr>";
+                                                                        }
                                                                 }
                                                             }
                                                         }catch(Exception $x)
@@ -5040,6 +5272,30 @@ $result = "<div class='row'>
 				}
 			</script>";
                 return $result; 
+    }
+    
+   // Modal To State That The Job Has Already Started
+   function JobAlreadyStartedDeactivateModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='jobAlreadyStartedDeactivateModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>WooPS!!!!</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-info' style='text-align:center;'>
+                                      <strong>Sorry,</strong><p style='font-size:13px;'> jobs cannot be deactivated once it has passed the start date :)</p>
+                                    </div>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
     }
     
     function InsertANewJobForm()
@@ -5586,7 +5842,7 @@ $result = "<div class='row'>
         
         $result = "<H4 Style='text-align:center'>Job Overview Page: </H4>"
                   . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon-hand-up'><strong>Overview:</strong></a>
 					</div>
@@ -5635,7 +5891,7 @@ $result = "<div class='row'>
                             ."</div>"
                    ."</div>"
                     ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon-hand-up'><strong>Configuration:</strong></a>
 					</div>
@@ -6388,7 +6644,7 @@ function allWorkersAttendanceFunction() {
 
         $result .= "<div class='row'>"
                   ."<div class='panel-group col-md-6 col-sm-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobDescription' class='glyphicon glyphicon-hand-up'><strong>Description:</strong></a>
 					</div>
@@ -6531,7 +6787,7 @@ function allWorkersAttendanceFunction() {
                 
                 
                   ."<div class='panel-group col-md-6 col-sm-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobProperties' class='glyphicon glyphicon-hand-up'><strong>Job Properties:</strong></a>
 					</div>
@@ -6555,34 +6811,34 @@ function allWorkersAttendanceFunction() {
                                                             <div class='table-responsive'>
                                                                 <table class='sortable table' id='myJobTable'>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Job Start Date:</strong> $jobController->startDate </td>
+                                                                        <td style='text-align:center;color:black;'><strong>Job Start Date:</strong> $jobController->startDate </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Name:</strong> $jobController->name</td>
+                                                                        <td style='text-align:center;color:black;'><strong>Name:</strong> $jobController->name</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Qualification:</strong>$qualification</td>
+                                                                        <td style='text-align:center;color:black;'><strong>Qualification:</strong>$qualification</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Category:</strong>$typeName</td>
+                                                                        <td style='text-align:center;color:black;'><strong>Category:</strong>$typeName</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Address:</strong> $jobController->address</td>
+                                                                        <td style='text-align:center;color:black;'><strong>Address:</strong> $jobController->address</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>County:</strong> $county</td>
+                                                                        <td style='text-align:center;color:black;'><strong>County:</strong> $county</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Number Of Days:</strong> $jobController->numberOfDays</td>
+                                                                        <td style='text-align:center;color:black;'><strong>Number Of Days:</strong> $jobController->numberOfDays</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Number Of People Required:</strong> $jobController->numberOfPeopleRequired </td>
+                                                                        <td style='text-align:center;color:black;'><strong>Number Of People Required:</strong> $jobController->numberOfPeopleRequired </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Date Posted:</strong> $jobController->date </td>
+                                                                        <td style='text-align:center;color:black;'><strong>Date Posted:</strong> $jobController->date </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td style='text-align:center;'><strong>Price (Per Day) / Maximum Bid:</strong> $jobController->price </td>
+                                                                        <td style='text-align:center;color:black;'><strong>Price (Per Day) / Maximum Bid:</strong> $jobController->price </td>
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -6595,7 +6851,7 @@ function allWorkersAttendanceFunction() {
        
         $result.="<div class='row'>"
                 ."<div class='panel-group col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info''>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseKeyTable' class='glyphicon glyphicon-hand-up'><strong>Keys:</strong></a>
 					</div>
@@ -6615,7 +6871,7 @@ function allWorkersAttendanceFunction() {
         
         $result .= "<div class='row'>"
                   ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info''>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBiddingTable' class='glyphicon glyphicon-hand-up'><strong>Full Time Bidding Table:</strong></a>
 					</div>
@@ -6624,7 +6880,7 @@ function allWorkersAttendanceFunction() {
                                                     . "<div class='row'>
                                                         <div class='table-responsive scrollit'>"
                                                             . "<table class='table sortable'>"
-                                                            . "<tr>"
+                                                            . "<tr style='color:black;'>"
                                                             . "     <th style='text-align:center'>Name</th>"
                                                             . "     <th style='text-align:center'>Comment</th>"
                                                             . "     <th style='text-align:center'>Date Posted</th>"
@@ -6643,10 +6899,10 @@ function allWorkersAttendanceFunction() {
                                                                         {
                                                                             $result.= "<tr>"
                                                                                     . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                     . "     "
                                                                                     . "</td>"
                                                                                     . "</tr>";
@@ -6655,32 +6911,32 @@ function allWorkersAttendanceFunction() {
                                                                         {
                                                                             $result.= "<tr>"
                                                                                     . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
-                                                                                    . "<td align='center'>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'>"
                                                                                     . "     <a href='#' onclick='deleteOffer(".$userModel->GetUserById($row->userID)->id.")'>Delete</a>"
                                                                                     . "</td>"
                                                                                     . "</tr>"; 
                                                                         }else if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']) && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     . "     "
                                                                                     . "</td>"
                                                                                     . "</tr>"; 
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == NULL)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>"
                                                                                     ."      <a href='#' onclick='acceptOffer(".$userModel->GetUserById($row->userID)->id.")'>Accept</a>&nbsp|"
                                                                                     . "     <a href='#' onclick='declineOffer(".$userModel->GetUserById($row->userID)->id.")'>Decline</a>"
                                                                                     . "</td>"
@@ -6688,11 +6944,11 @@ function allWorkersAttendanceFunction() {
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == NULL)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
-                                                                                    . "<td align='center'>"
+                                                                                    . "<td align='center' style='color:black;'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'>"
                                                                                     ."      <a href='#' onclick='acceptOffer(".$userModel->GetUserById($row->userID)->id.")'>Accept</a>&nbsp|"
                                                                                     . "     <a href='#' onclick='declineOffer(".$userModel->GetUserById($row->userID)->id.")'>Decline</a>"
                                                                                     . "</td>"
@@ -6703,13 +6959,13 @@ function allWorkersAttendanceFunction() {
                                                                             $jobEndDate = new DateTime(date('Y-m-d',$time));
                                                                             $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>";
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>";
                                                                                     if(!(time() >= strtotime($jobStartDate)))
                                                                                     {
-                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                         ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
                                                                                         . "</td>"
                                                                                         . "</tr>";
@@ -6723,20 +6979,20 @@ function allWorkersAttendanceFunction() {
                                                                                         {
                                                                                             if($paymentConfirmed->status == 2)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."Paid"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }else if($paymentConfirmed->status == 1)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }
                                                                                         }else
                                                                                         {
-                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                            $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                     ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                             . "</td>"
                                                                                             . "</tr>"; 
@@ -6755,11 +7011,11 @@ function allWorkersAttendanceFunction() {
                                                                             $jobEndDate->modify('+'.$jobController->numberOfDays.' day');
                                                                            
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>";
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>";
                                                                                     if(!(time() >= strtotime($jobStartDate)))
                                                                                     {
                                                                                         $result.= 
@@ -6776,20 +7032,20 @@ function allWorkersAttendanceFunction() {
                                                                                         {
                                                                                             if($paymentConfirmed->status == 2)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."Paid"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }else if($paymentConfirmed->status == 1)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }
                                                                                         }else
                                                                                         {
-                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                            $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                     ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                             . "</td>"
                                                                                             . "</tr>"; 
@@ -6803,32 +7059,32 @@ function allWorkersAttendanceFunction() {
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     ."      "
                                                                                     . "</td>"
                                                                                     . "</tr>";
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     ."      "
                                                                                     . "</td>"
                                                                                     . "</tr>";
                                                                         }else
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td align='center'></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'></td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
                                                                                     . "</tr>";
                                                                         }
                                                                     }
@@ -6846,7 +7102,7 @@ function allWorkersAttendanceFunction() {
                     ."</div>"                  
                 
                     ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info''>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseHighestBid' class='glyphicon glyphicon-hand-up'><strong>Part Time Bidding Table:</strong></a>
 					</div>
@@ -6855,7 +7111,7 @@ function allWorkersAttendanceFunction() {
                                                     . "<div class='row'>
                                                         <div class='table-responsive scrollit'>"
                                                         . "<table class='table sortable'>"
-                                                            . "<tr>"
+                                                            . "<tr style='color:black;'>"
                                                             . "     <th style='text-align:center'>Name</th>"
                                                             . "     <th style='text-align:center'>Comment</th>"
                                                             . "     <th style='text-align:center'>Date Posted</th>"
@@ -6875,52 +7131,52 @@ function allWorkersAttendanceFunction() {
                                                                         if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']) && $row->bidStatus == 1)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                     . "     "
                                                                                     . "</td>"
                                                                                     . "</tr>";
                                                                         }else if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']) && $row->bidStatus == NULL)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
-                                                                                    . "<td align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td align='center'>"
+                                                                                    . "<td align='center' style='color:black;'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
+                                                                                    . "<td align='center' style='color:black;'>"
                                                                                     . "     <a href='#' onclick='deleteOffer(".$userModel->GetUserById($row->userID)->id.")'>Delete</a>"
                                                                                     . "</td>"
                                                                                     . "</tr>";
                                                                         }else if(($row->seen == 1 || $row->seen == 0) && ($row->userID == $_SESSION['id']) && ($jobController->id != $_SESSION['id']) && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     . "     "
                                                                                     . "</td>"
                                                                                     . "</tr>"; 
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == NULL)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='#ccd7ea' align='center'>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='#ccd7ea' style='color:black;' align='center'>"
                                                                                     ."      <a href='#' onclick='acceptOffer(".$userModel->GetUserById($row->userID)->id.")'>Accept</a>&nbsp|"
                                                                                     . "     <a href='#' onclick='declineOffer(".$userModel->GetUserById($row->userID)->id.")'>Decline</a>"
                                                                                     . "</td>"
@@ -6928,13 +7184,13 @@ function allWorkersAttendanceFunction() {
                                                                         } else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == NULL)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
-                                                                                    . "<td align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td align='center'>"
+                                                                                    . "<td align='center' style='color:black;'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>$name</a></td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
+                                                                                    . "<td align='center' style='color:black;'>"
                                                                                     ."     <a href='#' onclick='acceptOffer(".$userModel->GetUserById($row->userID)->id.")'>Accept</a>&nbsp|"
                                                                                     . "     <a href='#' onclick='declineOffer(".$userModel->GetUserById($row->userID)->id.")'>Decline</a>"
                                                                                     . "</td>"
@@ -6942,12 +7198,12 @@ function allWorkersAttendanceFunction() {
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 1)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>";
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->numberOfDays</td>";
                                                                             
                                                                                     $time = strtotime($jobStartDate);
                                                                                     $jobEndDate = new DateTime(date('Y-m-d',$time));
@@ -6955,7 +7211,7 @@ function allWorkersAttendanceFunction() {
                                                                                     
                                                                                     if(!(time() >= strtotime($jobStartDate)))
                                                                                     {
-                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                         ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
                                                                                         . "</td>"
                                                                                         . "</tr>";
@@ -6969,39 +7225,39 @@ function allWorkersAttendanceFunction() {
                                                                                         {
                                                                                             if($paymentConfirmed->status == 2)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."Paid"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }else if($paymentConfirmed->status == 1)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }
                                                                                         }else
                                                                                         {
-                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                            $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                     ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                             . "</td>"
                                                                                             . "</tr>"; 
                                                                                         }
                                                                                     }else
                                                                                     {
-                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                         . "</td>"
                                                                                         . "</tr>"; 
                                                                                     }
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 1)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='lightgreen' align='center'>$row->numberOfDays</td>";
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='lightgreen' style='color:black;' align='center'>$row->numberOfDays</td>";
                                                                             
                                                                                     $time = strtotime($jobStartDate);
                                                                                     $jobEndDate = new DateTime(date('Y-m-d',$time));
@@ -7009,7 +7265,7 @@ function allWorkersAttendanceFunction() {
                                                                                     
                                                                                     if(!(time() >= strtotime($jobStartDate)))
                                                                                     {
-                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                         ."      <a href='#' onclick='cancelOffer(".$userModel->GetUserById($row->userID)->id.",".$jobController->jobid.")'>Cancel</a>"
                                                                                         . "</td>"
                                                                                         . "</tr>";
@@ -7023,65 +7279,65 @@ function allWorkersAttendanceFunction() {
                                                                                         {
                                                                                             if($paymentConfirmed->status == 2)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."Paid"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }else if($paymentConfirmed->status == 1)
                                                                                             {
-                                                                                                $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                                $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                         ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                                 . "</td>"
                                                                                                 . "</tr>"; 
                                                                                             }
                                                                                         }else
                                                                                         {
-                                                                                            $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                            $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                                     ."      <a href='PayUser.php?epr=pay&userId=$row->userID'>Pay</a>"
                                                                                             . "</td>"
                                                                                             . "</tr>"; 
                                                                                         }
                                                                                     }else
                                                                                     {
-                                                                                        $result.= "<td bgcolor='lightgreen' align='center'>"
+                                                                                        $result.= "<td bgcolor='lightgreen' style='color:black;' align='center'>"
                                                                                         . "</td>"
                                                                                         . "</tr>"; 
                                                                                     }
                                                                         }else if($row->seen == 0 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     ."      "
                                                                                     . "</td>"
                                                                                     . "</tr>"; 
                                                                         }else if($row->seen == 1 && $jobController->id == $_SESSION['id'] && $row->bidStatus == 0)
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->comment</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->placementDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->offerPrice</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>$row->numberOfDays</td>"
-                                                                                    . "<td bgcolor='#ffcc66' align='center'>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'><a href='ViewUserProfile.php?epr=viewAndSetBidSeen&id=".$userModel->GetUserById($row->userID)->id."&jobId=".$jobController->jobid."'>$name</a></td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->comment</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->placementDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->offerPrice</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td bgcolor='#ffcc66' style='color:black;' align='center'>"
                                                                                     ."      "
                                                                                     . "</td>"
                                                                                     . "</tr>"; 
                                                                         }else
                                                                         {
                                                                             $result.= "<tr>"
-                                                                                    . "<td align='center'></td>"
-                                                                                    . "<td align='center'>$row->comment</td>"
-                                                                                    . "<td align='center'>$row->placementDate</td>"
-                                                                                    . "<td align='center'>$row->prefferedCommenceDate</td>"
-                                                                                    . "<td align='center'>$row->offerPrice</td>"
-                                                                                    . "<td align='center'>$row->numberOfDays</td>"
+                                                                                    . "<td align='center' style='color:black;'></td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->prefferedCommenceDate</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                                    . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
                                                                                     . "</tr>";
                                                                         }
                                                                     }
@@ -7366,7 +7622,7 @@ function allWorkersAttendanceFunction() {
         
         $result = "<div class='row'>"
                     . "<div class='panel-group col-md-7'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseadvertisedjobs' class='glyphicon glyphicon-hand-up'><strong>Active Jobs</strong></a>
 					</div>
@@ -7375,11 +7631,11 @@ function allWorkersAttendanceFunction() {
                                                     <div class='table-responsive scrollit'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
-                                                        . "     <th style='text-align:center;'>Job</th>"
-                                                        . "     <th style='text-align:center;'>Description</th>"
-                                                        . "     <th style='text-align:center;'>Category</th>"
-                                                        . "     <th style='text-align:center;'>Qualificaion</th>"
-                                                        . "     <th style='text-align:center;'>No. Offers</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Description</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Category</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Qualificaion</th>"
+                                                        . "     <th style='text-align:center;color:black;'>No. Offers</th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -7391,11 +7647,11 @@ function allWorkersAttendanceFunction() {
                                                                     $qualification = $qualificationModel->GetQualificationByID($row->qualification);
                                                                     $noOffers = $placedOffersModel->CountViewUserJobNoPlacedOffersByJobId($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
-                                                                            . "<td align='center'>$row->description</td>"
-                                                                            . "<td align='center'>$type->name</td>"
-                                                                            . "<td align='center'>$qualification->qualificationName</td>"
-                                                                            . "<td align='center'>$noOffers</td>"
+                                                                            . "<td align='center' style='color:black'><a href='SearchResult.php?epr=view&id=".$row->jobid."&typeId=".$row->type."'>$row->name</a></td>"
+                                                                            . "<td align='center' style='color:black'>$row->description</td>"
+                                                                            . "<td align='center' style='color:black'>$type->name</td>"
+                                                                            . "<td align='center' style='color:black'>$qualification->qualificationName</td>"
+                                                                            . "<td align='center' style='color:black'>$noOffers</td>"
                                                                             . "</tr>";
                                                                 }
                                                             }
@@ -7410,7 +7666,7 @@ function allWorkersAttendanceFunction() {
 				."</div>"
 			."</div>"
                 . "<div class='panel-group col-md-5'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default  alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offer Placed This User</strong></a>
 					</div>
@@ -7418,9 +7674,9 @@ function allWorkersAttendanceFunction() {
 						<div class='panel-body'>"
                                                         . "<table class='table sortable'>"
                                                         . "<tr>"
-                                                        . "     <th style='text-align:center;'>Job</th>"
-                                                        . "     <th style='text-align:center;'>Price</th>"
-                                                        . "     <th style='text-align:center;'>Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Price</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -7429,9 +7685,9 @@ function allWorkersAttendanceFunction() {
                                                                 foreach($allOfUsersPlacedOffers as $row)
                                                                 {
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
-                                                                            . "<td align='center'>$row->offerPrice</td>"
-                                                                            . "<td align='center'>$row->placementDate</td>"
+                                                                            . "<td align='center' style='color:black'><a href='SearchResult.php?epr=view&id=".$row->jobid."'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center' style='color:black'>$row->offerPrice</td>"
+                                                                            . "<td align='center' style='color:black'>$row->placementDate</td>"
                                                                             . "</tr>";
                                                                 }
                                                             }
@@ -7591,6 +7847,13 @@ function allWorkersAttendanceFunction() {
     {
         $jobModel = new JobModel();
         $jobModel->updateJobDate($jobid, $date); 
+    }
+    
+    //Update a job Start Date
+    function updateJobStartDate($jobid,$date)
+    {
+        $jobModel = new JobModel();
+        $jobModel->updateJobStartDate($jobid, $date); 
     }
     
     //Delete a job

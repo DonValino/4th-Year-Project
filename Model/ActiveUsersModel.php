@@ -141,4 +141,29 @@ class ActiveUsersModel {
             echo "Error updating record: " . mysqli_error($connection);
         }
     }
+    
+    // Delete Active User By Id
+    function deleteActiveUserByID($id)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
+                // sql to delete a record
+        $sql = "DELETE FROM activeusers WHERE id=$id";
+
+        if ($connection->query($sql) === TRUE) {
+           
+        } else {
+            echo "Error deleting record: " . $connection->error;
+        }
+
+        $connection->close();
+    }
 }

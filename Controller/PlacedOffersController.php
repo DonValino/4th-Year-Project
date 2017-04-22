@@ -93,7 +93,7 @@ class PlacedOffersController {
     function GetAllPlacedOffersIAccepted($userId)
     {
         $placedOffersModel = new PlacedOffersModel();
-        $placedOffersModel->GetAllPlacedOffersIAccepted($userId);
+        return $placedOffersModel->GetAllPlacedOffersIAccepted($userId);
     }
     
     // Get Users Placed Offers
@@ -195,7 +195,7 @@ class PlacedOffersController {
         $userModel = new UserModel();
         $result = "<div class='row'>"
                 . "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>List Of Offers</strong></a>
 					</div>
@@ -206,16 +206,16 @@ class PlacedOffersController {
                                                     </div>"
                                                         . "<table class='table sortable' id='placedOffersTable'>"
                                                         . "<tr>"
-                                                        . "     <th style='text-align:center;'>Job</th>"
-                                                        . "     <th style='text-align:center;'>User</th>" 
-                                                        . "     <th style='text-align:center;'>Comment</th>"
-                                                        . "     <th style='text-align:center;'>No. Of Days</th>"
-                                                        . "     <th style='text-align:center;'>Preferred Commence Date</th>"
-                                                        . "     <th style='text-align:center;'>Date</th>"
-                                                        . "     <th style='text-align:center;'>Offer Price</th>"
-                                                        . "     <th style='text-align:center;'>Seen</th>"
-                                                        . "     <th style='text-align:center;'>Bid Type:</th>"
-                                                        . "     <th style='text-align:center;'>Bid Status:</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Job</th>"
+                                                        . "     <th style='text-align:center;color:black;'>User</th>" 
+                                                        . "     <th style='text-align:center;color:black;'>Comment</th>"
+                                                        . "     <th style='text-align:center;color:black;'>No. Of Days</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Preferred Commence Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Offer Price</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Seen</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Bid Type:</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Bid Status:</th>"
                                                         . "</tr>";
                                                         try
                                                         {
@@ -226,32 +226,32 @@ class PlacedOffersController {
                                                                     $bidType = $row->bidType;
                                                                     $job = $jobModel->GetJobsByID($row->jobid);
                                                                     $result.= "<tr>"
-                                                                            . "<td align='center'><a href='#'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
+                                                                            . "<td align='center' style='color:black;'><a href='#'>".$jobModel->GetJobsByID($row->jobid)->name."</a></td>"
                                                                             . "<td align='center'><a href='ViewUserProfile.php?epr=view&id=".$userModel->GetUserById($row->userID)->id."'>".$userModel->GetUserById($row->userID)->username."</a></td>"
-                                                                            . "<td align='center'>$row->comment</td>"
-                                                                            . "<td align='center'>$row->numberOfDays</td>"
-                                                                            . "<td align='center'>$row->prefferedCommenceDate</td>"
-                                                                            . "<td align='center'>$row->placementDate</td>"
-                                                                            . "<td align='center'>$row->offerPrice</td>"
-                                                                            . "<td align='center'>$row->seen</td>";
+                                                                            . "<td align='center' style='color:black;'>$row->comment</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->numberOfDays</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->prefferedCommenceDate</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->placementDate</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->offerPrice</td>"
+                                                                            . "<td align='center' style='color:black;'>$row->seen</td>";
                                                                             if($bidType == 1)
                                                                             {
-                                                                                $result.= "<td align='center'>Part Time</td>";
+                                                                                $result.= "<td style='color:black;' align='center'>Part Time</td>";
                                                                             }else if($bidType == 0)
                                                                             {
-                                                                                $result.= "<td align='center'>Full Time</td>";
+                                                                                $result.= "<td style='color:black;' align='center'>Full Time</td>";
                                                                             }
                                                                             if($row->bidStatus == NULL)
                                                                             {
-                                                                                $result.="<td align='center'>?</td>"
+                                                                                $result.="<td style='color:black;' align='center'>?</td>"
                                                                                         . "</tr>";
                                                                             }else if($row->bidStatus == 1)
                                                                             {
-                                                                                 $result.="<td align='center'>Accepted</td>"
+                                                                                 $result.="<td style='color:black;' align='center'>Accepted</td>"
                                                                                         . "</tr>";
                                                                             }else
                                                                             {
-                                                                                 $result.="<td align='center'>Denied</td>"
+                                                                                 $result.="<td style='color:black;' align='center'>Denied</td>"
                                                                                         . "</tr>";
                                                                             }
                                                                 }
@@ -291,7 +291,7 @@ class PlacedOffersController {
     function GetAllAcceptedPlacedOffers()
     {
         $placedOffersModel = new PlacedOffersModel();
-        $placedOffersModel->GetAllAcceptedPlacedOffers();
+        return $placedOffersModel->GetAllAcceptedPlacedOffers();
     }
     
     // Search All Accepted Placed Offers
@@ -404,7 +404,7 @@ class PlacedOffersController {
     function GetAllDeniedPlacedOffers()
     {
         $placedOffersModel = new PlacedOffersModel();
-        $placedOffersModel->GetAllDeniedPlacedOffers();
+        return $placedOffersModel->GetAllDeniedPlacedOffers();
     }
     
     // Search All Denied Placed Offers

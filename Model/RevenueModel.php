@@ -72,6 +72,39 @@ class RevenueModel {
         }  
     }
     
+    // Get Revenues
+    function GetRevenues()
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM revenue") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $revenues = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $id= $row['id'];
+                $dbAmount= $row['amount'];
+                $dbDate= $row['date'];
+                $dbUserId= $row['userId'];
+                $dbAdType= $row['adType'];
+                
+                
+                $revenueEntities = new RevenueEntities($id, $dbAmount, $dbDate, $dbUserId, $dbAdType);
+                array_push($revenues, $revenueEntities);
+            }
+            
+            return $revenues;
+        }else
+        {
+            return 0;
+        }  
+    }
+    
     // Get Revenues By adType
     function GetRevenueByAdType($adType)
     {

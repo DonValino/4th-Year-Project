@@ -26,21 +26,21 @@ class PaymentController {
     function GetPaymentMeAccountByUserId($targetUserId)
     {
         $paymentModel = new PaymentModel();
-        $paymentModel->GetPayPalMeAccountByUserId($targetUserId);
+        return $paymentModel->GetPayPalMeAccountByUserId($targetUserId);
     }
     
     // Get Payment by targetUserId And nobId
     function GetPayPalMeAccountByUserIdAndJobId($targetUserId,$jobId)
     {
         $paymentModel = new PaymentModel();
-        $paymentModel->GetPayPalMeAccountByUserIdAndJobId($targetUserId, $jobId);
+        return $paymentModel->GetPayPalMeAccountByUserIdAndJobId($targetUserId, $jobId);
     }
     
     // Get Payment by targetUserId
     function GetPaymentMeAccountByUserIdTargetUserIdAndJobId($userId, $targetUserId, $jobId)
     {
         $paymentModel = new PaymentModel();
-        $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($userId, $targetUserId, $jobId);
+        return $paymentModel->GetPaymentMeAccountByUserIdTargetUserIdAndJobId($userId, $targetUserId, $jobId);
     }
     
     //Update a Payment Confirmation
@@ -54,14 +54,14 @@ class PaymentController {
     function CountPaymentByUserIdAndJobId($targetUserId,$jobId)
     {
        $paymentModel = new PaymentModel();
-       $paymentModel->CountPayPalMeAccountByUserIdAndJobId($targetUserId, $jobId);
+       return $paymentModel->CountPayPalMeAccountByUserIdAndJobId($targetUserId, $jobId);
     }
     
     // Count Payment by targetUserId
     function CountPaymentByTargetUserId($targetUserId)
     {
         $paymentModel = new PaymentModel();
-        $paymentModel->CountPaymentByTargetUserId($targetUserId);
+        return $paymentModel->CountPaymentByTargetUserId($targetUserId);
     }
     
    // Request Content
@@ -78,7 +78,7 @@ class PaymentController {
         $jobModel = new JobModel();
         
         $result= '<div class="panel-group col-md-12">
-			  <div class="panel panel-default">
+			  <div class="panel panel-default alert alert-info">
 					<div class="panel-heading" style="text-align:center;">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapsePayment" class="glyphicon glyphicon-hand-up"><strong>Payment Confirmation</strong></a>
 					</div>
@@ -87,12 +87,12 @@ class PaymentController {
                                                     <div class="table-responsive scrollitY" style="height:450px;">
                                                         <table class="sortable table" id="myJobTable">
                                                             <tr>
-                                                                <th>Name</th>
-                                                                <th>Job</th>
-                                                                <th>Amount</th>
-                                                                <th>Payment Type</th>
-                                                                <th>Date</th>
-                                                                <th>Action:</th>
+                                                                <th style="color:black;">Name</th>
+                                                                <th style="color:black;">Job</th>
+                                                                <th style="color:black;">Amount</th>
+                                                                <th style="color:black;">Payment Type</th>
+                                                                <th style="color:black;">Date</th>
+                                                                <th style="color:black;">Action:</th>
                                                             </tr>';
                                                            try
                                                             {
@@ -117,7 +117,7 @@ class PaymentController {
                                                                                 if($row->status == 2)
                                                                                 {
                                                                                     // Request Accepted
-                                                                                    $result.='<td><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                    $result.='<td style="color:black;"><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
                                                                                                  <td  style="color:blue;">'; $result.= $jobModel->GetJobsByID($row->jobId)->name; $result.='</td>
                                                                                                  <td  style="color:blue;">'.$row->amount.'</td>';
                                                                                                   if($row->paymentType == 0)
@@ -129,16 +129,16 @@ class PaymentController {
                                                                                                   }
                                                                                        $result.='<td  style="color:blue;">'; $result.= $dateposted; $result.='</td>
                                                                                                  <td  style="color:blue;"></td>
-                                                                                                 <td>
+                                                                                                 <td style="color:black;">
                                                                                                       <a class="btn btn-info disabled" href="">Confirmed</a>
                                                                                                  </td>
                                                                                          </tr>';
                                                                                 }else if($row->status == 1)
                                                                                 {
                                                                                     // Request Sent
-                                                                                    $result.='<td><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
-                                                                                                 <td  style="color:blue;">'; $result.= $jobModel->GetJobsByID($row->jobId)->name; $result.='</td>
-                                                                                                 <td  style="color:blue;">'.$row->amount.'</td>';  
+                                                                                    $result.='<td style="color:black;"><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                                 <td style="color:blue;">'; $result.= $jobModel->GetJobsByID($row->jobId)->name; $result.='</td>
+                                                                                                 <td style="color:blue;">'.$row->amount.'</td>';  
                                                                                                   if($row->paymentType == 0)
                                                                                                   {
                                                                                                       $result.='<td bgcolor="#ccd7ea" style="color:blue;">PayPal</td>';
@@ -146,8 +146,8 @@ class PaymentController {
                                                                                                   {
                                                                                                       $result.='<td bgcolor="#ccd7ea" style="color:blue;">Cash</td>';
                                                                                                   }
-                                                                                       $result.='<td  style="color:blue;">'; $result.= $dateposted; $result.='</td>
-                                                                                                 <td>
+                                                                                       $result.='<td style="color:blue;">'; $result.= $dateposted; $result.='</td>
+                                                                                                 <td style="color:black;">
                                                                                                       <a class="btn btn-info" href="PaymentConfirmation.php?epr=confirm&userId='.$row->userId.'&jobId='.$row->jobId.'">Confirm</a>
                                                                                                  </td>
                                                                                          </tr>';
@@ -168,8 +168,8 @@ class PaymentController {
                                                                                                   {
                                                                                                       $result.='<td bgcolor="#ccd7ea" style="color:blue;">Cash</td>';
                                                                                                   }
-                                                                                      $result.='<td bgcolor="#ccd7ea"  style="color:blue;">'; $result.= $dateposted;  $result.='</td>
-                                                                                                <td bgcolor="#ccd7ea">
+                                                                                      $result.='<td bgcolor="#ccd7ea" style="color:blue;">'; $result.= $dateposted;  $result.='</td>
+                                                                                                <td bgcolor="#ccd7ea" style="color:black;">
                                                                                                      <a class="btn btn-info disabled" href="">Confirmed</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -187,7 +187,7 @@ class PaymentController {
                                                                                                       $result.='<td bgcolor="#ccd7ea" style="color:blue;">Cash</td>';
                                                                                                   }
                                                                                       $result.='<td bgcolor="#ccd7ea"  style="color:blue;">'; $result.= $dateposted;  $result.='</td>
-                                                                                                <td bgcolor="#ccd7ea">
+                                                                                                <td bgcolor="#ccd7ea" style="color:black;">
                                                                                                       <a class="btn btn-info" href="PaymentConfirmation.php?epr=confirm&userId='.$row->userId.'&jobId='.$row->jobId.'">Confirm</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -205,7 +205,7 @@ class PaymentController {
                                                                                 {
                                                                                     // Request Accepted
                                                                                     $result.='<tr>
-                                                                                            <td><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                            <td style="color:black;"><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
                                                                                             <td style="color:blue;">';  $result.= $jobModel->GetJobsByID($row->jobId)->name; $result.='</td>
                                                                                             <td style="color:blue;">'.$row->amount.'</td>';
                                                                                             if($row->paymentType == 0)
@@ -224,7 +224,7 @@ class PaymentController {
                                                                                 {
                                                                                     // Request Sent
                                                                                     $result.='<tr>
-                                                                                            <td><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
+                                                                                            <td style="color:black;"><strong>' .$row->userId;$result.='</strong> &nbsp &nbsp &nbsp &nbsp'; $result.='</td>
                                                                                             <td style="color:blue;">';  $result.= $jobModel->GetJobsByID($row->jobId)->name; $result.='</td>
                                                                                             <td style="color:blue;">'.$row->amount.'</td>';
                                                                                             if($row->paymentType == 0)
@@ -259,7 +259,7 @@ class PaymentController {
                                                                                                 $result.='<td  style="color:blue;">Cash</td>';
                                                                                             }
                                                                                 $result.='<td style="color:blue;">'; $result.= $dateposted; $result.='</td>
-                                                                                          <td>
+                                                                                          <td style="color:black;">
                                                                                                <a class="btn btn-info disabled" href="">Confirmed</a>
                                                                                           </td>
                                                                                         </tr>';
@@ -278,7 +278,7 @@ class PaymentController {
                                                                                                 $result.='<td  style="color:blue;">Cash</td>';
                                                                                             }
                                                                                             $result.='<td style="color:blue;">'; $result.= $dateposted; $result.='</td>
-                                                                                                <td>
+                                                                                                <td style="color:black;">
                                                                                                       <a class="btn btn-info" href="PaymentConfirmation.php?epr=confirm&userId='.$row->userId.'&jobId='.$row->jobId.'">Confirm</a>
                                                                                                 </td>
                                                                                         </tr>';
@@ -532,7 +532,7 @@ class PaymentController {
     function GetAllPayments()
     {
         $paymentModel = new PaymentModel();
-        $paymentModel->GetAllPayments();
+        return $paymentModel->GetAllPayments();
     }
     
     // View Payment History

@@ -254,6 +254,39 @@ class RequestModel {
         $connection->close();
     }
     
+    //Get Requests By targetUserId Test.
+    function GetRequestsByUserIdAndTargetUserIdTest($userId, $targetUserId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM requesttable where userId=$userId AND targetUserId=$targetUserId ORDER BY date DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbTargetUserId= $row['targetUserId'];
+                $dbTypeId= $row['typeId'];
+                $dbDate= $row['date'];
+                $dbStatus= $row['status'];
+                $dbSeen= $row['seen'];
+                
+                $requestEntities = new RequestEntities($dbId,$dbUserId,$dbTargetUserId,$dbTypeId,$dbDate,$dbStatus,$dbSeen);
+            }
+            
+            return $requestEntities;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Update seen request
     function updateRequestSeen($targetUserId)
     {

@@ -52,6 +52,36 @@ if($epr=='AdminCat')
     header('Location: SearchResult.php?epr=AdminCat');
 }
 
+// Close A report
+if($epr=='close')
+{
+    $id = $_GET['id'];
+    $reportController->updateReportStatus(2, $id);
+    
+    header('Location: ViewAdminReports.php?epr=closed');
+}
+
+// Report Closed
+if($epr=='closed')
+{
+    $errorMessage = "<p style='font-size:22px; color:green;'> Report Closed </p>";
+}
+
+// Reopen A Report
+if($epr=='reopen')
+{
+    $id = $_GET['id'];
+    $reportController->updateReportStatus(1, $id);
+    
+    header('Location: ViewAdminReports.php?epr=reopened');
+}
+
+// Report Reopened
+if($epr=='reopened')
+{
+    $errorMessage = "<p style='font-size:22px; color:green;'> Report Reopned </p>";
+}
+
 // Change Year
 if(isset($_POST['searchAdminDashboard']) && !empty($_POST['year']))
 {

@@ -55,6 +55,8 @@ if($epr == 'price')
 }else if($epr == 'myJobs')
 {
     $content = $jobController->SearchUserJob($_SESSION['id']);
+    $content .= $jobController->JobAlreadyStartedModal();
+    $content .= $jobController->JobAlreadyStartedDeactivateModal();
 }else if($epr == 'view')
 {
     $id =$_GET['id'];
@@ -169,6 +171,14 @@ else
 }
 $content .= $jobController->CategoryModal();
 $content .= $jobController->PriceModal();
+$content .= $jobController->AboutFreelanceMeModal();
+
+if(isset($_POST['searchByPrice']))
+{
+    $min =$_POST['min'];
+    $max =$_POST['max'];
+    header('Location: SearchResult.php?epr=price&min='.$min.'&max='.$max.'');
+}
 
 if(isset($_SESSION['active']))
 {

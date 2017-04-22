@@ -29,7 +29,7 @@ class FollowingController {
     function GetFollowersByUserId($userId)
     {
         $followingModel = new FollowingModel();
-        $followingModel->GetFollowersByUserId($userId);
+        return $followingModel->GetFollowersByUserId($userId);
     }
     
     //Unfollow a user
@@ -43,7 +43,7 @@ class FollowingController {
     function GetFollowersByFollowingUserId($followinguserId)
     {
         $followingModel = new FollowingModel();
-        $followingModel->GetFollowersByFollowingUserId($followinguserId);
+        return $followingModel->GetFollowersByFollowingUserId($followinguserId);
     }
     
     //Code to create the user following page sidebar
@@ -251,7 +251,7 @@ class FollowingController {
         
                 $result = "<div class='row'>"
                     . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseadvertisedjobs' class='glyphicon glyphicon-hand-up'><strong>People I'm Following</strong></a>
 					</div>
@@ -286,7 +286,7 @@ class FollowingController {
 				."</div>"
 			."</div>"
                 . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>My Followers</strong></a>
 					</div>
@@ -322,7 +322,7 @@ class FollowingController {
                 . "<div class='row'>"
                 
                 . "<div class='panel-group col-md-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseTimeline' class='glyphicon glyphicon-hand-up'><strong>Timeline</strong></a>
 					</div>

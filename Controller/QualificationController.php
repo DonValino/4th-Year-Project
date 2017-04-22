@@ -445,6 +445,13 @@ class QualificationController {
         $qualificationModel->deleteQualification($id);
     }
     
+    //Update Qualification Name
+    function updateQualificationName($id, $qualificationName)
+    {
+        $qualificationModel = new QualificationModel();
+        $qualificationModel->updateQualificationName($id, $qualificationName);
+    }
+    
     //Update Qualification
     function  updateQualification($id)
     {

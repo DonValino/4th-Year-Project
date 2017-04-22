@@ -49,9 +49,9 @@ if(isset($_GET['epr']))
     $epr=$_GET['epr'];
 }
 
-if($epr=='deactivate')
+if($epr=='deactivateFromViewAllUsers')
 {
-    $_SESSION['userIdDeactivate'] =$_GET['id'];
+    $_SESSION['userIdDeactivate'] =$_GET['userId'];
 }
 
 // User Is Admin

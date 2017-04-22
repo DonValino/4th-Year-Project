@@ -26,21 +26,21 @@ class CountyController {
     function GetCountyById($id)
     {
         $countyModel = new CountyModel();
-        $countyModel->GetCountyById($id);
+        return $countyModel->GetCountyById($id);
     }
     
     // Get County By Name
     function GetCountyByName($name)
     {
         $countyModel = new CountyModel();
-        $countyModel->GetCountyByName($name);
+        return $countyModel->GetCountyByName($name);
     }
     
     // Update A County By Id
     function updateACountyById($county,$id)
     {
         $countyModel = new CountyModel();
-        $countyModel->updateACountyById($county, $id);
+        return $countyModel->updateACountyById($county, $id);
     }
     
     // Delete A County By Id
@@ -54,7 +54,7 @@ class CountyController {
     function GetAllCounties()
     {
       $countyModel = new CountyModel(); 
-      $countyModel->GetAllCounties();
+      return $countyModel->GetAllCounties();
     }
     
     function CreateAdminJobSideBar()

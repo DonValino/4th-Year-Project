@@ -22,10 +22,18 @@ $loginController = new LoginController();
 $loginStatus = "Login";
 $log = "";
 $errorMessage = "";
-$sidebar = '<div id="aboutFreelanceMe">'
+$sidebar = '<div id="aboutFreelanceMe" class="alert alert-info">'
+            ."<div class='row' style='margin-bottom:20px;'>
+              <div class='col-md-12 style='background-color:white;'>
+                  <a href='AboutUs.php' target='_blank'><img src='Images/FreelanceMeLogo.png' class='col-md-12 col-sm-12 col-xs-12'/></a>
+              </div>
+            </div>"
         . '<h4 style="text-align:center;"> About Freelance Me:</h4>'
-        . '<p style="text-align:center;">This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
+        . '<p style="text-align:center;font-size:13px;color:black;margin-bottom:15px;">This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.'
         . ' Users can post jobs on the website and vice versa, can also look for existing jobs posted by other users of the website. </p>'
+            .'<div class="row">'
+                . '<a class="btn btn-success col-md-6 col-md-offset-3 col-xs-offset-5" target="_blank" href="http://ec2-54-211-233-223.compute-1.amazonaws.com/Don_Valino_CA2/CV.php">Founder</a>'
+            . '</div>'
         . '</div>';
 //Login Code - Query DB to see if user exist and if exist, allow user to login
  if (isset($_POST['login']) && !empty($_POST['username']) 
@@ -42,8 +50,8 @@ $sidebar = '<div id="aboutFreelanceMe">'
         
         // Used For The Admin Dashboard To Change The Year To Display data
         $_SESSION['yearDate'] = $dateTime;
-        
-        if($userObject->username == $_POST['username'] && $userObject->password == $_POST['password'])
+       
+        if($userObject->username == $_POST['username'] && password_verify($_POST['password'], $userObject->password))
         {
             // Password and User Is Correct
             if($loginController->CheckIfUserIsActive($_POST['username']) == true)

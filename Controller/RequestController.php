@@ -53,6 +53,13 @@ class RequestController {
         return $requestModel->GetRequestsByUserIdANDTargetUserId($userId, $targetUserId); 
     }
     
+    //Get Requests By targetUserId Test.
+    function GetRequestsByUserIdAndTargetUserIdTest($userId, $targetUserId)
+    {
+        $requestModel = new RequestModel();
+        return $requestModel->GetRequestsByUserIdAndTargetUserIdTest($userId,$targetUserId);
+    }
+    
     //Get CV / CoverLetter Requests By userId And targetUserId.
     function GetCVCoverLetterRequestsByUserIdANDTargetUserId($userId, $targetUserId)
     {
@@ -278,7 +285,7 @@ class RequestController {
        $requestTypeModel = new RequestTypeModel();
        
        $result= '<div class="panel-group col-md-12">
-			  <div class="panel panel-default">
+			  <div class="panel panel-default alert alert-info">
 					<div class="panel-heading" style="text-align:center;">
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapseMyNotification" class="glyphicon glyphicon-hand-up"><strong>Request</strong></a>
 					</div>
