@@ -43,7 +43,7 @@ if(isset($_SESSION['username']))
     header('Location: index.php');
 }
    $loginStatus="Home";
-   $log = "home.php";
+   $log = "Home.php";
    
 if(isset($_GET['epr']))
 {
@@ -194,7 +194,14 @@ if (isset($_POST['save']) && !empty($_POST['firstName']) && !empty($_POST['lastN
                     $loginStatus= $_POST['usernameRegister'];
                     
                     $id = $_SESSION['id'];
-
+                    
+                    $firstName = htmlspecialchars($firstName,ENT_QUOTES,"UTF-8");
+                    $lastName = htmlspecialchars($lastName,ENT_QUOTES,"UTF-8");
+                    $usernameRegister = htmlspecialchars($usernameRegister,ENT_QUOTES,"UTF-8");
+                    $email = htmlspecialchars($email,ENT_QUOTES,"UTF-8");
+                    
+                    $password = password_hash($password, PASSWORD_DEFAULT,['cost' => 12]);
+                            
                     // Update User Details in the Database
                     $userController->updateUser($id, $firstName,$lastName,$usernameRegister,$password,$email,$phone);
                     

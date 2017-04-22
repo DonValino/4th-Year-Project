@@ -56,7 +56,7 @@ $job = $jobController->GetJobsByID($_SESSION['jobId']);
                                                  </div>
                                                  <script>
                                                     function fullTimeBid() {
-                                                    $('#register').load('fulltimeBid.php?epr=view&select=38');
+                                                    $('#register').load('fullTimeBid.php?epr=view&select=38');
                                                     }
                                                 </script>
                                                 

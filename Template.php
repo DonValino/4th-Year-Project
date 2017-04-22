@@ -8,8 +8,8 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $title; ?></title>
-        <link rel="stylesheet" type="text/css" href="./Styles/StyleSheet.css">
-        <link rel="stylesheet" type="text/css" href="./Styles/circle.css">
+        <link rel="stylesheet" type="text/css" href="Styles/Stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="Styles/circle.css">
         
         <script src="Styles/sorttable.js"></script>
         
@@ -22,28 +22,6 @@ and open the template in the editor.
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         
-<script>
-function startTime() {
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    var day = today.getDate();
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear();
-    m = checkTime(m);
-    s = checkTime(s);
-    //document.getElementById('time').innerHTML =
-    //h + ":" + m + ":" + s;
-    document.getElementById('date').innerHTML =
-    day + "-" + month + "-" + year;
-    var t = setTimeout(startTime, 500);
-}
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
-}
-</script>
     </head>
     <body onload="startTime()">
         <div class="container-fluid">

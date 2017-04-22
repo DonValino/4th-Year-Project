@@ -37,6 +37,74 @@ class ReportModel {
         mysqli_close($connection);
     }
     
+    //Get My Reports.
+    function GetMyReports($userId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM report WHERE userId=$userId ORDER BY date") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $reportsArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbDescription= $row['description'];
+                $dbTypeId= $row['typeId'];
+                $dbDate= $row['date'];
+                $dbSeen= $row['seen'];
+                $dbStatus= $row['status'];
+                
+                $reportEntities = new ReportEntities($dbId,$dbUserId,$dbDescription,$dbTypeId,$dbDate,$dbSeen,$dbStatus);
+                
+                array_push($reportsArray, $reportEntities);
+            }
+            
+            return $reportsArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    //Get Report By Id.
+    function GetReportById($id)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM report WHERE id = $id") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbDescription= $row['description'];
+                $dbTypeId= $row['typeId'];
+                $dbDate= $row['date'];
+                $dbSeen= $row['seen'];
+                $dbStatus= $row['status'];
+                
+                $reportEntities = new ReportEntities($dbId,$dbUserId,$dbDescription,$dbTypeId,$dbDate,$dbSeen,$dbStatus);
+            }
+            
+            return $reportEntities;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     //Get Reports.
     function GetReports()
     {
@@ -72,6 +140,41 @@ class ReportModel {
         }
     }
     
+    //Get Reports Test.
+    function GetReportsTest($year)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM report WHERE YEAR(date) = $year ORDER BY date") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        $reportsArray = array();
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbUserId= $row['userId'];
+                $dbDescription= $row['description'];
+                $dbTypeId= $row['typeId'];
+                $dbDate= $row['date'];
+                $dbSeen= $row['seen'];
+                $dbStatus= $row['status'];
+                
+                $reportEntities = new ReportEntities($dbId,$dbUserId,$dbDescription,$dbTypeId,$dbDate,$dbSeen,$dbStatus);
+                
+                array_push($reportsArray, $reportEntities);
+            }
+            
+            return $reportsArray;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     // Count Reports.
     function CountReports()
     {
@@ -80,6 +183,26 @@ class ReportModel {
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
         $result = mysqli_query($connection," SELECT * FROM report WHERE YEAR(date) = $_SESSION[yearDate] ORDER BY date") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {
+            
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Count My Reports.
+    function CountMyReports($userId)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM report WHERE userId=$userId ORDER BY date") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         if($numrows != 0)
@@ -130,5 +253,30 @@ class ReportModel {
         {
             return 0;
         }
+    }
+    
+    //Update report status
+    function updateReportStatus($status,$id)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+
+        // Check connection
+        if (!$connection) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $sql = "UPDATE report SET status=$status WHERE id=$id";
+
+        if (mysqli_query($connection, $sql)) {
+            echo "Record updated successfully";
+        } else {
+            echo "Error updating record: " . mysqli_error($connection);
+        }
+        
+
+        $connection->close();
     }
 }

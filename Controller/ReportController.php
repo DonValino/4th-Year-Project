@@ -1,3 +1,20 @@
+<script>
+    function closeReport(id) {
+    var ask = window.confirm("Are You Sure You Want To Close This Report?");
+    if (ask) {
+        document.location.href = "ViewAdminReports.php?epr=close&id=" + id ;
+
+    }
+  }
+    
+    function reopenReport(id) {
+    var ask = window.confirm("Are You Sure You Want To Reopen This Report?");
+    if (ask) {
+        document.location.href = "ViewAdminReports.php?epr=reopen&id=" + id ;
+
+    }
+}
+</script>
 <?php
 
 /*
@@ -30,11 +47,32 @@ class ReportController {
         return $reportModel->GetReports();
     }
     
-        // Count Reports.
+    //Get Reports Test.
+    function GetReportsTest($year)
+    {
+        $reportModel = new ReportModel();
+        return $reportModel->GetReportsTest($year);
+    }
+    
+    //Get Report By Id.
+    function GetReportById($id)
+    {
+        $reportModel = new ReportModel();
+        return $reportModel->GetReportById($id);
+    }
+    
+    // Count Reports.
     function CountReports()
     {
         $reportModel = new ReportModel();
         return $reportModel->CountReports();
+    }
+    
+    //Update report status
+    function updateReportStatus($status,$id)
+    {
+        $reportModel = new ReportModel();
+        $reportModel->updateReportStatus($status, $id);
     }
     
     function InsertANewReportForm()
@@ -55,7 +93,7 @@ class ReportController {
             <fieldset>
               <div class='clearfix'>
               <label for='description' class='col-md-2 col-sm-2 col-xs-3'> Description: </label>
-              <textarea class='form-control col-md-2 col-sm-2 col-xs-2' rows='5' style='width:400px;' name = 'description' id='description' placeholder='Description' required autofocus></textarea>
+              <textarea class='form-control col-md-2 col-sm-2 col-xs-2' rows='5'  name = 'description' id='description' placeholder='Description' required autofocus></textarea>
               </div>
               <div class='clearfix'>
                 <div class='form-group'>
@@ -271,7 +309,7 @@ class ReportController {
 				<!-- SIDEBAR MENU -->
 				<div class='profile-usermenu'>
 					<ul class='nav'>
-						<li class='active'>
+						<li>
 							<a href='UserAccount.php' style='text-align:center;'>
 							<i class='glyphicon glyphicon-home'></i>
 							Overview </a>
@@ -309,7 +347,7 @@ class ReportController {
 							<i class='glyphicon glyphicon-log-out'></i>
 							Logout </a>
 						</li>
-						<li>
+						<li class='active'>
 							<a href='#' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Help </a>
@@ -323,6 +361,33 @@ class ReportController {
         return $result;
     }
     
+    function AboutFreelanceMeModal()
+    {
+                $result = "<div class='modal fade col-xs-11' id='aboutFreelanceMeModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content col-md-12 col-sm-12'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>About FreelanceMe</h4>
+				</div>
+				<div class='modal-body'>
+                                    <p style='font-size:14px;color:green;'>This is a website that will serve as an instrument to allow people locate jobs advertised in the website and work as a freelancer.
+                                       Users can post jobs on the website and vice versa, can also look for existing jobs posted by other users of the website. </p>
+				</div>
+				<div class='modal-footer'>
+                                  <div class='row'>
+                                    <button type='button' class='btn btn-default col-md-4 col-md-offset-4' data-dismiss='modal'>Close</button>
+                                  </div>
+				</div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
     function HelpContent()
     {
         require_once 'Model/ReportTypeModel.php';
@@ -331,8 +396,39 @@ class ReportController {
         $allType = $reportTypeModel->GetAllReportTypes();
         
         $result= "<div class='row'>
+                    <div class='panel-group col-md-6'>
+			  <div class='panel panel-default alert alert-info'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>About FreelanceMe</strong></a>
+					</div>
+					<div id='collapseRating' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row'>
+                                                            <a href='download.php?epr=cv&path=AboutFreelanceMe/Project_Research_document_X00112730_Don_Valino.docx' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <i class='glyphicon glyphicon-book'></i>
+                                                                User Manual </a>
+                                                    </div>
+                                                    <div class='row'>
+                                                           <a href='#' data-toggle='modal' data-target='#aboutFreelanceMeModal' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <i class='glyphicon glyphicon-tint'></i>
+                                                                About FreelanceMe </a>
+                                                    </div>
+                                                    <div class='row'>
+                                                            <a href='download.php?epr=cv&path=AboutFreelanceMe/Project_Research_document_X00112730_Don_Valino.docx' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <i class='glyphicon glyphicon-search'></i>
+                                                                Project Research Document </a>
+                                                    </div>
+                                                    <div class='row'>
+                                                            <a href='download.php?epr=cv&path=AboutFreelanceMe/Technical-Architecture-Freelance_Me.docx' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <i class='glyphicon glyphicon-cog'></i>
+                                                                Technical Architecture Document </a>
+                                                    </div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>
             <div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>Report</strong></a>
 					</div>
@@ -342,6 +438,11 @@ class ReportController {
                                                             <a href='SubmitAReport.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
                                                         <i class='glyphicon glyphicon-alert'></i>
                                                                 Submit A Report </a>
+                                                    </div>
+                                                    <div class='row'>
+                                                            <a href='ViewMyReports.php' class='col-sm-12 col-xs-12' style='text-align:center;'>
+                                                        <i class='glyphicon glyphicon-align-left'></i>
+                                                                View My Reports </a>
                                                     </div>"
 						."</div>"
 					."</div>"
@@ -355,6 +456,10 @@ class ReportController {
     
     function CreateAdminViewReportsSideBar()
     {
+        require 'Model/MessagesModel.php';
+        $messagesModel = new MessagesModel();
+        $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
@@ -370,13 +475,23 @@ class ReportController {
                                                                                             <a href='Home.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-home'></i>
                                                                                             Home </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-envelope'></i>
-                                                                                             Inbox</a>
-                                                                                    </li>
-                                                                                    <li>
+                                                                                    </li>";
+                                                                                    if($myMessages != null)
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                                                            </li>";
+                                                                                    }else
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox</a>
+                                                                                            </li>";
+                                                                                    }
+                                                                                    $result.="<li>
                                                                                             <a href='JobAdmin.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-wrench'></i>
                                                                                             Job </a>
@@ -400,6 +515,109 @@ class ReportController {
 					."</div>"
                             ."</div>";
 
+        return $result;
+    }
+    
+    //Get My Reports.
+    function GetMyReports($userId)
+    {
+        $reportModel = new ReportModel();
+        $reportModel->GetMyReports($userId);
+    }
+    
+    // Count My Reports.
+    function CountMyReports($userId)
+    {
+        $reportModel = new ReportModel();
+        $reportModel->CountMyReports($userId);
+    }
+    
+    // View All Reports
+    function ViewMyReportsContent()
+    {
+        $reportModel = new ReportModel();
+        
+        $report = $reportModel->GetMyReports($_SESSION['id']);
+        $count = $reportModel->CountMyReports($_SESSION['id']);
+        
+        require_once 'Model/ReportTypeModel.php';
+        $reportTypeModel = new ReportTypeModel();
+        
+        $result="<div class='panel-group col-md-12 col-xs-12'>
+			  <div class='panel panel-default alert alert-info'>
+					<div class='panel-heading' style='text-align:center;'>
+					<a data-toggle='collapse' data-parent='#accordion' href='#collapseSearchResult' class='glyphicon glyphicon-hand-up'><strong>My Reports</strong></a>
+					</div>
+					<div id='collapseSearchResult' class='panel-collapse collapse in'>
+						<div class='panel-body'>
+                                                    <div class='row' style='margin:auto; width:100%; padding-top:10px;'>
+							<input type='text' id='myjobInput' class='col-md-4' onkeyup='myJobTableFunction()' placeholder='Search for Jobs' title='Type in a job name' style='display: block; margin: auto;'>
+                                                    </div>
+                                                    <div class='table-responsive col-xs-12'>"
+                                                        . "<table class='sortable table' id='myJobTable'>"
+                                                        . "<tr style='text-align:center;'>"
+                                                        . "     <th style='text-align:center;color:black;'>Description</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Type</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Date</th>"
+                                                        . "     <th style='text-align:center;color:black;'>Status</th>"
+                                                        . "</tr>";
+                                                        try
+                                                        {
+                                                            if ($report != null)
+                                                            {
+                                                                foreach($report as $row)
+                                                                {
+                                                                    if($row->status == 1)
+                                                                    {
+                                                                        $type = $reportTypeModel->GetReportTypeById($row->type)->name;
+                                                                        $result.= "<tr>"
+                                                                                . "<td align='center' style='color:black;'>$row->description</td>"
+                                                                                . "<td align='center' style='color:black;'>$type</td>"
+                                                                                . "<td align='center' style='color:black;'>$row->date</td>"
+                                                                                . "<td align='center'><p style='color:green;'>Open</p></td>"
+                                                                                . "</tr>";
+                                                                    }else if($row->status == 2)
+                                                                    {
+                                                                        $type = $reportTypeModel->GetReportTypeById($row->type)->name;
+                                                                        $result.= "<tr>"
+                                                                                . "<td align='center' style='color:black;'>$row->description</td>"
+                                                                                . "<td align='center' style='color:black;'>$type</td>"
+                                                                                . "<td align='center' style='color:black;'>$row->date</td>"
+                                                                                . "<td align='center'><p style='color:blue;'>Closed</p></td>"
+                                                                                . "</tr>";
+                                                                    }
+                                                                }
+                                                            }
+                                                        }catch(Exception $x)
+                                                        {
+                                                            echo 'Caught exception: ',  $x->getMessage(), "\n";
+                                                        }
+                                                    $result.= "</table>"
+                                                            . "</div>"
+						."</div>"
+					."</div>"
+				."</div>"
+			."</div>"
+                        . "<script>
+				function myJobTableFunction() {
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById('myjobInput');
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById('myJobTable');
+				  tr = table.getElementsByTagName('tr');
+				  for (i = 0; i < tr.length; i++) {
+					td = tr[i].getElementsByTagName('td')[0];
+					if (td) {
+					  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = '';
+					  } else {
+						tr[i].style.display = 'none';
+					  }
+					}       
+				  }
+				}
+			</script>";
+        
         return $result;
     }
     
@@ -459,7 +677,7 @@ class ReportController {
 </script>"
                 ."<div class='row'>"
                     . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
                                     <div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseusersummary' class='glyphicon glyphicon-hand-up'><strong>Summary</strong></a>
 					</div>
@@ -858,7 +1076,7 @@ class ReportController {
                 
                     ."<div class='row'>"
                            . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
-                                <div class='panel panel-default'>
+                                <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>Reviews</strong></a>
                                             </div>
@@ -867,11 +1085,12 @@ class ReportController {
                                                 <div class='table-responsive scrollit'>"
                                                 . "<table class='table sortable col-xs-12'>"
                                                         . "<tr>"
-                                                        . "     <th>User</th>"
-                                                        . "     <th>Description</th>"
-                                                        . "     <th>Type</th>"
-                                                        . "     <th>Date</th>"
-                                                        . "     <th>Status</th>"
+                                                        . "     <th style='color:black;'>User</th>"
+                                                        . "     <th style='color:black;'>Description</th>"
+                                                        . "     <th style='color:black;'>Type</th>"
+                                                        . "     <th style='color:black;'>Date</th>"
+                                                        . "     <th style='color:black;'>Status</th>"
+                                                        . "     <th style='color:black;'>Action</th>"
                                                         . "</tr>
                                                     <tr>";
                                                         try
@@ -886,15 +1105,16 @@ class ReportController {
                                                                    if($row->status == 1)
                                                                    {
                                                                     $result.="<td><a href='ViewUserProfile.php?epr=view&id=".$row->userId."' target='_blank'>$username</a></td>
-                                                                                    <td><p>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
-                                                                                    <td><p>$type</p></td>
-                                                                                    <td><p>$row->date</p></td>
+                                                                                    <td><p style='color:black;'>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
+                                                                                    <td><p style='color:black;'>$type</p></td>
+                                                                                    <td><p style='color:black;'>$row->date</p></td>
                                                                                     <td><p>Open</p></td>
-                                                                                    <td><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
+                                                                                    <td style='color:black;'><a href='#' a href='#' onclick='closeReport(".$row->id.")'>Close</a></td>
+                                                                                    <td style='color:black;'><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
                                                                                     </tr>
                                                                                     <tr><td colspan='7'>                                                                                 
-                                                                                    <h4>Description</h4>
-                                                                                    <p>$row->description</p>
+                                                                                    <h4 style='color:black;'>Description</h4>
+                                                                                    <p style='color:black;'>$row->description</p>
                                                                                         
                                                                              </td>
                                                     </tr>"
@@ -902,15 +1122,16 @@ class ReportController {
                                                                    }else if($row->status == 2)
                                                                    {
                                                                     $result.="<td><a href='ViewUserProfile.php?epr=view&id=".$row->userId."' target='_blank'>$username</a></td>
-                                                                                    <td><p>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
-                                                                                    <td><p>$type</p></td>
-                                                                                    <td><p>$row->date</p></td>
+                                                                                    <td><p style='color:black;'>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
+                                                                                    <td><p style='color:black;'>$type</p></td>
+                                                                                    <td><p style='color:black;'>$row->date</p></td>
                                                                                     <td><p>Closed</p></td>
-                                                                                    <td><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
+                                                                                    <td style='color:black;'><a href='#' onclick='reopenReport(".$row->id.")'>Reopen</a></td>
+                                                                                    <td style='color:black;'><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
                                                                                     </tr>
                                                                                     <tr><td colspan='7'>                                                                                 
-                                                                                    <h4>Description</h4>
-                                                                                    <p>$row->description</p>
+                                                                                    <h4  style='color:black;'>Description</h4>
+                                                                                    <p  style='color:black;'>$row->description</p>
                                                                                         
                                                                              </td>
                                                     </tr>"
@@ -918,15 +1139,16 @@ class ReportController {
                                                                    }else if($row->status == 0)
                                                                    {
                                                                     $result.="<td><a href='ViewUserProfile.php?epr=view&id=".$row->userId."' target='_blank'>$username</a></td>
-                                                                                    <td><p>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
-                                                                                    <td><p>$type</p></td>
-                                                                                    <td><p>$row->date</p></td>
-                                                                                    <td><p>Irrelevant</p></td>
-                                                                                    <td><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
+                                                                                    <td><p style='color:black;'>";$result.=$this->limit_text($row->description,2); $result.="</p></td>
+                                                                                    <td><p style='color:black;'>$type</p></td>
+                                                                                    <td><p style='color:black;'>$row->date</p></td>
+                                                                                    <td><p style='color:black;'>Irrelevant</p></td>
+                                                                                    <td style='color:black;'><p class='glyphicon glyphicon-plus' style='text-align:center;'></p></td>
                                                                                     </tr>
+                                                                                    <td><p style='color:black;'>Irrelevant</p></td>
                                                                                     <tr><td colspan='7'>                                                                                 
-                                                                                    <h4>Description</h4>
-                                                                                    <p>$row->description</p>
+                                                                                    <h4 style='color:black;'>Description</h4>
+                                                                                    <p style='color:black;'>$row->description</p>
                                                                                         
                                                                              </td>
                                                     </tr>"

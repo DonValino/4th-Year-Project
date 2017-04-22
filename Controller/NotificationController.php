@@ -35,6 +35,14 @@ class NotificationController {
         return $notificationModel->GetNotificationById($id);
     }
     
+    // Get Specific Notification
+    function GetSpecificNotification($fromUsername, $toUsername)
+    {
+        $notificationModel = new NotificationModel(); 
+        
+        return $notificationModel->GetSpecificNotification($fromUsername, $toUsername);
+    }
+    
     // Get Notification By FromUsername
     function GetNotificationByFromUsername($fromUsername)
     {
@@ -62,7 +70,14 @@ class NotificationController {
     function CountNotificationByToUsername($toUsername)
     {
         $notificationModel = new NotificationModel();
-        $notificationModel->CountNotificationByToUsername($toUsername);
+        return $notificationModel->CountNotificationByToUsername($toUsername);
+    }
+    
+    // Get Notification By ToUsername Test
+    function CountNotificationByToUsernameTest($toUsername)
+    {
+        $notificationModel = new NotificationModel();
+        return $notificationModel->CountNotificationByToUsernameTest($toUsername);
     }
     
     // Notification Content

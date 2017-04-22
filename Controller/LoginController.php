@@ -12,7 +12,8 @@ class LoginController {
     //put your code here
     function CreateLoginForm()
     {
-        $result = "<div class='login-form col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
+        $result = "
+        <div class='login-form col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2'>
           <div class='row'>
             <h2 style='text-align:center;'>Login</h2>
           </div>

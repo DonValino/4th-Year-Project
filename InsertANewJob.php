@@ -86,15 +86,23 @@ if (isset($_POST['insertANewJob']) && !empty($_POST['name']) && !empty($_POST['d
         
         if($_POST['adType'] == 0)
         {
+            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+            $address = htmlspecialchars($_POST['address'], ENT_QUOTES, "UTF-8");
+            
             // Standard Job Advertisement
-            header('Location: StandardAdPayment.php?epr=pay&jobid='.$jobid.'&name='.$_POST['name'].'&description='.$_POST['description'].'&typeId='.$_POST['typeId'].'&qualificationId='.$_POST['qualificationId'].'&address='.$_POST['address']
+            header('Location: StandardAdPayment.php?epr=pay&jobid='.$jobid.'&name='.$name.'&description='.$description.'&typeId='.$_POST['typeId'].'&qualificationId='.$_POST['qualificationId'].'&address='.$address
                 .'&county='.$_POST['county'].'&numberOfDays='.$_POST['numberOfDays'].'&numberOfPeopleRequired='.$_POST['numberOfPeopleRequired'].'&startDate='.$_POST['startDate'].'&price='.$_POST['price'].'&userid='.$userId);
             $_SESSION['adType'] = 0;
         }else if($_POST['adType'] == 1)
         {
+            $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+            $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+            $address = htmlspecialchars($_POST['address'], ENT_QUOTES, "UTF-8");
+            
             $_SESSION['adType'] = 1;
             // Featured Job Advertisement
-            header('Location: FeaturedAdPayment.php?epr=pay&jobid='.$jobid.'&name='.$_POST['name'].'&description='.$_POST['description'].'&typeId='.$_POST['typeId'].'&qualificationId='.$_POST['qualificationId'].'&address='.$_POST['address']
+            header('Location: FeaturedAdPayment.php?epr=pay&jobid='.$jobid.'&name='.$name.'&description='.$description.'&typeId='.$_POST['typeId'].'&qualificationId='.$_POST['qualificationId'].'&address='.$address
                 .'&county='.$_POST['county'].'&numberOfDays='.$_POST['numberOfDays'].'&numberOfPeopleRequired='.$_POST['numberOfPeopleRequired'].'&startDate='.$_POST['startDate'].'&price='.$_POST['price'].'&userid='.$userId);
         }
 

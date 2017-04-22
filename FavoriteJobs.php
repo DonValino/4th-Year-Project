@@ -40,6 +40,7 @@ if(isset($_SESSION['admin']))
 $epr='';
 $title = "Favorite Jobs";
 $content = $favoriteJobsController->FavoriteJobContent($_SESSION['id']);
+$content .= $favoriteJobsController->AboutFreelanceMeModal();
 
 $errorMessage = "";
 $sidebar = $favoriteJobsController->FavoriteJobsSideBar();

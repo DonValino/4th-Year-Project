@@ -51,7 +51,44 @@ if($epr == 'requestseen')
 }
 $sidebar = $userController->CreateUserProfileSidebar();
 $content = $userController->CreateOverviewContent($_SESSION['id']);
- $content .= $userController->JobAlreadyStartedModal();
+$content .= $userController->JobAlreadyStartedModal();
+$content .= $userController->JobAlreadyStartedDeactivateModal();
+
+if($epr == 'deactivateJob')
+{
+    $jobId = $_GET['jobid'];
+    
+    require_once 'Model/JobModel.php';
+    $jobModel = new JobModel();
+    
+    require_once 'Model/PlacedOffersModel.php';
+    $placedOffersModel = new PlacedOffersModel();
+    $numAcceptedOffers = $placedOffersModel->CountNoPlacedOffersByJobId($jobId);
+
+    if($numAcceptedOffers == 0)
+    {
+        $jobModel->updateJobActiveStatus($jobId, 0);
+        
+        header('Location: UserAccount.php?epr=JobDeactivated');
+    }else
+    {
+        header('Location: UserAccount.php?epr=AlreadyAnAcceptedOffer');
+    }
+    
+    
+    // Update user seen the request
+    //header('Location: RequestSeen.php?epr=updateSeen');
+}
+
+if($epr == 'AlreadyAnAcceptedOffer')
+{
+    $errorMessage = "<p style='color:purple;font-size:22px;'>Sorry, This Job Cannot be deactivated as there is already an accepted offer!!</p>";
+}
+
+if($epr == 'JobDeactivated')
+{
+    $errorMessage = "<p style='color:green;font-size:22px;'>Job Deactivated :)</p>";
+}
  
 if(isset($_SESSION['active']))
 {

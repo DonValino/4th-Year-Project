@@ -33,6 +33,7 @@ $content .= $jobController->CategoryModal();
 $content .= $jobController->CreateHomeContent($_SESSION['id']);
 
 $content .= $jobController->PriceModal();
+$content .= $jobController->AboutFreelanceMeModal();
 
 ///////////////// Check For Notification And display it in badges in the header of the page ///////////////////
 
@@ -82,7 +83,10 @@ $sidebar = $jobController->CreateHomeSideBar();
 
 if(isset($_POST['search']) && !empty($_POST['keyword']))
 {
-    $_SESSION['search'] = $_POST['keyword'];
+    $keyword = htmlspecialchars($_POST['keyword'],ENT_QUOTES,"UTF-8");
+    $_SESSION['search'] = $keyword;
+    
+    
     //Go to Search Result Page
     header('Location: SearchResult.php');
 }

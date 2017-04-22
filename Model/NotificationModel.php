@@ -72,6 +72,40 @@ class NotificationModel {
         }
     }
     
+    // Get Specific Notification
+    function GetSpecificNotification($fromUsername, $toUsername)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM notification WHERE fromusername='$fromUsername' AND toUsername='$toUsername' ORDER BY id DESC LIMIT 1") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbFromUsername= $row['fromusername'];
+                $dbToUsername= $row['tousername'];
+                $dbTypeId= $row['typeId'];
+                $dbSeen= $row['seen'];
+                $dbDateofnotification= $row['dateofnotification'];
+                $dbJobId= $row['jobid'];
+                
+                $notificationEntities = new NotificationEntities($dbId,$dbFromUsername,$dbToUsername,$dbTypeId,$dbSeen,$dbDateofnotification,$dbJobId);
+
+            }
+            
+            return $notificationEntities;
+        }else
+        {
+            return 0;
+        }
+    }
+    
     // Get Notification By FromUsername
     function GetNotificationByFromUsername($fromUsername)
     {
@@ -148,7 +182,26 @@ class NotificationModel {
         
         //Open connection and Select database
         $connection = mysqli_connect($host, $user, $passwd, $database);
-        $result = mysqli_query($connection," SELECT * FROM notification WHERE toUsername='$toUsername' AND seen = 0 ORDER BY dateofnotification DESC") or die(mysql_error());
+        $result = mysqli_query($connection," SELECT * FROM notification WHERE tousername='$toUsername' AND seen = 0 ORDER BY dateofnotification DESC") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        {  
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get Notification By ToUsername Test
+    function CountNotificationByToUsernameTest($toUsername)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM notification WHERE tousername='$toUsername' ORDER BY dateofnotification DESC") or die(mysql_error());
         
         $numrows = mysqli_num_rows($result);
         if($numrows != 0)

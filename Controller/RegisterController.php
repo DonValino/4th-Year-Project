@@ -208,6 +208,7 @@ class RegisterController {
         $lastName = $_POST["lastName"];
         $userName = $_POST["usernameRegister"];
         $password = $_POST["password"];
+        $password = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
         $email = $_POST["email"];
         $phone = $_POST["phone"];
         

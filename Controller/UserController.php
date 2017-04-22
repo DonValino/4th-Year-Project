@@ -702,7 +702,7 @@ class UserController {
         
         $result = "<div class='row' style='margin-top:15px;'>"
                 . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCV' class='glyphicon glyphicon-hand-up'><strong>CV</strong></a>
 					</div>
@@ -732,7 +732,7 @@ class UserController {
 
                                                         
                         . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseCoverLetter' class='glyphicon glyphicon-hand-up'><strong>Cover Letter</strong></a>
 					</div>
@@ -776,7 +776,7 @@ class UserController {
         $payPal = $payPalMeModel->GetPayPalMeAccountByUserId($_SESSION['id']);
         $result = "<div class=Crow' style='margin-top:15px;'>"
                 . "<div class='panel-group col-md-6 col-md-offset-3'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapsePayPalMeAccount' class='glyphicon glyphicon-hand-up'><strong>Configure PayPalMe Account</strong></a>
 					</div>
@@ -974,7 +974,7 @@ class UserController {
         $jobModel = new JobModel();
         $qualificationModel = new QualificationModel();
         
-        $search = $jobModel->GetJobsByUserID($id);
+        $search = $jobModel->GetActiveJobsByUserID($id);
         $typeModel = new TypeModel();
         
         $placedOffersModel = new PlacedOffersModel();
@@ -985,13 +985,18 @@ class UserController {
         $review = $userReviewModel->GetUserReviewById($id);
         $count = $userReviewModel->GetNumberOfUserReviewById($id);
         
-        $result = "<H4 Style='text-align:center;'>Welcome to the User Account Page: </H4>"
+        $result = "<div class='alert alert-info'>
+                    <H4 Style='text-align:center;'>Welcome to the User Account Page: </H4>
+                  </div>"
                 . "<div class='row'>"
                 . "<div class='panel-group col-md-7'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseadvertisedjobs' class='glyphicon glyphicon-hand-up'><strong>My Advertised Jobs</strong></a>
 					</div>
+                                        <div class='alert alert-success'>
+                                          <p style='text-align:center;font-size:16px;'>Active Jobs</p>
+                                        </div>
 					<div id='collapseadvertisedjobs' class='panel-collapse collapse in'>
 						<div class='panel-body'>
                                                     <div class='table-responsive scrollit'>"
@@ -1020,12 +1025,12 @@ class UserController {
                                                                             if(!(time() >= strtotime($jobStartDate)))
                                                                             {
                                                                                 $result.= "<td>"
-                                                                                . "     <a href='#'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='UserAccount.php?epr=deactivateJob&jobid=$row->jobid'>Deactivate</a>&nbsp|"
                                                                                 . "     <a href='EditJob.php?epr=update&id=".$row->jobid."'>Update</a>";
                                                                             }else
                                                                             {
                                                                                 $result.= "<td>"
-                                                                                . "     <a href='#'>Deactivate</a>&nbsp|"
+                                                                                . "     <a href='#' data-toggle='modal' data-target='#jobAlreadyStartedDeactivateModal'>Deactivate</a>&nbsp|"
                                                                                 . "     <a href='#' data-toggle='modal' data-target='#jobAlreadyStartedModal'>Update</a>";
                                                                             }
                                                                             $result.= "</td>"
@@ -1043,7 +1048,7 @@ class UserController {
 				."</div>"
 			."</div>"
                 . "<div class='panel-group col-md-5'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseMyPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers Placed By Me</strong></a>
 					</div>
@@ -1081,7 +1086,7 @@ class UserController {
                 . "</div>"
                 . "<div class='row'>"
                 . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseListPlacedOffers' class='glyphicon glyphicon-hand-up'><strong>Offers To My Jobs</strong></a>
 					</div>
@@ -1119,7 +1124,7 @@ class UserController {
 				."</div>"
 			."</div>"
                 . "<div class='panel-group col-md-6 col-xs-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseRating' class='glyphicon glyphicon-hand-up'><strong>My Rating</strong></a>
 					</div>
@@ -1250,6 +1255,30 @@ class UserController {
         return $result;
     }
     
+   // Modal To State That The Job Has Already Started
+   function JobAlreadyStartedDeactivateModal()
+    {
+                $result = "<div class='modal fade col-md-12 col-xs-11' id='jobAlreadyStartedDeactivateModal' role='dialog'>
+			<div class='modal-dialog'>
+			
+			  <!-- Modal content-->
+			  <div class='modal-content'>
+				<div class='modal-header'>
+				  <button type='button' class='close' data-dismiss='modal'>&times;</button>
+				  <h4 class='modal-title'>WooPS!!!!</h4>
+				</div>
+				<div class='modal-body'>
+                                    <div class='alert alert-info' style='text-align:center;'>
+                                      <strong>Sorry,</strong><p style='font-size:13px;'> jobs cannot be deactivated once it has passed the start date :)</p>
+                                    </div>
+                                </div>
+			  </div>
+			  
+			</div>
+	  </div>";
+        return $result;
+    }
+    
    // Modal To Add A New PayPalMe Account
    function AddANewPayPalMeAccountModal()
     {
@@ -1336,7 +1365,7 @@ class UserController {
     function GetUsers()
     {
         $userModel = new UserModel();
-        $userModel->GetUsers();
+        return $userModel->GetUsers();
     }
     
     // View to display user profile
@@ -1361,7 +1390,7 @@ class UserController {
         $cvCoverLetterRequest = $requestModel->GetCVCoverLetterRequestsByUserIdANDTargetUserId($_SESSION['id'], $id);
         $result="<div class='row'>"
                     . "<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
                                     <div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseusersummary' class='glyphicon glyphicon-hand-up'><strong>User Summary</strong></a>
 					</div>
@@ -1369,19 +1398,19 @@ class UserController {
 						<div class='panel-body'>"
                                                     ."<table class='sortable table' id='myJobTable'>
                                                             <tr>
-                                                                <td style='text-align:center;'><strong>Id:</strong>&nbsp $user->id</td>
+                                                                <td style='text-align:center;color:black;'><strong>Id:</strong>&nbsp $user->id</td>
                                                             </tr>
                                                             <tr>
-                                                                <td style='text-align:center;'><strong>Name:</strong>&nbsp $user->firstName &nbsp&nbsp $user->lastName</td>
+                                                                <td style='text-align:center;color:black;'><strong>Name:</strong>&nbsp $user->firstName &nbsp&nbsp $user->lastName</td>
                                                             </tr>
                                                             <tr>
-                                                                <td style='text-align:center;'><strong>Username:</strong>&nbsp $user->username</td>
+                                                                <td style='text-align:center;color:black;'><strong>Username:</strong>&nbsp $user->username</td>
                                                             </tr>
                                                             <tr>
-                                                                <td style='text-align:center;'><strong>Email:</strong><a href='mailto:$user->email' class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-edit' style='font-size:15px; text-align: center; padding-right:10px;'> $user->email</a></td>
+                                                                <td style='text-align:center;color:black;'><strong>Email:</strong><a href='mailto:$user->email' class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-edit' style='font-size:15px; text-align: center; padding-right:10px;'> $user->email</a></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style='text-align:center;'><strong>Phone:</strong><a class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-phone' href='tel:$user->phone' style='font-size:15px; text-align: center;'> $user->phone </a></td>
+                                                                <td style='text-align:center;color:black;'><strong>Phone:</strong><a class='col-md-10 col-md-offset-1 btn btn-success glyphicon glyphicon-phone' href='tel:$user->phone' style='font-size:15px; text-align: center;'> $user->phone </a></td>
                                                             </tr>
                                                     </table>"
                                              . "</div>"
@@ -1390,7 +1419,7 @@ class UserController {
 				."</div>"
                 
                        . "<div class='panel-group col-md-6'>
-                            <div class='panel panel-default'>
+                            <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
                                             <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>User Rating</strong></a>
 					</div>
@@ -1494,7 +1523,7 @@ class UserController {
                 
                     ."<div class='row'>";
                            $result.= "<div class='panel-group col-md-6'>
-                                <div class='panel panel-default'>
+                                <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapsresume' class='glyphicon glyphicon-hand-up'><strong>Resume</strong></a>
                                             </div>
@@ -1555,7 +1584,7 @@ class UserController {
                             ."</div>"
                 
                            . "<div class='panel-group col-md-6'>
-                                <div class='panel panel-default'>
+                                <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapsePayPalAccount' class='glyphicon glyphicon-hand-up'><strong>PayPalMe Account</strong></a>
                                             </div>
@@ -1785,7 +1814,7 @@ class UserController {
 							Review </a>
 						</li>
 						<li>
-							<a href='#' target='_blank' style='text-align:center;'>
+							<a href='ReportUser.php?epr=reportuser&id=".$id."' target='_blank' style='text-align:center;'>
 							<i class='glyphicon glyphicon-flag'></i>
 							Report </a>
 						</li>
@@ -1814,6 +1843,10 @@ class UserController {
     
     function CreateAdminUserSideBar()
     {
+        require_once 'Model/MessagesModel.php';
+        $messagesModel = new MessagesModel();
+        $myMessages = $messagesModel->CountAllMyMessages($_SESSION['username']);
+        
         $result = "<div class='panel panel-default'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJObOverviewPage' class='glyphicon glyphicon glyphicon-th-list'><strong> Menu</strong></a>
@@ -1829,13 +1862,23 @@ class UserController {
                                                                                             <a href='Home.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-home'></i>
                                                                                             Home </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                            <a href='SearchResult.php?epr=myJobs' style='text-align:center;'>
-                                                                                            <i class='glyphicon glyphicon-envelope'></i>
-                                                                                             Inbox</a>
-                                                                                    </li>
-                                                                                    <li>
+                                                                                    </li>";
+                                                                                    if($myMessages != null)
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox &nbsp<span class='badge'>$myMessages</span></a>
+                                                                                            </li>";
+                                                                                    }else
+                                                                                    {
+                                                                                            $result.="<li>
+                                                                                                            <a href='Messages.php' style='text-align:center;'>
+                                                                                                            <i class='glyphicon glyphicon-envelope'></i>
+                                                                                                             Inbox</a>
+                                                                                            </li>";
+                                                                                    }
+                                                                                    $result.="<li>
                                                                                             <a href='JobAdmin.php' style='text-align:center;'>
                                                                                             <i class='glyphicon glyphicon-wrench'></i>
                                                                                             Job </a>
@@ -2158,7 +2201,7 @@ class UserController {
                                                                             . "<td align='center'>$row->coverletter</td>";
                                                                                     $result.="<td align='center'>Active</td>"
                                                                                             . "<td>"
-                                                                                            . "     <a href='DeactivateJob.php?epr=deactivateFromViewAllJobs&id=".$row->id."'>Deactivate</a>"
+                                                                                            . "     <a href='DeactivateUser.php?epr=deactivateFromViewAllUsers&userId=".$row->id."'>Deactivate</a>"
                                                                                             . "</td>";
                                                                             $result.="</tr>";
                                                                 }
@@ -2200,7 +2243,7 @@ class UserController {
     {
         $result = "<div class='row'>
             <div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Browse:</strong></a>
 					</div>
@@ -2227,7 +2270,7 @@ class UserController {
                             ."</div>"
                    ."</div>"
                     ."<div class='panel-group col-md-6'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseJobConfig' class='glyphicon glyphicon-hand-up'><strong>Configuration:</strong></a>
 					</div>
@@ -2255,7 +2298,7 @@ class UserController {
               . "</div>"
               . "<div class='row'>"
                     ."<div class='panel-group col-md-6 col-md-offset-3'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
 					<div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseBrowse' class='glyphicon glyphicon-hand-up'><strong>Deativated Users:</strong></a>
 					</div>
@@ -2280,14 +2323,14 @@ class UserController {
     function GetActiveUsers()
     {
         $userModel = new UserModel();
-        $userModel->GetActiveUsers();
+        return $userModel->GetActiveUsers();
     }
     
     // Get Deactived Users
     function GetDeactivedUsers()
     {
         $userModel = new UserModel();
-        $userModel->GetDeactivedUsers();
+        return $userModel->GetDeactivedUsers();
     }
     
     // Get User By Id
@@ -2301,7 +2344,7 @@ class UserController {
     function CheckIfUserIsActive($username)
     {
        $userModel = new UserModel();
-       $userModel->CheckIfUserIsActive($username);
+       return $userModel->CheckIfUserIsActive($username);
     }
     
      //Check if a user exist using the model and return the object

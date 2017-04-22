@@ -67,8 +67,12 @@ if (isset($_POST['EditJobSubmit']) && !empty($_POST['name']) && !empty($_POST['d
         $errorMessage = "* Error!! Phone Numbers Must only be numbers.";
     }else
     {
+        $name = htmlspecialchars($_POST['name'], ENT_QUOTES, "UTF-8");
+        $description = htmlspecialchars($_POST['description'], ENT_QUOTES, "UTF-8");
+        $address = htmlspecialchars($_POST['address'], ENT_QUOTES, "UTF-8");
+            
         // Edit Job to the Database
-        $jobController->updateJob($_POST['name'], $_POST['description'], $_POST['typeId'], $_POST['qualificationId'], $_POST['address'],$_POST['county'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id,$_POST['startDateUpdate']);
+        $jobController->updateJob($name, $description, $_POST['typeId'], $_POST['qualificationId'], $address,$_POST['county'], $_POST['numberOfDays'], $_POST['numberOfPeopleRequired'], $_POST['price'], $id,$_POST['startDateUpdate']);
         header('Location: Home.php');
     }
 }

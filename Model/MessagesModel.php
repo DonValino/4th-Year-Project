@@ -144,6 +144,57 @@ WHERE t1.id = (SELECT t2.id
     }
     
     // Get All Messages Belonging to a user
+    function CountAllMyMessagesTest($username)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM messages WHERE tousername='$username'") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+        if($numrows != 0)
+        { 
+            return $numrows;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+     // Get A Specific Message
+    function GetASpecificMessage($fromUsername, $toUsername)
+    {
+        require 'Model/Credentials.php';
+        
+        //Open connection and Select database
+        $connection = mysqli_connect($host, $user, $passwd, $database);
+        $result = mysqli_query($connection," SELECT * FROM messages WHERE fromusername='$fromUsername' AND tousername='$toUsername'  ORDER BY id DESC LIMIT 1") or die(mysql_error());
+        
+        $numrows = mysqli_num_rows($result);
+
+        if($numrows != 0)
+        {
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $dbId= $row['id'];
+                $dbFromUserName= $row['fromusername'];
+                $dbToUsername= $row['tousername'];
+                $dbMessage = $row['message'];
+                $dbDateOfMessage = $row['dateofmessage'];
+                $dbSeen = $row['seen'];
+                
+                $messagesEntities = new MessagesEntities($dbId,$dbFromUserName,$dbToUsername,$dbMessage,$dbDateOfMessage,$dbSeen);
+            }
+            
+            return $messagesEntities;
+        }else
+        {
+            return 0;
+        }
+    }
+    
+    // Get All Messages Belonging to a user
     function CountAllMyMessages($username)
     {
         require 'Model/Credentials.php';

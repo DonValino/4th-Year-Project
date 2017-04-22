@@ -135,6 +135,10 @@ if($epr == 'renewedStandardAndview')
         $dateTime = $date->format('Y-m-d H:i:s');
         
     $jobController->updateJobDate($_SESSION['jobId'], $dateTime);
+    
+    $tomorrow = new DateTime('tomorrow');
+    $tomorrowTime = $tomorrow->format('d-m-Y H:i:s');
+    $jobController->updateJobStartDate($_SESSION['jobId'], $tomorrowTime);
 }
 
 if($epr == 'renewedFeaturedAndview')
@@ -159,6 +163,10 @@ if($epr == 'renewedFeaturedAndview')
         $dateTime = $date->format('Y-m-d H:i:s');
         
     $jobController->updateJobDate($_SESSION['jobId'], $dateTime);
+    
+    $tomorrow = new DateTime('tomorrow');
+    $tomorrowTime = $tomorrow->format('d-m-Y H:i:s');
+    $jobController->updateJobStartDate($_SESSION['jobId'], $tomorrowTime);
 }
 
 if($epr == 'viewAndUpgrade')
@@ -266,8 +274,9 @@ if (isset($_POST['placeOfferFB']) && !empty($_POST['offerPrice']) && !empty($_PO
     {
         $userId = $_SESSION['id'];
 
+        $comment = htmlspecialchars($_POST['comment'], ENT_QUOTES,"UTF-8");
         $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-        header('Location: PlaceOffer.php?epr=placedFB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&startDate='.$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
+        header('Location: PlaceOffer.php?epr=placedFB&userId='.$userId.'&comment='.$comment.'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&startDate='.$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
     }
 
 }
@@ -300,7 +309,9 @@ if (isset($_POST['placeOfferPB']) && !empty($_POST['offerPrice']) && !empty($_PO
         if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd->format("Y-m-d H:i:s")) && strtotime($prefferedCommenceDate) >= strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd->format("Y-m-d H:i:s"))))
         {
             $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-            header('Location: PlaceOffer.php?epr=placedPB&userId='.$userId.'&comment='.$_POST['comment'].'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&numberOfDays='.$_POST['numberOfDays'].'&prefferedCommenceDate='.$prefferedCommenceDate);
+            
+            $comment = htmlspecialchars($_POST['comment'], ENT_QUOTES,"UTF-8");
+            header('Location: PlaceOffer.php?epr=placedPB&userId='.$userId.'&comment='.$comment.'&offerprice='.$_POST['offerPrice'].'&tousername='.$tousername.'&numberOfDays='.$_POST['numberOfDays'].'&prefferedCommenceDate='.$prefferedCommenceDate);
         }else if(strtotime($prefferedCommenceDate) <= strtotime($dateEnd->format("Y-m-d H:i:s")) && strtotime($prefferedCommenceDate) < strtotime($dateOfJob) && (strtotime($dateFinished->format('Y-m-d H:i:s'))) <= (strtotime($dateEnd->format("Y-m-d H:i:s"))))
         {
             $errorMessage= 'Error: Preferred Commence Date is before the start date of the job';
@@ -330,7 +341,8 @@ if (isset($_POST['updateOfferFB']) && !empty($_POST['updateOfferPrice']) && !emp
     $userId = $_SESSION['id'];
     
     $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-    header('Location: UpdateOffer.php?epr=placedFB&userId='.$userId.'&comment='.$_POST['updateComment'].'&offerprice='.$_POST['updateOfferPrice'].'&tousername='.$tousername."&numberOfDays=".$jobController->GetJobsByID($_SESSION['jobId'])->numberOfDays."&startDate=".$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
+    $comment = htmlspecialchars($_POST['updateComment'], ENT_QUOTES,"UTF-8");
+    header('Location: UpdateOffer.php?epr=placedFB&userId='.$userId.'&comment='.$comment.'&offerprice='.$_POST['updateOfferPrice'].'&tousername='.$tousername."&numberOfDays=".$jobController->GetJobsByID($_SESSION['jobId'])->numberOfDays."&startDate=".$jobController->GetJobsByID($_SESSION['jobId'])->startDate);
 }
 
 //Code Part Time update an offer
@@ -340,14 +352,15 @@ if (isset($_POST['updateOfferPB']) && !empty($_POST['updateOfferPrice']) && !emp
     $userId = $_SESSION['id'];
     
     $tousername = $jobController->GetUserByJobId($_SESSION['jobId'])->username;
-    header('Location: UpdateOffer.php?epr=placedPB&userId='.$userId.'&comment='.$_POST['updateComment'].'&offerprice='.$_POST['updateOfferPrice'].'&tousername='.$tousername."&prefferedCommenceDateUpdate=".$_POST['prefferedCommenceDateUpdate']."&numberOfDaysUpdate=".$_POST['numberOfDaysUpdate']);
+    $comment = htmlspecialchars($_POST['updateComment'], ENT_QUOTES,"UTF-8");
+    header('Location: UpdateOffer.php?epr=placedPB&userId='.$userId.'&comment='.$comment.'&offerprice='.$_POST['updateOfferPrice'].'&tousername='.$tousername."&prefferedCommenceDateUpdate=".$_POST['prefferedCommenceDateUpdate']."&numberOfDaysUpdate=".$_POST['numberOfDaysUpdate']);
 }
 
 if($epr == 'delete')
 {
     $userId = $_GET['userId'];
     
-    header('Location: placeOffer.php?epr=delete&userId='.$userId);
+    header('Location: PlaceOffer.php?epr=delete&userId='.$userId);
 }
 
 

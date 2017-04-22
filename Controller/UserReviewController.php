@@ -41,7 +41,7 @@ class UserReviewController {
         $count = $this->GetNumberOfUserReviewById($id);
         $result="<div class='row'>"
                     . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
-			  <div class='panel panel-default'>
+			  <div class='panel panel-default alert alert-info'>
                                     <div class='panel-heading' style='text-align:center;'>
 					<a data-toggle='collapse' data-parent='#accordion' href='#collapseusersummary' class='glyphicon glyphicon-hand-up'><strong>Summary</strong></a>
 					</div>
@@ -145,7 +145,7 @@ class UserReviewController {
                 
                     ."<div class='row'>"
                            . "<div class='panel-group col-md-12 col-sm-12 col-xs-12'>
-                                <div class='panel panel-default'>
+                                <div class='panel panel-default alert alert-info'>
                                             <div class='panel-heading' style='text-align:center;'>
                                                 <a data-toggle='collapse' data-parent='#accordion' href='#collapseuserrating' class='glyphicon glyphicon-hand-up'><strong>Reviews</strong></a>
                                             </div>
